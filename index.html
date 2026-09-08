@@ -182,15 +182,15 @@
             <button class="close-side-btn" id="searchCloseBtn" style="position: absolute; top: -50px; right: 0; background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">✕</button>
             <div style="position: relative; width: 100%;">
                 <input type="text" id="searchInput" placeholder="جستجوی انیمه، شخصیت یا ژانر..." style="width: 100%; padding: 20px 25px; font-size: 1.5rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 20px; color: white; outline: none; transition: 0.3s;">
-                <button style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.8rem; color: var(--accent); cursor: pointer;">🔍</button>
+                <button type="button" class="search-submit-btn" aria-label="جستجو" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.8rem; color: var(--accent); cursor: pointer;">🔍</button>
             </div>
             <div style="margin-top: 40px; text-align: right;">
                 <h4 style="color: var(--text-muted); margin-bottom: 15px; font-size: 1.1rem;">جستجوهای پرطرفدار</h4>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">حمله به تایتان</span>
-                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">گوجو ساتورو</span>
-                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">سایبرپانک</span>
-                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">اکشن</span>
+                    <span class="search-tag" style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">حمله به تایتان</span>
+                    <span class="search-tag" style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">گوجو ساتورو</span>
+                    <span class="search-tag" style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">سایبرپانک</span>
+                    <span class="search-tag" style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">اکشن</span>
                 </div>
             </div>
         </div>
@@ -420,17 +420,17 @@
             </div>
             
             <div class="filter-chips">
-                <button class="chip active">همه</button>
-                <button class="chip">اکشن</button>
-                <button class="chip">درام</button>
-                <button class="chip">تخیلی</button>
-                <button class="chip">سینمایی</button>
+                <button class="chip active" data-genre="all">همه</button>
+                <button class="chip" data-genre="action">اکشن</button>
+                <button class="chip" data-genre="drama">درام</button>
+                <button class="chip" data-genre="scifi">تخیلی</button>
+                <button class="chip" data-genre="movie">سینمایی</button>
             </div>
 
             <!-- Changed to landscape per user request -->
             <div class="cards-container">
                 <!-- Card 1 -->
-                <div class="anime-card landscape">
+                <div class="anime-card landscape" data-genre="action drama" data-keywords="attack on titan aot shingeki eren mikasa levi اتک آن تایتان">
                     <video class="card-hover-video" muted loop playsinline>
                         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
                     </video>
@@ -453,7 +453,7 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div class="anime-card landscape">
+                <div class="anime-card landscape" data-genre="action" data-keywords="demon slayer kimetsu tanjiro nezuko دیمن اسلیر">
                     <video class="card-hover-video" muted loop playsinline>
                         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
                     </video>
@@ -476,7 +476,7 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div class="anime-card landscape">
+                <div class="anime-card landscape" data-genre="action" data-keywords="jujutsu kaisen jjk gojo گوجو ساتورو">
                     <video class="card-hover-video" muted loop playsinline>
                         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
                     </video>
@@ -499,7 +499,7 @@
                 </div>
 
                 <!-- Card 4 -->
-                <div class="anime-card landscape">
+                <div class="anime-card landscape" data-genre="action drama" data-keywords="chainsaw man csm denji makima ماکیما">
                     <video class="card-hover-video" muted loop playsinline>
                         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
                     </video>
@@ -522,7 +522,7 @@
                 </div>
 
                 <!-- Card 5 -->
-                <div class="anime-card landscape">
+                <div class="anime-card landscape" data-genre="action" data-keywords="one piece luffy zoro لوفی زورو">
                     <video class="card-hover-video" muted loop playsinline>
                         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
                     </video>
@@ -545,7 +545,7 @@
                 </div>
 
                 <!-- Card 6 -->
-                <div class="anime-card landscape">
+                <div class="anime-card landscape" data-genre="drama" data-keywords="death note light l ryuk دث نوت">
                     <video class="card-hover-video" muted loop playsinline>
                         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
                     </video>
@@ -568,7 +568,7 @@
                 </div>
 
                 <!-- Card 7 -->
-                <div class="anime-card landscape">
+                <div class="anime-card landscape" data-genre="scifi action" data-keywords="cyberpunk edgerunners lucy david سایبرپانک">
                     <video class="card-hover-video" muted loop playsinline>
                         <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
                     </video>

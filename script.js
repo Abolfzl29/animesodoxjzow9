@@ -136,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 5. TOAST NOTIFICATIONS
     const toastContainer = document.getElementById('toastContainer');
-    const playerModal = document.getElementById('playerModal');
 
     function showToast(message) {
         if(!toastContainer) return;
@@ -160,26 +159,32 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Play buttons -> go to the player page. The card/slide title is passed along
+    // so watch.html can show the right anime (until a real backend provides ids).
+    function slugify(str) {
+        return (str || '').trim().replace(/\s+/g, '-').toLowerCase();
+    }
     document.querySelectorAll('.play-trigger, .play-btn-small, .btn-play').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            if(playerModal) {
-                playerModal.classList.add('active');
-                setTimeout(() => {
-                    playerModal.classList.remove('active');
-                    showToast('شبیه‌سازی: انتقال به صفحه پخش انجام شد.');
-                }, 2000);
-            }
+            // Buttons inside the pricing modal are not "play" buttons
+            if (btn.closest('.pricing-card')) return;
+            const scope = btn.closest('.anime-card, .slide, .details-content, .progress-card') || document;
+            const titleEl = scope.querySelector('.sleek-title, .slide-title, #modalTitle, h3, h4');
+            const title = titleEl ? titleEl.innerText.trim() : '';
+            const url = 'watch.html' + (title ? '?anime=' + encodeURIComponent(slugify(title)) + '&title=' + encodeURIComponent(title) : '');
+            window.location.href = url;
         });
     });
 
     // 6. Navbar Glass Effect
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 30) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
-    });
+    if (navbar) {
+        const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 30);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    }
 
     // 7. VIP MODAL LOGIC WITH GSAP ANIMATIONS
     const vipOpenBtn = document.getElementById('vipOpenBtn');
@@ -361,17 +366,82 @@ document.addEventListener("DOMContentLoaded", () => {
         if(!searchModal) return;
         searchModal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => searchInput.focus(), 400);
+        if (searchInput) setTimeout(() => searchInput.focus(), 400);
     }
     function closeSearch() {
         if(!searchModal) return;
         searchModal.classList.remove('active');
         document.body.style.overflow = '';
-        searchInput.value = '';
+        if (searchInput) searchInput.value = '';
+    }
+    function submitSearch(query) {
+        const q = (query || '').trim();
+        if (!q) return;
+        window.location.href = 'index.html?q=' + encodeURIComponent(q) + '#trendingSection';
     }
 
     if(searchBtnIcon) searchBtnIcon.addEventListener('click', openSearch);
     if(searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearch);
+    if (searchModal) {
+        if (searchInput) {
+            searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitSearch(searchInput.value); });
+        }
+        const searchSubmitBtn = searchModal.querySelector('.search-submit-btn');
+        if (searchSubmitBtn) searchSubmitBtn.addEventListener('click', () => submitSearch(searchInput && searchInput.value));
+        searchModal.querySelectorAll('.search-tag').forEach(tag => {
+            tag.addEventListener('click', () => submitSearch(tag.innerText));
+        });
+    }
+
+    // Client-side filtering of the trending row: ?q= from the search modal + genre chips
+    const trendingSection = document.getElementById('trendingSection');
+    if (trendingSection) {
+        const cards = [...trendingSection.querySelectorAll('.anime-card')];
+        const chips = [...trendingSection.querySelectorAll('.chip')];
+        const rowTitle = trendingSection.querySelector('.row-title');
+        const defaultTitle = rowTitle ? rowTitle.innerHTML : '';
+
+        function applyFilter({ genre = 'all', query = '' } = {}) {
+            const q = query.trim().toLowerCase();
+            let visible = 0;
+            cards.forEach(card => {
+                const title = (card.querySelector('.sleek-title') || {}).innerText || '';
+                const genres = (card.dataset.genre || '').split(/\s+/);
+                const genreOk = genre === 'all' || genres.includes(genre);
+                const queryOk = !q || title.toLowerCase().includes(q) || (card.dataset.keywords || '').toLowerCase().includes(q);
+                const show = genreOk && queryOk;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            let empty = trendingSection.querySelector('.filter-empty');
+            if (!visible) {
+                if (!empty) {
+                    empty = document.createElement('p');
+                    empty.className = 'filter-empty';
+                    empty.style.cssText = 'color: var(--text-muted); padding: 30px 0; text-align: center;';
+                    trendingSection.appendChild(empty);
+                }
+                empty.innerText = q ? `نتیجه‌ای برای «${query.trim()}» پیدا نشد.` : 'موردی در این دسته وجود ندارد.';
+            } else if (empty) {
+                empty.remove();
+            }
+            if (rowTitle) rowTitle.innerHTML = q ? `نتایج جستجو برای: <span class="accent">${query.trim().replace(/</g, '&lt;')}</span>` : defaultTitle;
+        }
+
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                applyFilter({ genre: chip.dataset.genre || 'all' });
+            });
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('q')) {
+            applyFilter({ query: params.get('q') });
+            setTimeout(() => trendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+        }
+    }
 
     // 12. DUMMY LINKS & NOTIFICATIONS HANDLER
     document.querySelectorAll('a[href="#"]').forEach(link => {
@@ -379,9 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             showToast('این بخش در نسخه دمو غیرفعال است.');
             // Close side menu if it's open
-            if(document.getElementById('sideMenu').classList.contains('active')) {
-                document.getElementById('closeSideBtn').click();
-            }
+            if (sideMenu && sideMenu.classList.contains('active')) toggleMenu();
         });
     });
 
@@ -472,98 +540,89 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-});
-    // 17. RADIO WIDGET LOGIC
+    // 17. RADIO WIDGET LOGIC (the widget markup does not exist yet -> only a toast for now)
     const radioVisualizer = document.querySelector('.audio-visualizer');
     const radioWidget = document.getElementById('radioWidget');
     const radioCloseBtn = document.getElementById('radioCloseBtn');
     const radioPlayBtn = document.getElementById('radioPlayBtn');
-    
-    if(radioVisualizer && radioWidget) {
+
+    if (radioVisualizer) {
         radioVisualizer.addEventListener('click', () => {
+            if (!radioWidget) {
+                showToast('رادیو انیمه به‌زودی فعال می‌شود 🎵');
+                return;
+            }
             radioWidget.classList.toggle('active');
             showToast('رادیو انیمه فعال شد 🎵');
         });
-        radioCloseBtn.addEventListener('click', () => {
-            radioWidget.classList.remove('active');
-        });
-        
+    }
+    if (radioWidget && radioCloseBtn) {
+        radioCloseBtn.addEventListener('click', () => radioWidget.classList.remove('active'));
+    }
+    if (radioWidget && radioPlayBtn && radioVisualizer) {
         let isPlaying = true;
         radioPlayBtn.addEventListener('click', () => {
             isPlaying = !isPlaying;
             radioPlayBtn.innerText = isPlaying ? '⏸' : '▶';
             const img = radioWidget.querySelector('img');
-            
-            if(isPlaying) {
-                img.style.animationPlayState = 'running';
-            } else {
-                img.style.animationPlayState = 'paused';
-            }
-            
-            // Toggle visualizer animation in navbar
-            const spans = radioVisualizer.querySelectorAll('span');
-            spans.forEach(span => {
+            if (img) img.style.animationPlayState = isPlaying ? 'running' : 'paused';
+            radioVisualizer.querySelectorAll('span').forEach(span => {
                 span.style.animationPlayState = isPlaying ? 'running' : 'paused';
             });
-        
-    // 18. DRAG TO SCROLL FOR HORIZONTAL GRIDS
-    const sliders = document.querySelectorAll('.cards-container, .top-10-row, .characters-row, .reviews-row, .schedule-nav');
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+        });
+    }
 
+    // 18. DRAG TO SCROLL FOR HORIZONTAL GRIDS (desktop mouse)
+    const sliders = document.querySelectorAll('.cards-container, .top-10-row, .characters-row, .reviews-row, .schedule-days');
     sliders.forEach(slider => {
+        let isDown = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let moved = false;
+
         slider.addEventListener('mousedown', (e) => {
             isDown = true;
-            slider.style.cursor = 'grabbing';
-            slider.style.scrollSnapType = 'none';
+            moved = false;
+            slider.classList.add('dragging');
             startX = e.pageX - slider.offsetLeft;
             scrollLeft = slider.scrollLeft;
         });
-        slider.addEventListener('mouseleave', () => {
+        const stop = () => {
             isDown = false;
-            slider.style.cursor = 'grab';
-            slider.style.scrollSnapType = 'x mandatory';
-        });
-        slider.addEventListener('mouseup', () => {
-            isDown = false;
-            slider.style.cursor = 'grab';
-            slider.style.scrollSnapType = 'x mandatory';
-        });
+            slider.classList.remove('dragging');
+        };
+        slider.addEventListener('mouseleave', stop);
+        slider.addEventListener('mouseup', stop);
         slider.addEventListener('mousemove', (e) => {
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - slider.offsetLeft;
             const walk = (x - startX) * 2;
+            if (Math.abs(walk) > 5) moved = true;
             slider.scrollLeft = scrollLeft - walk;
         });
+        // Swallow the click that follows a drag so cards don't open accidentally
+        slider.addEventListener('click', (e) => {
+            if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+        }, true);
     });
-
-});
-    }
 
     // 19. ANIME DETAILS MODAL LOGIC
     const detailsModal = document.getElementById('detailsModal');
     const detailsCloseBtn = document.getElementById('detailsCloseBtn');
     const detailsBackdrop = document.getElementById('detailsBackdrop');
-    
-    if(detailsModal) {
-        // Open modal when clicking on any anime card
-        const allCards = document.querySelectorAll('.anime-card');
-        allCards.forEach(card => {
+
+    if (detailsModal) {
+        const modalTitle = document.getElementById('modalTitle');
+        const modalHeroImg = document.getElementById('modalHeroImg');
+
+        document.querySelectorAll('.anime-card').forEach(card => {
             card.addEventListener('click', (e) => {
-                // Don't open if clicking on play/add buttons
-                if(e.target.closest('.action-btn')) return;
-                
-                // Get data from card to populate modal
+                if (e.target.closest('.action-btn')) return;
                 const titleEl = card.querySelector('.sleek-title, .glass-card-title');
                 const imgEl = card.querySelector('img');
-                
-                if(titleEl && imgEl) {
-                    document.getElementById('modalTitle').innerText = titleEl.innerText;
-                    document.getElementById('modalHeroImg').src = imgEl.src;
-                }
-                
+                if (titleEl && modalTitle) modalTitle.innerText = titleEl.innerText;
+                if (imgEl && modalHeroImg) modalHeroImg.src = imgEl.src;
                 detailsModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
@@ -573,9 +632,31 @@ document.addEventListener("DOMContentLoaded", () => {
             detailsModal.classList.remove('active');
             document.body.style.overflow = '';
         };
+        if (detailsCloseBtn) detailsCloseBtn.addEventListener('click', closeDetails);
+        if (detailsBackdrop) detailsBackdrop.addEventListener('click', closeDetails);
 
-        if(detailsCloseBtn) detailsCloseBtn.addEventListener('click', closeDetails);
-        if(detailsBackdrop) detailsBackdrop.addEventListener('click', closeDetails);
+        // Tabs inside the details modal
+        const dTabs = detailsModal.querySelectorAll('.d-tab');
+        dTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                dTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
     }
 
-    
+    // 20. CLOSE ANY OPEN OVERLAY WITH ESCAPE
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (searchModal && searchModal.classList.contains('active')) closeSearch();
+        if (vipModal && vipModal.classList.contains('active')) closeVipModal();
+        if (detailsModal && detailsModal.classList.contains('active')) {
+            detailsModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        if (sideMenu && sideMenu.classList.contains('active')) toggleMenu();
+        if (notificationDropdown) notificationDropdown.classList.remove('active');
+        if (moreMenuDropdown) moreMenuDropdown.classList.remove('active');
+    });
+
+});
