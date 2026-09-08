@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Anime | پلتفرم هوشمند استریم انیمه</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="toastContainer"></div>
+
+    <!-- NEW: ULTRA-GRAPHIC SIDE DRAWER MENU (Replaces Full-Screen Menu) -->
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <a href="login.html" id="loginTriggerBtn2" class="auth-trigger" style="display:flex; align-items:center; gap:15px; cursor:pointer; text-decoration: none;" title="ورود / ثبت‌نام">
+                <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="User">
+                <div>
+                    <h4>کاربر مهمان</h4>
+                    <span class="status-badge" style="background: var(--accent); color: white;">ورود / عضویت</span>
+                </div>
+            </a>
+            <button class="close-side-btn" id="closeSideBtn">✕</button>
+        </div>
+        
+        <div class="side-menu-links">
+            <a href="#"><span class="icon">🏠</span> خانه</a>
+            <a href="#"><span class="icon">🎬</span> سریال‌ها</a>
+            <a href="#"><span class="icon">🍿</span> فیلم‌های سینمایی</a>
+            <a href="#"><span class="icon">📅</span> تقویم پخش هفتگی</a>
+            <a href="#"><span class="icon">🔖</span> لیست تماشای من</a>
+            <a href="#"><span class="icon">🎧</span> رادیو انیمه</a>
+        </div>
+        
+        <div class="side-menu-vip-promo" id="mobileVipBtn">
+            <div class="promo-glow"></div>
+            <h4>نئون پلاس ✦</h4>
+            <p>تماشای بدون محدودیت و تبلیغات</p>
+            <button>ارتقا حساب کاربری</button>
+        </div>
+    </div>
+
+    <!-- Ambient Background Glows -->
+    <div class="ambient-bg">
+        <div class="glow-orb purple"></div>
+        <div class="glow-orb blue"></div>
+    </div>
+
+    <!-- Transparent Sleek Navbar -->
+    <nav class="main-nav" id="navbar">
+        <div class="nav-left">
+            <!-- Hamburger for Mobile -->
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="logo">NEON<span class="accent">.</span>ANIME</div>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="active">خانه</a></li>
+                <li class="has-mega-menu">
+                    <a href="#">سریال‌ها <span class="dropdown-arrow">▾</span></a>
+                    <div class="mega-menu">
+                        <div class="mega-grid">
+                            <div class="mega-column">
+                                <h4>ژانرها</h4>
+                                <a href="#">اکشن و ماجراجویی</a>
+                                <a href="#">سایبرپانک و علمی‌تخیلی</a>
+                                <a href="#">فانتزی تاریک</a>
+                                <a href="#">درام و عاشقانه</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>برترین‌های تاریخ</h4>
+                                <a href="#">حمله به تایتان</a>
+                                <a href="#">فول متال آلکمیست</a>
+                                <a href="#">دفترچه مرگ</a>
+                                <a href="#">وان پیس</a>
+                            </div>
+                            <div class="mega-column featured">
+                                <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Featured">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="#">فیلم‌ها</a></li>
+                <li><a href="#">تقویم پخش</a></li>
+                
+                <!-- THREE DOTS MENU -->
+                <li class="more-menu-container">
+                    <button class="three-dots-btn" id="threeDotsBtn" title="بیشتر">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    </button>
+                    <div class="three-dots-dropdown" id="moreMenuDropdown">
+                        <div class="dropdown-section">
+                            <h4>کشف محتوا</h4>
+                            <a href="#">✨ پیشنهاد هوش مصنوعی</a>
+                            <a href="#">🔥 برترین‌های IMDB</a>
+                            <a href="#">🎵 موسیقی انیمه (OST)</a>
+                        </div>
+                        <div class="dropdown-section">
+                            <h4>پروفایل من</h4>
+                            <a href="#">👤 حساب کاربری</a>
+                            <a href="#">🔖 لیست تماشای من</a>
+                        </div>
+                        <div class="dropdown-section">
+                            <h4>بیشتر</h4>
+                            <a href="#">📰 اخبار دنیای انیمه</a>
+                            <a href="#">🎧 کامیونیتی دیسکورد</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="nav-right">
+            <!-- Audio Visualizer -->
+            <div class="audio-visualizer hide-mobile" style="cursor:pointer;" style="cursor:pointer;" title="رادیو انیمه (در حال پخش)">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+
+            <!-- Live Counter -->
+            <div class="live-counter hide-mobile" title="کاربران آنلاین">
+                <div class="live-dot pulse"></div>
+                <span id="onlineCounter">12,450</span>
+            </div>
+
+            <button class="vip-nav-btn hide-mobile" id="vipOpenBtn">اشتراک VIP ✦</button>
+            <button class="icon-btn" id="searchBtnIcon" title="جستجو">🔍</button>
+
+            <!-- NOTIFICATION DROPDOWN -->
+            <div class="notification-container" style="position: relative;">
+                <button class="icon-btn hide-mobile" id="bellBtnIcon" title="اعلانات">
+                    🔔
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notif-header">
+                        <h4>اعلانات شما</h4>
+                        <span class="mark-read">علامت خوانده شده</span>
+                    </div>
+                    <div class="notif-body">
+                        <div class="notif-item unread">
+                            <img src="image-search/jujutsu-kaisen-anime-poster-high-quality-1.jpg" alt="JJK">
+                            <div class="notif-info">
+                                <p>قسمت جدید <strong>جوجوتسو کایسن</strong> با دوبله اختصاصی منتشر شد!</p>
+                                <span>۲ ساعت پیش</span>
+                            </div>
+                        </div>
+                        <div class="notif-item">
+                            <img src="image-search/chainsaw-man-anime-poster-high-quality-1.webp" alt="CSM">
+                            <div class="notif-info">
+                                <p>آلبوم موسیقی متن <strong>مرد اره‌ای</strong> به رادیو انیمه اضافه شد.</p>
+                                <span>دیروز</span>
+                            </div>
+                        </div>
+                        <div class="notif-item">
+                            <div class="notif-icon-circle">🎁</div>
+                            <div class="notif-info">
+                                <p>به مناسبت تولد شما، ۳ روز اشتراک <strong>نئون پلاس</strong> هدیه گرفتید.</p>
+                                <span>۳ روز پیش</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="profile.html" class="user-profile hide-mobile" style="text-decoration: none; cursor:pointer;" title="ورود / ثبت‌نام">
+
+                <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="Profile">
+            </a>
+        </div>
+    </nav>
+
+    
+    <!-- Full Screen Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content" style="width: 100%; max-width: 800px; padding: 40px; text-align: center; position: relative;">
+            <button class="close-side-btn" id="searchCloseBtn" style="position: absolute; top: -50px; right: 0; background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">✕</button>
+            <div style="position: relative; width: 100%;">
+                <input type="text" id="searchInput" placeholder="جستجوی انیمه، شخصیت یا ژانر..." style="width: 100%; padding: 20px 25px; font-size: 1.5rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 20px; color: white; outline: none; transition: 0.3s;">
+                <button style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.8rem; color: var(--accent); cursor: pointer;">🔍</button>
+            </div>
+            <div style="margin-top: 40px; text-align: right;">
+                <h4 style="color: var(--text-muted); margin-bottom: 15px; font-size: 1.1rem;">جستجوهای پرطرفدار</h4>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">حمله به تایتان</span>
+                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">گوجو ساتورو</span>
+                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">سایبرپانک</span>
+                    <span style="padding: 8px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">اکشن</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREMIUM VIP MODAL -->
+    <div class="vip-modal" id="vipModal">
+        <div class="vip-backdrop" id="vipCloseBackdrop"></div>
+        <div class="vip-modal-content">
+            <button class="vip-close-btn" id="vipCloseBtn">✕</button>
+            
+            <div class="vip-header">
+                <h2>ارتقا به سطح <span class="accent">نئون پلاس</span></h2>
+                <p>بدون محدودیت، بدون تبلیغات، با بالاترین کیفیت ممکن تماشا کنید.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>یک ماهه</h3>
+                    <div class="price">۹۹,۰۰۰ <span>تومان</span></div>
+                    <ul class="features">
+                        <li>✔️ کیفیت 1080p</li>
+                        <li>✔️ بدون تبلیغات</li>
+                        <li style="color:var(--text-muted)">❌ دانلود آفلاین</li>
+                    </ul>
+                    <button class="btn btn-info w-100">انتخاب پلن</button>
+                </div>
+                
+                <div class="pricing-card premium animated-border">
+                    <div class="popular-badge">محبوب‌ترین</div>
+                    <h3>سه ماهه</h3>
+                    <div class="price">۲۵۰,۰۰۰ <span>تومان</span></div>
+                    <ul class="features">
+                        <li>✔️ کیفیت 4K HDR</li>
+                        <li>✔️ بدون تبلیغات</li>
+                        <li>✔️ دانلود آفلاین</li>
+                        <li>✔️ پخش همزمان ۲ دستگاه</li>
+                    </ul>
+                    <button class="btn btn-play w-100">خرید اشتراک ویژه</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>یک ساله</h3>
+                    <div class="price">۸۵۰,۰۰۰ <span>تومان</span></div>
+                    <ul class="features">
+                        <li>✔️ کیفیت 4K HDR</li>
+                        <li>✔️ بدون تبلیغات</li>
+                        <li>✔️ دانلود آفلاین</li>
+                    </ul>
+                    <button class="btn btn-info w-100">انتخاب پلن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREMIUM HERO SLIDER (SWIPE ENABLED) -->
+    <header class="hero-slider" id="heroSlider" title="برای تغییر اسلاید بکشید">
+        
+        <!-- Slide 1 (Video) -->
+        <div class="slide active">
+            <div class="slide-media">
+                <video autoplay loop muted playsinline>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                </video>
+                <div class="gradient-overlay"></div>
+            </div>
+            <div class="slide-content">
+                <div class="glass-panel">
+                    <div class="live-badge"><div class="live-dot pulse" style="background:var(--accent);"></div><span>پخش اختصاصی</span></div>
+                    
+                    <!-- Typed.js Container -->
+                    <div class="typed-container">
+                        تجربه تماشای <span class="typed-text"></span>
+                    </div>
+
+                    <h2 class="slide-title">سایبرپانک: اج‌رانرز</h2>
+                    <h3 class="slide-subtitle en-text">CYBERPUNK: EDGERUNNERS</h3>
+                    
+                    <div class="slide-stats">
+                        <span class="stat-like">👍 ۹۸٪ رضایت</span>
+                        <span class="stat-age">+۱۸</span>
+                        <span class="stat-quality en-text">4K HDR</span>
+                    </div>
+                    
+                    <p class="slide-desc">
+                        در یک شهر پادآرمان‌شهری که درگیر فساد و وسواس سایبرنتیک است، یک پسر خیابانی با استعداد تلاش می‌کند با تبدیل شدن به یک مزدور قانون‌شکن زنده بماند.
+                    </p>
+                    
+                    <div class="slide-buttons">
+                        <button class="btn btn-play play-trigger">
+                            ▶ تماشای سریال
+                        </button>
+                        <button class="btn btn-info add-list-trigger">
+                            + افزودن به لیست
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide-media">
+                <img src="image-search/cyberpunk-edgerunners-desktop-wallpaper--1.webp" alt="AOT">
+                <div class="gradient-overlay"></div>
+            </div>
+            <div class="slide-content">
+                <div class="glass-panel">
+                    <div class="live-badge"><div class="live-dot" style="background:#46d369;"></div><span style="color:#46d369;">فصل نهایی</span></div>
+                    <h2 class="slide-title">حمله به تایتان</h2>
+                    <h3 class="slide-subtitle en-text">ATTACK ON TITAN</h3>
+                    <div class="slide-stats">
+                        <span class="stat-like">👍 ۹۹٪ رضایت</span>
+                        <span class="stat-age">+۱۶</span>
+                        <span class="stat-quality en-text">1080p</span>
+                    </div>
+                    <p class="slide-desc">زمانی که تایتان‌های انسان‌خوار بشریت را به مرز انقراض می‌کشانند، بازماندگان در پشت دیوارهای عظیم پناه می‌گیرند...</p>
+                    <div class="slide-buttons">
+                        <button class="btn btn-play play-trigger">▶ پخش فصل آخر</button>
+                        <button class="btn btn-info add-list-trigger">+ لیست من</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide Controls -->
+        <div class="slider-controls">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
+    </header>
+
+    <main class="content-container">
+        
+                <!-- SECTION: Continue Watching (LANDSCAPE CARDS) -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">تماشای مجدد</h2>
+                <a href="#" class="row-header-link">تاریخچه کامل ›</a>
+            </div>
+            <!-- Using .landscape class to make it 16:9 ratio -->
+            <div class="cards-container">
+                <!-- Resume Card 1 -->
+                <div class="anime-card landscape">
+                    <img src="image-search/one-piece-wano-high-quality-desktop-wall-1.jpg" alt="One Piece" class="card-static-img">
+                    <div class="card-overlay">
+                        <div class="card-actions" style="margin-bottom: 5px;">
+                            <button class="action-btn play-btn-small play-trigger" title="ادامه پخش">▶</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">وان پیس</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                    </div>
+                    <div style="position:absolute; bottom:0; left:0; width:100%; height:4px; background:rgba(255,255,255,0.2); z-index:4;">
+                        <div style="width: 60%; height: 100%; background: var(--accent);"></div>
+                    </div>
+                </div>
+
+                <!-- Resume Card 2 -->
+                <div class="anime-card landscape">
+                    <img src="image-search/death-note-anime-desktop-wallpaper-4k-3.jpg" alt="Death Note" class="card-static-img">
+                    <div class="card-overlay">
+                        <div class="card-actions" style="margin-bottom: 5px;">
+                            <button class="action-btn play-btn-small play-trigger" title="ادامه پخش">▶</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">دفترچه مرگ</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                    </div>
+                    <div style="position:absolute; bottom:0; left:0; width:100%; height:4px; background:rgba(255,255,255,0.2); z-index:4;">
+                        <div style="width: 85%; height: 100%; background: var(--accent);"></div>
+                    </div>
+                </div>
+
+                <!-- Resume Card 3 -->
+                <div class="anime-card landscape">
+                    <img src="image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg" alt="Jujutsu Kaisen" class="card-static-img">
+                    <div class="card-overlay">
+                        <div class="card-actions" style="margin-bottom: 5px;">
+                            <button class="action-btn play-btn-small play-trigger" title="ادامه پخش">▶</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">جوجوتسو کایسن</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.8
+                        </div>
+                    </div>
+                    <div style="position:absolute; bottom:0; left:0; width:100%; height:4px; background:rgba(255,255,255,0.2); z-index:4;">
+                        <div style="width: 90%; height: 100%; background: var(--accent);"></div>
+                    </div>
+                </div>
+
+                <!-- Resume Card 4 -->
+                <div class="anime-card landscape">
+                    <img src="image-search/cyberpunk-edgerunners-desktop-wallpaper--1.webp" alt="Cyberpunk" class="card-static-img">
+                    <div class="card-overlay">
+                        <div class="card-actions" style="margin-bottom: 5px;">
+                            <button class="action-btn play-btn-small play-trigger" title="ادامه پخش">▶</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">سایبرپانک</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.6
+                        </div>
+                    </div>
+                    <div style="position:absolute; bottom:0; left:0; width:100%; height:4px; background:rgba(255,255,255,0.2); z-index:4;">
+                        <div style="width: 30%; height: 100%; background: var(--accent);"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: New & Trending (PORTRAIT CARDS) -->
+        <section id="trendingSection" class="anime-row mt-large reveal">
+            
+            <div class="row-header" style="margin-bottom: 15px;">
+                <h2 class="row-title">تازه و پرطرفدار</h2>
+                <a href="#" class="row-header-link">مشاهده همه ›</a>
+            </div>
+            
+            <div class="filter-chips">
+                <button class="chip active">همه</button>
+                <button class="chip">اکشن</button>
+                <button class="chip">درام</button>
+                <button class="chip">تخیلی</button>
+                <button class="chip">سینمایی</button>
+            </div>
+
+            <!-- Changed to landscape per user request -->
+            <div class="cards-container">
+                <!-- Card 1 -->
+                <div class="anime-card landscape">
+                    <video class="card-hover-video" muted loop playsinline>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                    </video>
+                    <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="AOT" class="card-static-img">
+                    <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                    <div class="card-overlay">
+                        <div class="card-actions">
+                            <button class="action-btn play-btn-small play-trigger" title="پخش">▶</button>
+                            <button class="action-btn add-list-trigger" title="افزودن به لیست من">+</button>
+                            <button class="action-btn more-btn" title="اطلاعات">⌄</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">حمله به تایتان</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.7
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="anime-card landscape">
+                    <video class="card-hover-video" muted loop playsinline>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                    </video>
+                    <img src="image-search/demon-slayer-anime-poster-high-quality-1.png" alt="Demon Slayer" class="card-static-img">
+                    <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                    <div class="card-overlay">
+                        <div class="card-actions">
+                            <button class="action-btn play-btn-small play-trigger" title="پخش">▶</button>
+                            <button class="action-btn add-list-trigger" title="افزودن به لیست من">+</button>
+                            <button class="action-btn more-btn" title="اطلاعات">⌄</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">شیطان کش</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.7
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="anime-card landscape">
+                    <video class="card-hover-video" muted loop playsinline>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                    </video>
+                    <img src="image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg" alt="Jujutsu Kaisen" class="card-static-img">
+                    <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                    <div class="card-overlay">
+                        <div class="card-actions">
+                            <button class="action-btn play-btn-small play-trigger" title="پخش">▶</button>
+                            <button class="action-btn add-list-trigger" title="افزودن به لیست من">+</button>
+                            <button class="action-btn more-btn" title="اطلاعات">⌄</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">جوجوتسو کایسن</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="anime-card landscape">
+                    <video class="card-hover-video" muted loop playsinline>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                    </video>
+                    <img src="image-search/chainsaw-man-anime-poster-high-quality-1.webp" alt="Chainsaw Man" class="card-static-img">
+                    <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                    <div class="card-overlay">
+                        <div class="card-actions">
+                            <button class="action-btn play-btn-small play-trigger" title="پخش">▶</button>
+                            <button class="action-btn add-list-trigger" title="افزودن به لیست من">+</button>
+                            <button class="action-btn more-btn" title="اطلاعات">⌄</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">مرد اره‌ای</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="anime-card landscape">
+                    <video class="card-hover-video" muted loop playsinline>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                    </video>
+                    <img src="image-search/one-piece-wano-high-quality-desktop-wall-1.jpg" alt="One Piece" class="card-static-img">
+                    <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                    <div class="card-overlay">
+                        <div class="card-actions">
+                            <button class="action-btn play-btn-small play-trigger" title="پخش">▶</button>
+                            <button class="action-btn add-list-trigger" title="افزودن به لیست من">+</button>
+                            <button class="action-btn more-btn" title="اطلاعات">⌄</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">وان پیس</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="anime-card landscape">
+                    <video class="card-hover-video" muted loop playsinline>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                    </video>
+                    <img src="image-search/death-note-anime-desktop-wallpaper-4k-2.jpg" alt="Death Note" class="card-static-img">
+                    <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                    <div class="card-overlay">
+                        <div class="card-actions">
+                            <button class="action-btn play-btn-small play-trigger" title="پخش">▶</button>
+                            <button class="action-btn add-list-trigger" title="افزودن به لیست من">+</button>
+                            <button class="action-btn more-btn" title="اطلاعات">⌄</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">دفترچه مرگ</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="anime-card landscape">
+                    <video class="card-hover-video" muted loop playsinline>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                    </video>
+                    <img src="image-search/cyberpunk-edgerunners-desktop-wallpaper--1.webp" alt="Cyberpunk" class="card-static-img">
+                    <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                    <div class="card-overlay">
+                        <div class="card-actions">
+                            <button class="action-btn play-btn-small play-trigger" title="پخش">▶</button>
+                            <button class="action-btn add-list-trigger" title="افزودن به لیست من">+</button>
+                            <button class="action-btn more-btn" title="اطلاعات">⌄</button>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title">سایبرپانک: اج‌رانرز</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Weekly Schedule -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">تقویم پخش <span class="accent">هفتگی</span></h2>
+            </div>
+            <div class="schedule-container">
+                <div class="schedule-days">
+                    <div class="day-btn" data-day="0">شنبه</div>
+                    <div class="day-btn" data-day="1">یک‌شنبه</div>
+                    <div class="day-btn active" data-day="2">دوشنبه (امروز)</div>
+                    <div class="day-btn" data-day="3">سه‌شنبه</div>
+                    <div class="day-btn" data-day="4">چهارشنبه</div>
+                </div>
+                <div class="schedule-content" id="scheduleContent">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: Categories -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">دسته‌بندی‌ها</h2>
+            </div>
+            <div class="category-grid">
+                <div class="category-card">
+                    <img src="image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg" alt="Action">
+                    <h3>اکشن و هیجان‌انگیز</h3>
+                </div>
+                <div class="category-card">
+                    <img src="image-search/death-note-anime-desktop-wallpaper-4k-2.jpg" alt="Mystery">
+                    <h3>معمایی و کارآگاهی</h3>
+                </div>
+                <div class="category-card">
+                    <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Dark Fantasy">
+                    <h3>فانتزی تاریک</h3>
+                </div>
+                <div class="category-card">
+                    <img src="image-search/one-piece-wano-high-quality-desktop-wall-1.jpg" alt="Adventure">
+                    <h3>ماجراجویی</h3>
+                </div>
+                <div class="category-card">
+                    <img src="image-search/death-note-anime-desktop-wallpaper-4k-3.jpg" alt="Psychological">
+                    <h3>روان‌شناختی</h3>
+                </div>
+                <div class="category-card" style="background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));">
+                    <h3 style="z-index: 2;">+ همه ژانرها</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: Blog / News -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">اخبار و مقالات اختصاصی</h2>
+                <a href="#" class="row-header-link">ورود به مگ ›</a>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="News 1" class="blog-img">
+                    <div class="blog-content">
+                        <div class="blog-date">۱۵ شهریور ۱۴۰۵</div>
+                        <h4 class="blog-title">پایان حماسی اتک آن تایتان؛ شاهکاری که تاریخ‌ساز شد</h4>
+                        <p class="blog-desc">بررسی کامل و موشکافانه بخش نهایی انیمه حمله به تایتان و نگاهی به پیام‌های پنهان هاجیمه ایسایاما...</p>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg" alt="News 2" class="blog-img">
+                    <div class="blog-content">
+                        <div class="blog-date">۱۲ شهریور ۱۴۰۵</div>
+                        <h4 class="blog-title">اعلام تاریخ پخش فصل سوم جوجوتسو کایسن</h4>
+                        <p class="blog-desc">استودیو ماپا بالاخره پس از مدت‌ها انتظار، تاریخ دقیق پخش فصل جدید این انیمه پرطرفدار را رسماً تایید کرد...</p>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="image-search/demon-slayer-anime-poster-high-quality-1.png" alt="News 3" class="blog-img">
+                    <div class="blog-content">
+                        <div class="blog-date">۱۰ شهریور ۱۴۰۵</div>
+                        <h4 class="blog-title">معرفی برترین انیمه‌های پاییز امسال</h4>
+                        <p class="blog-desc">فصل پاییز امسال پر از شگفتی است. از بازگشت شیطان کش تا انیمه‌های اورجینال جدید که نباید از دست بدهید...</p>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="image-search/cyberpunk-edgerunners-desktop-wallpaper--1.webp" alt="News 4" class="blog-img">
+                    <div class="blog-content">
+                        <div class="blog-date">۵ شهریور ۱۴۰۵</div>
+                        <h4 class="blog-title">نقد و بررسی انیمه سایبرپانک: اج‌رانرز</h4>
+                        <p class="blog-desc">چگونه استودیو تریگر توانست یکی از بهترین اقتباس‌های تاریخ ویدیوگیم را به دنیای انیمه بیاورد؟</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: Top 10 Trending (Netflix Style) -->
+        <section class="anime-row mt-large reveal" style="overflow: visible;">
+            <div class="row-header">
+                <h2 class="row-title">۱۰ انیمه برتر ایران <span class="accent">در این هفته</span></h2>
+            </div>
+            <div class="top-10-row">
+                <!-- Top 1 -->
+                <div class="top-10-item">
+                    <div class="huge-number">1</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/demon-slayer-anime-poster-high-quality-1.png" alt="Top 1">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">شیطان کش</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.10
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 2 -->
+                <div class="top-10-item">
+                    <div class="huge-number">2</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Top 2">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">حمله به تایتان</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.9
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 3 -->
+                <div class="top-10-item">
+                    <div class="huge-number">3</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg" alt="Top 3">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">جوجوتسو کایسن</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.8
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 4 -->
+                <div class="top-10-item">
+                    <div class="huge-number">4</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/chainsaw-man-anime-poster-high-quality-1.webp" alt="Top 4">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">مرد اره‌ای</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.7
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 5 -->
+                <div class="top-10-item">
+                    <div class="huge-number">5</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/death-note-anime-desktop-wallpaper-4k-2.jpg" alt="Top 5">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">دفترچه مرگ</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.6
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 6 -->
+                <div class="top-10-item">
+                    <div class="huge-number">6</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/cyberpunk-edgerunners-desktop-wallpaper--1.webp" alt="Top 6">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">سایبرپانک: اج‌رانرز</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.5
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 7 -->
+                <div class="top-10-item">
+                    <div class="huge-number">7</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/one-piece-wano-high-quality-desktop-wall-1.jpg" alt="Top 7">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">وان پیس</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.4
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 8 -->
+                <div class="top-10-item">
+                    <div class="huge-number">8</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Top 8">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">اتک آن تایتان</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.3
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 9 -->
+                <div class="top-10-item">
+                    <div class="huge-number">9</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg" alt="Top 9">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">جوجوتسو کایسن</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.2
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top 10 -->
+                <div class="top-10-item">
+                    <div class="huge-number">10</div>
+                    <div class="anime-card landscape">
+                        
+                        <img src="image-search/demon-slayer-anime-poster-high-quality-1.png" alt="Top 10">
+                        <div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>
+                        <div class="glare"></div>
+                        <div class="card-overlay">
+                            <div class="card-actions" style="margin-bottom: auto;"><button class="action-btn play-btn-small play-trigger">▶</button></div>
+                            <div class="card-details-sleek">
+                            <h3 class="sleek-title">شیطان کش</h3>
+                        </div>
+                        <div class="sleek-rating">
+                            <span class="icon">★</span> ۹.۱
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: Popular Characters / Seiyuu -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">کاراکترهای <span class="accent">ترند هفته</span></h2>
+            </div>
+            <div class="characters-row">
+                <div class="character-circle">
+                    <img src="image-search/gojo-satoru-anime-profile-picture-high-q-1.webp" alt="Gojo">
+                    <span>ساتورو گوجو</span>
+                </div>
+                <div class="character-circle">
+                    <img src="image-search/levi-ackerman-anime-profile-picture-high-1.png" alt="Levi">
+                    <span>لیوای آکرمن</span>
+                </div>
+                <div class="character-circle">
+                    <img src="image-search/makima-chainsaw-man-anime-profile-pictur-1.webp" alt="Makima">
+                    <span>ماکیما</span>
+                </div>
+                <div class="character-circle">
+                    <img src="image-search/tanjiro-kamado-anime-profile-picture-hig-1.jpg" alt="Tanjiro">
+                    <span>تانجیرو</span>
+                </div>
+                <div class="character-circle">
+                    <img src="image-search/l-death-note-anime-profile-picture-high--1.webp" alt="L">
+                    <span>ال (L)</span>
+                </div>
+                <div class="character-circle">
+                    <img src="image-search/roronoa-zoro-anime-profile-picture-high--1.jpg" alt="Zoro">
+                    <span>رورونوا زورو</span>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- NEW SECTION: Top Studios -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">استودیوهای <span class="accent">افسانه‌ای</span></h2>
+            </div>
+            <div class="studios-grid">
+                <div class="studio-card">
+                    <h3 class="en-text">MAPPA</h3>
+                    <p>جوجوتسو کایسن، اتک آن تایتان</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">ufotable</h3>
+                    <p>شیطان کش، فیت زیرو</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">MADHOUSE</h3>
+                    <p>دث نوت، هانتر x هانتر</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">WIT STUDIO</h3>
+                    <p>اسپای x فمیلی، وینلند ساگا</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">BONES</h3>
+                    <p>مای هیرو آکادمیا، سگ‌های ولگرد</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">TRIGGER</h3>
+                    <p>سایبرپانک، کیل لا کیل</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: User Reviews -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">نظرات <span class="accent">کاربران نئون</span></h2>
+                <a href="#" class="row-header-link">مشاهده همه نظرات ›</a>
+            </div>
+            <div class="reviews-row">
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-2.jpg" alt="User">
+                        <div>
+                            <h4>آریا عظیمی</h4>
+                            <span class="review-date">۲ ساعت پیش</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">قسمت آخر اتک آن تایتان واقعا شاهکار بود. مرسی از تیم ترجمه و دوبله نئون انیمه که انقدر سریع و با کیفیت قرار دادن!</p>
+                    <div class="review-anime-tag">درباره: حمله به تایتان</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-3.jpg" alt="User">
+                        <div>
+                            <h4>سارا رضایی</h4>
+                            <span class="review-date">۵ ساعت پیش</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">انیمیشن سازی شیطان کش توی این فصل دیوانه‌کننده است! یوفوتیبل رسماً استاندارد انیمه‌ها رو جابجا کرده.</p>
+                    <div class="review-anime-tag">درباره: شیطان کش</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="User">
+                        <div>
+                            <h4>نیما کاظمی</h4>
+                            <span class="review-date">دیروز</span>
+                        </div>
+                        <div class="review-stars">★★★★☆</div>
+                    </div>
+                    <p class="review-text">فصل دوم جوجوتسو کایسن خیلی دارک و خفن شده. فقط کاش زیرنویس قسمت جدید زودتر میومد. ولی در کل عالیه.</p>
+                    <div class="review-anime-tag">درباره: جوجوتسو کایسن</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-2.jpg" alt="User">
+                        <div>
+                            <h4>مریم تهرانی</h4>
+                            <span class="review-date">دیروز</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">مرد اره‌ای فراتر از انتظاراتم بود. گرافیک، موسیقی و داستان همه چیز تو بالاترین سطح ممکنه.</p>
+                    <div class="review-anime-tag">درباره: مرد اره‌ای</div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- NEW SECTION: Top Studios -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">استودیوهای <span class="accent">افسانه‌ای</span></h2>
+            </div>
+            <div class="studios-grid">
+                <div class="studio-card">
+                    <h3 class="en-text">MAPPA</h3>
+                    <p>جوجوتسو کایسن، اتک آن تایتان</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">ufotable</h3>
+                    <p>شیطان کش، فیت زیرو</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">MADHOUSE</h3>
+                    <p>دث نوت، هانتر x هانتر</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">WIT STUDIO</h3>
+                    <p>اسپای x فمیلی، وینلند ساگا</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">BONES</h3>
+                    <p>مای هیرو آکادمیا، سگ‌های ولگرد</p>
+                </div>
+                <div class="studio-card">
+                    <h3 class="en-text">TRIGGER</h3>
+                    <p>سایبرپانک، کیل لا کیل</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: User Reviews -->
+        <section class="anime-row mt-large reveal">
+            <div class="row-header">
+                <h2 class="row-title">نظرات <span class="accent">کاربران نئون</span></h2>
+                <a href="#" class="row-header-link">مشاهده همه نظرات ›</a>
+            </div>
+            <div class="reviews-row">
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-2.jpg" alt="User">
+                        <div>
+                            <h4>آریا عظیمی</h4>
+                            <span class="review-date">۲ ساعت پیش</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">قسمت آخر اتک آن تایتان واقعا شاهکار بود. مرسی از تیم ترجمه و دوبله نئون انیمه که انقدر سریع و با کیفیت قرار دادن!</p>
+                    <div class="review-anime-tag">درباره: حمله به تایتان</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-3.jpg" alt="User">
+                        <div>
+                            <h4>سارا رضایی</h4>
+                            <span class="review-date">۵ ساعت پیش</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">انیمیشن سازی شیطان کش توی این فصل دیوانه‌کننده است! یوفوتیبل رسماً استاندارد انیمه‌ها رو جابجا کرده.</p>
+                    <div class="review-anime-tag">درباره: شیطان کش</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="User">
+                        <div>
+                            <h4>نیما کاظمی</h4>
+                            <span class="review-date">دیروز</span>
+                        </div>
+                        <div class="review-stars">★★★★☆</div>
+                    </div>
+                    <p class="review-text">فصل دوم جوجوتسو کایسن خیلی دارک و خفن شده. فقط کاش زیرنویس قسمت جدید زودتر میومد. ولی در کل عالیه.</p>
+                    <div class="review-anime-tag">درباره: جوجوتسو کایسن</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="image-search/anime-aesthetic-avatar-square-2.jpg" alt="User">
+                        <div>
+                            <h4>مریم تهرانی</h4>
+                            <span class="review-date">دیروز</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">مرد اره‌ای فراتر از انتظاراتم بود. گرافیک، موسیقی و داستان همه چیز تو بالاترین سطح ممکنه.</p>
+                    <div class="review-anime-tag">درباره: مرد اره‌ای</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: FAQ -->
+        <section class="anime-row mt-large reveal" style="margin-bottom: 50px;">
+            <div class="row-header" style="justify-content: center; margin-bottom: 40px;">
+                <h2 class="row-title" style="font-size: 2rem;">سوالات <span class="accent">متداول</span> کاربران</h2>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">آیا انیمه‌ها با دوبله فارسی اختصاصی پخش می‌شوند؟ <span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>بله، نئون انیمه با برترین تیم‌های دوبلاژ ایران همکاری می‌کند تا اکثر انیمه‌های پرطرفدار و روز دنیا را همزمان با پخش جهانی، با دوبله اختصاصی و حرفه‌ای در اختیار شما قرار دهد.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">آیا بدون اشتراک VIP می‌توانم انیمه تماشا کنم؟ <span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>بله، بخش قابل توجهی از محتوای سایت به صورت رایگان اما با کیفیت 720p و همراه با تبلیغات قابل تماشا است. برای کیفیت 4K، دانلود آفلاین و حذف تبلیغات می‌توانید اشتراک تهیه کنید.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">چگونه می‌توانم یک انیمه را برای تماشای آفلاین دانلود کنم؟ <span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>کاربران VIP می‌توانند با استفاده از اپلیکیشن اندروید یا iOS نئون انیمه، قسمت‌های مورد نظر خود را در داخل خود اپلیکیشن دانلود کرده و بدون نیاز به اینترنت تماشا کنند.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">سانسور انیمه‌ها به چه صورت است؟ <span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>تیم محتوای ما تلاش می‌کند تا جای ممکن به نسخه اورجینال وفادار بماند و تنها مواردی که با قوانین کشور مغایرت کامل دارند به صورت حرفه‌ای اصلاح می‌شوند تا به داستان آسیبی نرسد.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: Newsletter / Call to Action -->
+        <section class="newsletter-banner mt-large reveal" style="margin-bottom: 100px;">
+            <div class="glass-panel">
+                <h2>از جدیدترین قسمت‌ها <span class="accent">جا نمانید!</span></h2>
+                <p>با عضویت در خبرنامه هوشمند ما، بلافاصله پس از انتشار قسمت جدید یا خبرهای مهم، از طریق ایمیل و پیامک مطلع شوید.</p>
+                <div class="subscribe-form">
+                    <form id="subscribeForm" style="display:flex; width:100%;" onsubmit="return false;">
+                        <input type="email" id="subscribeInput" placeholder="آدرس ایمیل خود را وارد کنید..." required>
+                        <button type="submit" id="subscribeBtn">عضویت سریع</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="backToTop" class="back-to-top" title="بازگشت به بالا">↑</button>
+
+
+    
+    
+    <!-- FULLSCREEN ANIME DETAILS MODAL -->
+    <div class="details-modal" id="detailsModal">
+        <div class="details-backdrop" id="detailsBackdrop"></div>
+        <div class="details-content">
+            <button class="details-close" id="detailsCloseBtn">✕</button>
+            
+            <div class="details-hero">
+                <div class="details-hero-gradient"></div>
+                <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Hero" id="modalHeroImg">
+                <div class="details-hero-info">
+                    <h2 id="modalTitle">حمله به تایتان</h2>
+                    <div class="details-meta">
+                        <span class="match">۹۹٪ رضایت</span>
+                        <span class="year">۲۰۲۳</span>
+                        <span class="age">+۱۶</span>
+                        <span class="seasons">۴ فصل</span>
+                        <span class="hd">4K HDR</span>
+                    </div>
+                    <p class="details-desc">
+                        زمانی که تایتان‌های انسان‌خوار بشریت را به مرز انقراض می‌کشانند، بازماندگان در پشت دیوارهای عظیم پناه می‌گیرند...
+                    </p>
+                    <div class="details-actions">
+                        <button class="btn btn-play glow-effect play-trigger">▶ پخش قسمت ۱</button>
+                        <button class="btn btn-info glass-effect add-list-trigger">+ افزودن به لیست</button>
+                        <button class="mini-icon-btn" title="لایک">👍</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="details-tabs">
+                <div class="d-tab active">قسمت‌ها</div>
+                <div class="d-tab">پیش‌نمایش‌ها و بیشتر</div>
+                <div class="d-tab">عوامل و صداپیشگان</div>
+            </div>
+            
+            <div class="episodes-list">
+                <div class="episode-item">
+                    <div class="ep-img-wrapper">
+                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Ep 1">
+                        <div class="play-circle">▶</div>
+                    </div>
+                    <div class="ep-info">
+                        <h4>۱. آن روز</h4>
+                        <p>بشریت یک قرن است که در صلح به سر می‌برد. اما ناگهان یک تایتان غول‌پیکر ظاهر می‌شود و دیوار ماریا را می‌شکند...</p>
+                    </div>
+                    <div class="ep-duration">۲۴ دقیقه</div>
+                </div>
+                <div class="episode-item">
+                    <div class="ep-img-wrapper">
+                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Ep 2">
+                        <div class="play-circle">▶</div>
+                    </div>
+                    <div class="ep-info">
+                        <h4>۲. نور کم‌رنگ میان ناامیدی</h4>
+                        <p>پس از سقوط دیوار ماریا، پناهندگان به داخل دیوار رز هجوم می‌آورند. ارن، میکاسا و آرمین به ارتش ملحق می‌شوند.</p>
+                    </div>
+                    <div class="ep-duration">۲۴ دقیقه</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="bottom-nav-item active">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>خانه</span>
+        </a>
+        <a href="javascript:void(0)" class="bottom-nav-item" id="bottomNavSearch">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>جستجو</span>
+        </a>
+        <a href="javascript:void(0)" class="bottom-nav-item vip-item" id="bottomNavVIP">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M2 22h20"/><path d="M4 22l-1-14 5 4 4-8 4 8 5-4-1 14"/></svg>
+            <span>ویژه</span>
+        </a>
+        <a href="profile.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>پروفایل</span>
+        </a>
+    </nav>
+
+    <script>
+        // Bind bottom nav buttons to existing modals
+        document.addEventListener('DOMContentLoaded', () => {
+            const bottomSearch = document.getElementById('bottomNavSearch');
+            const bottomVip = document.getElementById('bottomNavVIP');
+            
+            if(bottomSearch) {
+                bottomSearch.addEventListener('click', () => {
+                    const mainSearchBtn = document.getElementById('searchBtnIcon');
+                    if(mainSearchBtn) mainSearchBtn.click();
+                });
+            }
+            if(bottomVip) {
+                bottomVip.addEventListener('click', () => {
+                    const mainVipBtn = document.getElementById('vipOpenBtn');
+                    if(mainVipBtn) mainVipBtn.click();
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load user data for navbar
+            if(localStorage.getItem('neon_is_logged_in') === 'true') {
+                const avatar = localStorage.getItem('neon_user_avatar');
+                const isVip = localStorage.getItem('neon_is_vip') === 'true';
+                const name = localStorage.getItem('neon_user_name');
+
+                // Update desktop nav profile pic
+                const desktopProfileBtn = document.querySelector('.user-profile.hide-mobile img');
+                if(desktopProfileBtn && avatar) desktopProfileBtn.src = avatar;
+
+                
+                // Update mobile drawer profile
+                const mobileProfile = document.getElementById('loginTriggerBtn2');
+                if(mobileProfile) {
+                    mobileProfile.href = 'profile.html';
+                    const img = mobileProfile.querySelector('img');
+                    if(img && avatar) img.src = avatar;
+                    const h4 = mobileProfile.querySelector('h4');
+                    if(h4 && name) h4.innerText = name;
+                    const badge = mobileProfile.querySelector('.status-badge');
+                    if(badge) {
+                        if(isVip) {
+                            badge.innerText = 'کاربر ویژه (VIP)';
+                            badge.style.background = '#ffd700'; // gold
+                            badge.style.color = '#000';
+                        } else {
+                            badge.innerText = 'کاربر عادی';
+                            badge.style.background = '#46d369'; // green
+                            badge.style.color = '#fff';
+                        }
+                    }
+                }
+
+                
+                // Change main login btn to profile btn
+                const loginBtnDesktop = document.getElementById('loginTriggerBtn');
+                if(loginBtnDesktop) {
+                    loginBtnDesktop.href = 'profile.html';
+                    loginBtnDesktop.innerHTML = 'پروفایل من <span class="icon">👤</span>';
+                    loginBtnDesktop.style.background = 'rgba(255,255,255,0.1)';
+                    loginBtnDesktop.style.borderColor = 'rgba(255,255,255,0.2)';
+                }
+            }
+        });
+    </script>
+</body>
+
+
+</html>

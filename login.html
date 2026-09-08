@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود / ثبت‌نام | Neon Anime</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Full Page Auth Layout */
+        body { overflow: hidden; margin: 0; padding: 0; }
+        .auth-page-container { display: flex; width: 100vw; height: 100vh; background: var(--bg-surface); }
+        
+        /* Left: Image Banner */
+        .auth-page-left { flex: 1.2; position: relative; background: #000; overflow: hidden; }
+        .auth-page-left img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; filter: contrast(1.1); animation: kenburns 30s infinite alternate ease-in-out; transform-origin: center; }
+        
+        @keyframes kenburns {
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.05) translate(-1%, 1%); }
+            100% { transform: scale(1.1) translate(1%, -1%); }
+        }
+        
+        .auth-page-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, var(--bg-surface) 0%, transparent 80%), linear-gradient(to top, var(--bg-surface) 0%, transparent 40%); z-index: 1; }
+        .auth-page-branding { position: absolute; bottom: 60px; left: 60px; right: 60px; z-index: 2; }
+        .auth-page-branding h2 { font-size: 4rem; font-weight: 900; margin-bottom: 10px; text-shadow: 0 10px 20px rgba(0,0,0,0.9); }
+        .auth-page-branding p { font-size: 1.2rem; color: #eee; line-height: 1.6; max-width: 500px; text-shadow: 0 4px 10px rgba(0,0,0,0.9); }
+        
+        .back-to-home { position: absolute; top: 40px; left: 40px; z-index: 10; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; transition: 0.3s; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .back-to-home:hover { background: var(--accent); border-color: var(--accent); transform: translateX(-5px); box-shadow: 0 0 20px rgba(255,0,60,0.5); }
+
+        
+                /* Gender Toggle */
+        .gender-toggle { display: flex; gap: 15px; margin-bottom: 10px; width: 100%; }
+        .gender-option { flex: 1; text-align: center; padding: 8px; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; cursor: pointer; color: white; font-weight: 700; font-size: 1rem; transition: 0.3s; user-select: none; }
+        .gender-option:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); }
+        .gender-option.active { background: rgba(255,0,60,0.15); border-color: var(--accent); color: white; box-shadow: 0 5px 20px rgba(255,0,60,0.3); transform: scale(1.05); }
+        
+        /* Avatar Groups */
+        .avatar-group { display: none; gap: 15px; overflow-x: auto; padding-bottom: 5px; scroll-snap-type: x mandatory; }
+        .avatar-group::-webkit-scrollbar { display: none; }
+        .avatar-group.active { display: flex; animation: fadeInForm 0.4s ease forwards; }
+
+        /* Right: Forms */
+        .auth-page-right { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow-y: auto; padding: 40px; background: radial-gradient(circle at 80% 20%, rgba(255, 0, 60, 0.05), transparent 50%), var(--bg-surface); }
+        .auth-page-right::-webkit-scrollbar { width: 6px; }
+        .auth-page-right::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        
+        .auth-form-container { width: 100%; max-width: 480px; display: none; background: rgba(25,25,30,0.4); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 25px 50px rgba(0,0,0,0.5); backdrop-filter: blur(15px); animation: fadeInForm 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        .auth-form-container.active { display: block; }
+        @keyframes fadeInForm { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        .auth-page-header { margin-bottom: 40px; }
+        .auth-page-header h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 10px; color: white; }
+        .auth-page-header p { font-size: 1rem; color: var(--text-muted); }
+
+        @media (max-width: 900px) {
+            .auth-page-left { display: none; }
+            .auth-page-right { padding: 30px 20px; }
+            body { overflow-y: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-page-container">
+        <!-- Visual Banner -->
+        <div class="auth-page-left">
+            <a href="index.html" class="back-to-home">→ بازگشت به خانه</a>
+            <img src="image-search/one-piece-wano-high-quality-desktop-wall-1.jpg" alt="Auth Background">
+            <div class="auth-page-overlay"></div>
+            <div class="auth-page-branding">
+                <h2 class="en-text">NEON<span class="accent">.</span>ANIME</h2>
+                <p>دروازه ورود به دنیای بی‌نهایت انیمه‌ها. با بالاترین کیفیت، بدون سانسور و با دوبله اختصاصی.</p>
+            </div>
+        </div>
+
+        <!-- Forms Area -->
+        <div class="auth-page-right">
+            
+            <!-- LOGIN -->
+            <div class="auth-form-container active" id="loginContainer">
+                <div class="auth-page-header">
+                    <h2>ورود به حساب</h2>
+                    <p>به نئون انیمه خوش برگشتید.</p>
+                </div>
+                
+                <form class="premium-form" id="loginForm" onsubmit="return false;">
+                    <div class="floating-input">
+                        <input type="email" required placeholder=" ">
+                        <label>ایمیل یا شماره موبایل</label>
+                    </div>
+                    <div class="floating-input">
+                        <input type="password" required placeholder=" ">
+                        <label>رمز عبور</label>
+                    </div>
+                    <div class="form-options" style="margin-top: 5px;">
+                        <label class="checkbox-container">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            مرا به خاطر بسپار
+                        </label>
+                        <a href="#" class="forgot-link">رمز عبور را فراموش کرده‌اید؟</a>
+                    </div>
+                    
+                    <button type="submit" class="btn w-100 auth-main-btn" style="margin-top: 20px; padding: 20px; font-size: 1.2rem;">ورود به سیستم</button>
+                </form>
+                
+                <div class="auth-footer" style="margin-top: 40px; font-size: 1rem;">
+                    حساب کاربری ندارید؟ <span id="goToSignup" class="accent-link">هم‌اکنون ثبت‌نام کنید</span>
+                </div>
+            </div>
+
+            <!-- SIGNUP -->
+            <div class="auth-form-container" id="signupContainer">
+                <div class="auth-page-header" style="margin-bottom: 25px;">
+                    <h2>ساخت حساب جدید</h2>
+                    <p>عضویت سریع برای تماشای نامحدود.</p>
+                </div>
+
+                <form class="premium-form" id="signupForm" onsubmit="return false;">
+                    
+                    <div class="form-section-title">۱. جنسیت و آواتار خود را انتخاب کنید</div>
+                    
+                    <div class="gender-toggle" id="genderToggle">
+                        <label class="gender-option" data-gender="boy">
+                            <input type="radio" name="gender" value="boy" hidden>
+                            پسرم
+                        </label>
+                        <label class="gender-option" data-gender="girl">
+                            <input type="radio" name="gender" value="girl" hidden>
+                            دخترم
+                        </label>
+                    </div>
+
+                    
+                    <div id="genderPromptMessage" style="text-align:center; color: var(--accent); font-size: 0.9rem; margin-bottom: 5px; background: rgba(255,0,60,0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,0,60,0.3);">
+                        برای مشاهده آواتارها، ابتدا جنسیت خود را مشخص کنید.
+                    </div>
+<div class="premium-avatar-picker" style="margin-bottom: 0px;">
+                        <!-- BOY AVATARS -->
+                        <div class="avatar-group" id="boyAvatars">
+                            <img src="image-search/gojo-satoru-anime-profile-picture-high-q-1.webp" class="p-avatar active" alt="Gojo">
+                            <img src="image-search/levi-ackerman-anime-profile-picture-high-1.png" class="p-avatar" alt="Levi">
+                            <img src="image-search/tanjiro-kamado-anime-profile-picture-hig-1.jpg" class="p-avatar" alt="Tanjiro">
+                            <img src="image-search/l-death-note-anime-profile-picture-high--1.webp" class="p-avatar" alt="L">
+                            <img src="image-search/roronoa-zoro-anime-profile-picture-high--1.jpg" class="p-avatar" alt="Zoro">
+                        </div>
+                        
+                        <!-- GIRL AVATARS -->
+                        <div class="avatar-group" id="girlAvatars">
+                            <img src="image-search/makima-chainsaw-man-anime-profile-pictur-1.webp" class="p-avatar" alt="Makima">
+                            <img src="image-search/nezuko-anime-profile-picture-high-qualit-1.jpg" class="p-avatar" alt="Nezuko">
+                            <img src="image-search/mikasa-ackerman-solo-profile-picture-hd-1.jpg" class="p-avatar" alt="Mikasa">
+                            <img src="image-search/power-chainsaw-man-anime-profile-picture-1.png" class="p-avatar" alt="Power">
+                            <img src="image-search/nami-one-piece-portrait-profile-picture--1.jpg" class="p-avatar" alt="Nami">
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">۲. اطلاعات شخصی</div>
+                    <div class="floating-input">
+                        <input type="text" id="regFullName" required placeholder=" ">
+                        <label>نام و نام خانوادگی</label>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="floating-input half">
+                            <input type="text" id="regUsername" required placeholder=" ">
+                            <label>نام کاربری (Otaku Name)</label>
+                        </div>
+                        <div class="floating-input half">
+                            <input type="number" min="1" max="99" required placeholder=" ">
+                            <label>سن</label>
+                        </div>
+                    </div>
+
+                    <div class="floating-input">
+                        <select id="regGenre" required>
+                            <option value="" disabled selected hidden>ژانر مورد علاقه خود را انتخاب کنید</option>
+                            <option value="action">اکشن / شونن</option>
+                            <option value="dark">فانتزی تاریک / روانشناختی</option>
+                            <option value="slice">درام / عاشقانه</option>
+                            <option value="sci">سایبرپانک / علمی‌تخیلی</option>
+                        </select>
+                    </div>
+
+                    <div class="form-section-title">۳. اطلاعات ورود</div>
+                    <div class="floating-input">
+                        <input type="email" required placeholder=" ">
+                        <label>آدرس ایمیل</label>
+                    </div>
+                    <div class="floating-input">
+                        <input type="password" required placeholder=" ">
+                        <label>رمز عبور</label>
+                    </div>
+
+                    <button type="submit" class="btn w-100 auth-main-btn" style="margin-top: 25px; padding: 20px; font-size: 1.2rem;">تکمیل ثبت‌نام</button>
+                </form>
+
+                <div class="auth-footer" style="margin-top: 40px; font-size: 1rem;">
+                    قبلاً ثبت‌نام کرده‌اید؟ <span id="goToLogin" class="accent-link">وارد شوید</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    
+    <!-- Notification Toast Styles -->
+    <style>
+        .auth-toast {
+            position: fixed;
+            top: 20px;
+            right: 50%;
+            transform: translateX(50%) translateY(-100px);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--accent);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(255, 0, 60, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .auth-toast.show {
+            transform: translateX(50%) translateY(0);
+            opacity: 1;
+        }
+        .auth-toast i {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
+        /* Spinner */
+        .loader-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+
+    <!-- Success Toast Notification -->
+    <div id="authToast" class="auth-toast">
+        <span class="loader-spinner" id="toastSpinner" style="display:none;"></span>
+        <span id="toastMessage">عملیات موفقیت‌آمیز بود</span>
+    </div>
+
+    <!-- Script for Forms and Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginContainer = document.getElementById('loginContainer');
+            const signupContainer = document.getElementById('signupContainer');
+            
+            document.getElementById('goToSignup').addEventListener('click', () => {
+                loginContainer.classList.remove('active');
+                setTimeout(() => signupContainer.classList.add('active'), 100);
+            });
+            
+            document.getElementById('goToLogin').addEventListener('click', () => {
+                signupContainer.classList.remove('active');
+                setTimeout(() => loginContainer.classList.add('active'), 100);
+            });
+
+            // Avatar & Gender Logic
+            const genderOptions = document.querySelectorAll('.gender-option');
+            const boyAvatars = document.getElementById('boyAvatars');
+            const girlAvatars = document.getElementById('girlAvatars');
+            let allAvatars = document.querySelectorAll('.p-avatar');
+
+            allAvatars.forEach(a => a.classList.remove('active'));
+            let selectedGender = null;
+
+            genderOptions.forEach(opt => {
+                opt.addEventListener('click', function() {
+                    selectedGender = this.querySelector('input').value;
+                    genderOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const promptMsg = document.getElementById('genderPromptMessage');
+                    if(promptMsg) promptMsg.style.display = 'none';
+
+                    if(selectedGender === 'boy') {
+                        girlAvatars.classList.remove('active');
+                        boyAvatars.classList.add('active');
+                        allAvatars.forEach(a => a.classList.remove('active'));
+                        boyAvatars.querySelector('.p-avatar').classList.add('active');
+                    } else {
+                        boyAvatars.classList.remove('active');
+                        girlAvatars.classList.add('active');
+                        allAvatars.forEach(a => a.classList.remove('active'));
+                        girlAvatars.querySelector('.p-avatar').classList.add('active');
+                    }
+                });
+            });
+
+            allAvatars.forEach(avatar => {
+                avatar.addEventListener('click', () => {
+                    allAvatars.forEach(a => a.classList.remove('active'));
+                    avatar.classList.add('active');
+                });
+            });
+            
+            // --- Realistic Auth Logic ---
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const toast = document.getElementById('authToast');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastSpn = document.getElementById('toastSpinner');
+
+            function showToast(msg, showSpinner = false, duration = 3000) {
+                toastMsg.textContent = msg;
+                toastSpn.style.display = showSpinner ? 'inline-block' : 'none';
+                toast.classList.add('show');
+                if(duration > 0) {
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, duration);
+                }
+            }
+
+                                    // Login Logic
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = loginForm.querySelector('button[type="submit"]');
+                
+                // Demo logic: login gives VIP, signup gives Normal
+                if(!localStorage.getItem('neon_user_name')) {
+                    localStorage.setItem('neon_user_name', 'کیانوش');
+                    localStorage.setItem('neon_user_username', 'Kianoosh_Otaku');
+                    localStorage.setItem('neon_user_avatar', 'image-search/gojo-satoru-anime-profile-picture-high-q-1.webp');
+                }
+                localStorage.setItem('neon_is_vip', 'true'); // Show VIP on login
+                localStorage.setItem('neon_is_logged_in', 'true');
+
+                btn.innerHTML = '<span class="loader-spinner"></span> در حال بررسی...';
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.8';
+
+                setTimeout(() => {
+                    btn.innerHTML = 'با موفقیت وارد شدید!';
+                    btn.style.background = '#00d26a';
+                    btn.style.borderColor = '#00d26a';
+                    btn.style.boxShadow = '0 0 20px rgba(0, 210, 106, 0.4)';
+                    
+                    showToast('در حال انتقال به حساب کاربری...', true, 0);
+
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 1500);
+                }, 1500);
+            });
+
+                        // Signup Logic
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                if(!selectedGender) {
+                    showToast('لطفاً ابتدا جنسیت و آواتار خود را انتخاب کنید!', false, 3000);
+                    return;
+                }
+
+                // Get selected Avatar
+                let activeAvatar = document.querySelector('.p-avatar.active');
+                let avatarSrc = activeAvatar ? activeAvatar.src : 'image-search/gojo-satoru-anime-profile-picture-high-q-1.webp';
+                
+                // Get form inputs
+                let fullName = document.getElementById('regFullName').value;
+                let username = document.getElementById('regUsername').value;
+                
+                // Save to localStorage
+                localStorage.setItem('neon_user_name', fullName);
+                localStorage.setItem('neon_user_username', username);
+                localStorage.setItem('neon_user_avatar', avatarSrc);
+                localStorage.setItem('neon_is_logged_in', 'true');
+                localStorage.setItem('neon_is_vip', 'false'); // Defaults to false
+
+                const btn = signupForm.querySelector('button[type="submit"]');
+                const originalText = btn.textContent;
+                
+                btn.innerHTML = '<span class="loader-spinner"></span> در حال ساخت حساب...';
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.8';
+
+                setTimeout(() => {
+                    btn.innerHTML = 'حساب با موفقیت ساخته شد!';
+                    btn.style.background = '#00d26a';
+                    btn.style.borderColor = '#00d26a';
+                    btn.style.boxShadow = '0 0 20px rgba(0, 210, 106, 0.4)';
+                    
+                    showToast('خوش آمدید! در حال ورود...', true, 0);
+
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 1500);
+                }, 2000);
+            });
+        });
+    </script>
+</body>
