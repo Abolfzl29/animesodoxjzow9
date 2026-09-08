@@ -150,31 +150,58 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => toast.remove(), 400);
         }, 3000);
     }
+    window.showToast = showToast;
+
+    const DATA = window.NEON_ANIME || null;
+    function resolveAnimeFromElement(el) {
+        if (!DATA) return null;
+        const scope = el.closest('[data-anime]');
+        if (scope && DATA.byId[scope.dataset.anime]) return DATA.byId[scope.dataset.anime];
+        const container = el.closest('.anime-card, .slide, .details-content, .progress-card, .schedule-card') || document;
+        const titleEl = container.querySelector('.sleek-title, .slide-title, #modalTitle, h3, h4');
+        return titleEl ? DATA.findByTitle(titleEl.innerText) : null;
+    }
+    function getWatchlist() { try { return JSON.parse(localStorage.getItem('neon_watchlist') || '[]'); } catch (e) { return []; } }
+    function toggleWatchlist(anime) {
+        let list = getWatchlist();
+        const inList = list.includes(anime.id);
+        list = inList ? list.filter(id => id !== anime.id) : list.concat(anime.id);
+        localStorage.setItem('neon_watchlist', JSON.stringify(list));
+        return !inList;
+    }
 
     document.querySelectorAll('.add-list-trigger, .action-btn[title="افزودن به لیست من"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            showToast('با موفقیت به لیست تماشای شما اضافه شد.');
+            const anime = resolveAnimeFromElement(btn);
+            if (anime) {
+                const added = toggleWatchlist(anime);
+                showToast(added ? `«${anime.title}» به لیست تماشای شما اضافه شد.` : `«${anime.title}» از لیست تماشای شما حذف شد.`);
+            } else {
+                showToast('با موفقیت به لیست تماشای شما اضافه شد.');
+            }
         });
     });
 
     // Play buttons -> go to the player page. The card/slide title is passed along
     // so watch.html can show the right anime (until a real backend provides ids).
-    function slugify(str) {
-        return (str || '').trim().replace(/\s+/g, '-').toLowerCase();
-    }
     document.querySelectorAll('.play-trigger, .play-btn-small, .btn-play').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             // Buttons inside the pricing modal are not "play" buttons
             if (btn.closest('.pricing-card')) return;
+            const anime = resolveAnimeFromElement(btn);
+            if (anime) {
+                const epAttr = btn.closest('[data-ep]');
+                window.location.href = DATA.watchUrl(anime, epAttr ? parseInt(epAttr.dataset.ep, 10) : null);
+                return;
+            }
             const scope = btn.closest('.anime-card, .slide, .details-content, .progress-card') || document;
             const titleEl = scope.querySelector('.sleek-title, .slide-title, #modalTitle, h3, h4');
             const title = titleEl ? titleEl.innerText.trim() : '';
-            const url = 'watch.html' + (title ? '?anime=' + encodeURIComponent(slugify(title)) + '&title=' + encodeURIComponent(title) : '');
-            window.location.href = url;
+            window.location.href = 'watch.html' + (title ? '?title=' + encodeURIComponent(title) : '');
         });
     });
 

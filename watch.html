@@ -249,7 +249,7 @@
         <div class="watch-main">
             <!-- Custom Video Player -->
             <div class="video-player-wrapper paused" id="videoContainer">
-                <video id="mainVideo" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" poster="image-search/attack-on-titan-final-season-desktop-wal-1.jpg"></video>
+                <video id="mainVideo" preload="metadata" playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" poster="image-search/attack-on-titan-final-season-desktop-wal-1.jpg"></video>
                 
                 <!-- Center Play Button -->
                 <div class="center-play-btn" id="centerPlayBtn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"></path></svg></div>
@@ -273,11 +273,11 @@
                                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                             </button>
                             <div class="time-display">
-                                <span id="currentTime">00:00</span> / <span id="totalTime">12:14</span>
+                                <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
                             </div>
                         </div>
                         <div class="controls-right">
-                            <div class="quality-badge">1080p</div>
+                            <div class="quality-badge" id="qualityBadge">1080p</div>
                             <button class="control-btn" title="تنظیمات">
                                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                             </button>
@@ -294,19 +294,19 @@
                 <div class="watch-title-row">
                     <div>
                         <div class="watch-meta" style="margin-bottom: 8px;">
-                            <span style="background:var(--accent); color:white; padding:3px 10px; border-radius:5px; font-size:0.8rem; font-weight:bold;">فصل ۴</span>
-                            <span>قسمت ۲۱</span>
-                            <span class="en-text">1080p Web-DL</span>
+                            <span id="watchSeasonBadge" style="background:var(--accent); color:white; padding:3px 10px; border-radius:5px; font-size:0.8rem; font-weight:bold;">فصل ۴</span>
+                            <span id="watchEpisodeBadge">قسمت ۲۱</span>
+                            <span class="en-text" id="watchQualityText">1080p Web-DL</span>
                         </div>
                         <div class="watch-title">
-                            <h1>حمله به تایتان</h1>
+                            <h1 id="watchTitle">حمله به تایتان</h1>
                         </div>
                         <div class="watch-meta">
-                            <span style="color:#ffd700;">★ ۹.۹ (IMDb)</span>
+                            <span style="color:#ffd700;" id="watchRating">★ ۹.۱ (IMDb)</span>
                             <span>•</span>
-                            <span>اکشن، فانتزی تاریک</span>
+                            <span id="watchGenre">اکشن، فانتزی تاریک</span>
                             <span>•</span>
-                            <span>رده سنی: +۱۶</span>
+                            <span id="watchAge">رده سنی: +۱۶</span>
                         </div>
                     </div>
                     <div class="watch-actions">
@@ -314,32 +314,32 @@
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
                             پسندیدم
                         </button>
-                        <button class="w-action-btn">
+                        <button class="w-action-btn" id="watchlistBtn">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                             لیست من
                         </button>
-                        <button class="w-action-btn">
+                        <button class="w-action-btn" id="shareBtn">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                             اشتراک
                         </button>
                     </div>
                 </div>
-                <div class="watch-desc">
+                <div class="watch-desc" id="watchDesc">
                     داستان این قسمت: ارن و متحدانش در تلاشند تا جلوی نقشه‌های تاریک مارلی را بگیرند. اما خیانتی بزرگ در راه است که سرنوشت تمام الدیایی‌ها را برای همیشه تغییر می‌دهد. آیا تایتان بنیان‌گذار بیدار خواهد شد؟
                 </div>
             </div>
 
             <!-- Comments Section -->
             <div class="watch-comments">
-                <h3 style="font-size: 1.4rem; margin-bottom: 20px;">نظرات کاربران (۱۲۴)</h3>
+                <h3 style="font-size: 1.4rem; margin-bottom: 20px;" id="commentsHeading">نظرات کاربران</h3>
                 <div class="comment-input-area">
                     <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="User" id="commentUserAvatar">
                     <div class="comment-input-wrapper">
-                        <input type="text" placeholder="نظرت رو درباره این قسمت بنویس...">
-                        <button class="comment-submit">ارسال نظر</button>
+                        <input type="text" id="commentInput" placeholder="نظرت رو درباره این قسمت بنویس..." maxlength="500">
+                        <button class="comment-submit" id="commentSubmit" type="button">ارسال نظر</button>
                     </div>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;">
+                <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;" id="commentsList">
                     <div style="display: flex; gap: 15px;">
                         <img src="image-search/anime-aesthetic-avatar-square-2.jpg" alt="User" style="width: 45px; height: 45px; border-radius: 50%;">
                         <div>
@@ -370,115 +370,18 @@
         <aside class="watch-sidebar">
             <div class="sidebar-header">
                 <h3>لیست قسمت‌ها</h3>
-                <span style="font-size:0.85rem; color:var(--text-muted); background:rgba(255,255,255,0.05); padding:5px 10px; border-radius:8px;">فصل ۴</span>
+                <span id="sidebarSeasonBadge" style="font-size:0.85rem; color:var(--text-muted); background:rgba(255,255,255,0.05); padding:5px 10px; border-radius:8px;">فصل ۴</span>
             </div>
-            <div class="episodes-list">
-                <div class="ep-card">
-                    <div class="ep-thumb-wrapper">
-                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" class="ep-thumb" alt="Ep 19" style="width: 120px; height: 70px;">
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-title">قسمت ۱۹: دو برادر</div>
-                        <div class="ep-time">۲۴ دقیقه</div>
-                    </div>
-                </div>
-                <div class="ep-card">
-                    <div class="ep-thumb-wrapper">
-                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" class="ep-thumb" alt="Ep 20" style="width: 120px; height: 70px;">
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-title">قسمت ۲۰: خاطرات آینده</div>
-                        <div class="ep-time">۲۴ دقیقه</div>
-                    </div>
-                </div>
-                <div class="ep-card active">
-                    <div class="ep-thumb-wrapper">
-                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" class="ep-thumb" alt="Ep 21" style="width: 120px; height: 70px;">
-                        <div class="ep-progress" style="width: 30%;"></div>
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-title">قسمت ۲۱: از تو، ۲۰۰۰ سال پیش</div>
-                        <div class="ep-time" style="color:var(--accent);">در حال پخش...</div>
-                    </div>
-                </div>
-                <div class="ep-card">
-                    <div class="ep-thumb-wrapper">
-                        <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" class="ep-thumb" alt="Ep 22" style="width: 120px; height: 70px; opacity: 0.5;">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" stroke-width="2" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    </div>
-                    <div class="ep-details">
-                        <div class="ep-title" style="color:#aaa;">قسمت ۲۲: آب شدن یخ‌ها</div>
-                        <div class="ep-time">نیاز به اشتراک ویژه</div>
-                    </div>
-                </div>
+            <div class="episodes-list" id="episodesList">
+                <!-- Rendered by JS from data/anime.js -->
             </div>
         
             <!-- Related Videos (Sidebar) -->
             <div class="related-sidebar-section" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
                 <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; font-family: 'Vazirmatn', sans-serif;">پیشنهادهای مشابه</h3>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    
-                    <div class="anime-card landscape" style="min-width: 0; width: 100%; border-radius: 10px;">
-                        <img src="image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg" alt="JJK" class="card-static-img">
-                        <div class="card-overlay" style="padding: 10px;">
-                            <div class="card-actions" style="margin-bottom: auto;">
-                                <button class="action-btn play-btn-small play-trigger" style="width: 35px; height: 35px; font-size: 1rem;">▶</button>
-                            </div>
-                            <div class="card-details-sleek" style="padding: 0;">
-                                <h3 class="sleek-title" style="font-size: 0.8rem; font-family: 'Vazirmatn', sans-serif;">جوجوتسو کایسن</h3>
-                            </div>
-                            <div class="sleek-rating" style="font-size: 0.75rem; font-family: 'Orbitron', sans-serif;">
-                                <span class="icon" style="font-size: 0.75rem;">★</span> 8.8
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="anime-card landscape" style="min-width: 0; width: 100%; border-radius: 10px;">
-                        <img src="image-search/chainsaw-man-anime-poster-high-quality-1.webp" alt="CSM" class="card-static-img">
-                        <div class="card-overlay" style="padding: 10px;">
-                            <div class="card-actions" style="margin-bottom: auto;">
-                                <button class="action-btn play-btn-small play-trigger" style="width: 35px; height: 35px; font-size: 1rem;">▶</button>
-                            </div>
-                            <div class="card-details-sleek" style="padding: 0;">
-                                <h3 class="sleek-title" style="font-size: 0.8rem; font-family: 'Vazirmatn', sans-serif;">مرد اره‌ای</h3>
-                            </div>
-                            <div class="sleek-rating" style="font-size: 0.75rem; font-family: 'Orbitron', sans-serif;">
-                                <span class="icon" style="font-size: 0.75rem;">★</span> 8.5
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="anime-card landscape" style="min-width: 0; width: 100%; border-radius: 10px;">
-                        <img src="image-search/demon-slayer-anime-poster-high-quality-1.png" alt="DS" class="card-static-img">
-                        <div class="card-overlay" style="padding: 10px;">
-                            <div class="card-actions" style="margin-bottom: auto;">
-                                <button class="action-btn play-btn-small play-trigger" style="width: 35px; height: 35px; font-size: 1rem;">▶</button>
-                            </div>
-                            <div class="card-details-sleek" style="padding: 0;">
-                                <h3 class="sleek-title" style="font-size: 0.8rem; font-family: 'Vazirmatn', sans-serif;">شیطان کش</h3>
-                            </div>
-                            <div class="sleek-rating" style="font-size: 0.75rem; font-family: 'Orbitron', sans-serif;">
-                                <span class="icon" style="font-size: 0.75rem;">★</span> 8.7
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="anime-card landscape" style="min-width: 0; width: 100%; border-radius: 10px;">
-                        <img src="image-search/cyberpunk-edgerunners-desktop-wallpaper--1.webp" alt="Cyberpunk" class="card-static-img">
-                        <div class="card-overlay" style="padding: 10px;">
-                            <div class="card-actions" style="margin-bottom: auto;">
-                                <button class="action-btn play-btn-small play-trigger" style="width: 35px; height: 35px; font-size: 1rem;">▶</button>
-                            </div>
-                            <div class="card-details-sleek" style="padding: 0;">
-                                <h3 class="sleek-title" style="font-size: 0.8rem; font-family: 'Vazirmatn', sans-serif;">سایبرپانک</h3>
-                            </div>
-                            <div class="sleek-rating" style="font-size: 0.75rem; font-family: 'Orbitron', sans-serif;">
-                                <span class="icon" style="font-size: 0.75rem;">★</span> 9.8
-                            </div>
-                        </div>
-                    </div>
-
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;" id="relatedGrid">
+                    <!-- Rendered by JS from data/anime.js -->
                 </div>
             </div>
         </aside>
@@ -504,6 +407,7 @@
         </a>
     </nav>
 
+    <script src="data/anime.js"></script>
     <script src="script.js"></script>
     <script>
         // Bind bottom nav buttons to existing modals
@@ -527,6 +431,28 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const DATA = window.NEON_ANIME;
+            const params = new URLSearchParams(window.location.search);
+            const toFa = DATA ? DATA.toFa : (n) => String(n);
+            const isLoggedIn = localStorage.getItem('neon_is_logged_in') === 'true';
+            const isVip = localStorage.getItem('neon_is_vip') === 'true';
+
+            // ---------- Resolve which anime / episode to show ----------
+            let anime = null;
+            if (DATA) {
+                anime = DATA.byId[params.get('anime')] || DATA.findByTitle(params.get('title') || params.get('anime')) || DATA.list[0];
+            }
+            let episode = null;
+            if (anime) {
+                const wanted = parseInt(params.get('ep'), 10);
+                episode = anime.episodes.find(e => e.number === wanted) || anime.episodes.find(e => !e.vip) || anime.episodes[0];
+                // Non-VIP users can't open a VIP episode via URL either
+                if (episode.vip && !isVip) {
+                    episode = anime.episodes.find(e => !e.vip) || episode;
+                }
+            }
+
+            // ---------- Elements ----------
             const video = document.getElementById('mainVideo');
             const videoContainer = document.getElementById('videoContainer');
             const playPauseBtn = document.getElementById('playPauseBtn');
@@ -534,97 +460,346 @@
             const progressBar = document.getElementById('progressBar');
             const progressArea = document.getElementById('progressArea');
             const currentTimeEl = document.getElementById('currentTime');
+            const totalTimeEl = document.getElementById('totalTime');
             const skipIntroBtn = document.getElementById('skipIntroBtn');
             const fullScreenBtn = document.getElementById('fullScreenBtn');
-
-            
             const centerPlayBtn = document.getElementById('centerPlayBtn');
-            
-            function togglePlay() {
-                if(video.paused) {
-                    video.play();
-                    playPauseBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
-                    videoContainer.classList.remove('paused');
-                } else {
-                    video.pause();
-                    playPauseBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>';
-                    videoContainer.classList.add('paused');
+
+            const ICON_PLAY = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>';
+            const ICON_PAUSE = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
+            const ICON_VOL = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
+            const ICON_MUTE = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+
+            function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+            function escapeHtml(str) { return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+            function progressKey(a, e) { return 'neon_progress_' + a.id + '_' + e.number; }
+
+            // ---------- Render page from data ----------
+            function renderPage() {
+                if (!anime || !episode) return;
+                document.title = `${anime.title} - قسمت ${toFa(episode.number)} | نئون انیمه`;
+                setText('watchTitle', anime.title);
+                setText('watchSeasonBadge', 'فصل ' + toFa(episode.season));
+                setText('watchEpisodeBadge', 'قسمت ' + toFa(episode.number) + (episode.title ? ': ' + episode.title : ''));
+                setText('watchQualityText', anime.quality + ' Web-DL');
+                setText('qualityBadge', anime.quality);
+                setText('watchRating', '★ ' + toFa(anime.rating.toFixed(1)) + ' (IMDb)');
+                setText('watchGenre', anime.genreLabel);
+                setText('watchAge', 'رده سنی: ' + anime.age);
+                setText('watchDesc', episode.desc ? 'داستان این قسمت: ' + episode.desc : anime.desc);
+                setText('sidebarSeasonBadge', 'فصل ' + toFa(episode.season));
+
+                video.poster = anime.banner;
+                video.src = episode.src;
+                video.load();
+
+                renderEpisodes();
+                renderRelated();
+                restoreProgress();
+                updateWatchlistBtn();
+                history.replaceState(null, '', DATA.watchUrl(anime, episode.number));
+            }
+
+            function renderEpisodes() {
+                const list = document.getElementById('episodesList');
+                if (!list) return;
+                list.innerHTML = '';
+                anime.episodes.forEach(ep => {
+                    const locked = ep.vip && !isVip;
+                    const isCurrent = ep.number === episode.number;
+                    const saved = parseFloat(localStorage.getItem(progressKey(anime, ep)) || '0');
+                    const card = document.createElement('div');
+                    card.className = 'ep-card' + (isCurrent ? ' active' : '') + (locked ? ' locked' : '');
+                    card.setAttribute('role', 'button');
+                    card.tabIndex = 0;
+                    card.innerHTML = `
+                        <div class="ep-thumb-wrapper">
+                            <img src="${anime.banner}" class="ep-thumb" alt="${escapeHtml(anime.title)} قسمت ${toFa(ep.number)}" loading="lazy" style="width: 120px; height: 70px;${locked ? ' opacity: 0.5;' : ''}">
+                            ${locked ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" stroke-width="2" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : ''}
+                            ${saved > 0 ? `<div class="ep-progress" style="width: ${Math.round(saved * 100)}%;"></div>` : ''}
+                        </div>
+                        <div class="ep-details">
+                            <div class="ep-title"${locked ? ' style="color:#aaa;"' : ''}>قسمت ${toFa(ep.number)}: ${escapeHtml(ep.title)}</div>
+                            <div class="ep-time"${isCurrent ? ' style="color:var(--accent);"' : ''}>${isCurrent ? 'در حال پخش...' : (locked ? 'نیاز به اشتراک ویژه' : ep.duration)}</div>
+                        </div>`;
+                    const open = () => {
+                        if (locked) {
+                            const vipBtn = document.getElementById('vipOpenBtn');
+                            if (vipBtn) vipBtn.click();
+                            return;
+                        }
+                        if (isCurrent) return;
+                        saveProgress();
+                        episode = ep;
+                        renderPage();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        video.play().catch(() => {});
+                    };
+                    card.addEventListener('click', open);
+                    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+                    list.appendChild(card);
+                });
+            }
+
+            function renderRelated() {
+                const grid = document.getElementById('relatedGrid');
+                if (!grid) return;
+                grid.innerHTML = '';
+                DATA.list.filter(a => a.id !== anime.id).slice(0, 4).forEach(a => {
+                    const el = document.createElement('a');
+                    el.href = DATA.watchUrl(a);
+                    el.className = 'anime-card landscape';
+                    el.style.cssText = 'min-width: 0; width: 100%; border-radius: 10px; display:block; text-decoration:none; color:inherit;';
+                    el.innerHTML = `
+                        <img src="${a.banner}" alt="${escapeHtml(a.title)}" class="card-static-img" loading="lazy">
+                        <div class="card-overlay" style="padding: 10px;">
+                            <div class="card-actions" style="margin-bottom: auto;">
+                                <span class="action-btn play-btn-small" style="width: 35px; height: 35px; font-size: 1rem;">▶</span>
+                            </div>
+                            <div class="card-details-sleek" style="padding: 0;">
+                                <h3 class="sleek-title" style="font-size: 0.8rem; font-family: 'Vazirmatn', sans-serif;">${escapeHtml(a.title)}</h3>
+                            </div>
+                            <div class="sleek-rating" style="font-size: 0.75rem; font-family: 'Orbitron', sans-serif;">
+                                <span class="icon" style="font-size: 0.75rem;">★</span> ${a.rating.toFixed(1)}
+                            </div>
+                        </div>`;
+                    grid.appendChild(el);
+                });
+            }
+
+            // ---------- Progress memory (resume where you left off) ----------
+            let lastSave = 0;
+            function saveProgress() {
+                if (!anime || !episode || !video.duration) return;
+                const ratio = video.currentTime / video.duration;
+                if (ratio > 0.02 && ratio < 0.97) {
+                    localStorage.setItem(progressKey(anime, episode), ratio.toFixed(4));
+                    localStorage.setItem('neon_last_watched', JSON.stringify({ anime: anime.id, ep: episode.number, title: anime.title, banner: anime.banner, ratio: ratio, at: Date.now() }));
+                } else if (ratio >= 0.97) {
+                    localStorage.removeItem(progressKey(anime, episode));
                 }
             }
+            function restoreProgress() {
+                const saved = parseFloat(localStorage.getItem(progressKey(anime, episode)) || '0');
+                if (!saved) return;
+                const apply = () => { if (video.duration) video.currentTime = saved * video.duration; };
+                if (video.readyState >= 1) apply(); else video.addEventListener('loadedmetadata', apply, { once: true });
+            }
+            window.addEventListener('beforeunload', saveProgress);
+            window.addEventListener('pagehide', saveProgress);
+
+            // ---------- Player controls ----------
+            function setPlayingUI(playing) {
+                playPauseBtn.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+                videoContainer.classList.toggle('paused', !playing);
+            }
+            function togglePlay() {
+                if (video.paused) video.play().catch(() => {}); else video.pause();
+            }
+            video.addEventListener('play', () => setPlayingUI(true));
+            video.addEventListener('pause', () => setPlayingUI(false));
+            video.addEventListener('ended', () => {
+                setPlayingUI(false);
+                saveProgress();
+                // Auto-advance to the next unlocked episode
+                const idx = anime ? anime.episodes.indexOf(episode) : -1;
+                const next = idx >= 0 ? anime.episodes.slice(idx + 1).find(e => !e.vip || isVip) : null;
+                if (next) { episode = next; renderPage(); video.play().catch(() => {}); }
+            });
             playPauseBtn.addEventListener('click', togglePlay);
             video.addEventListener('click', togglePlay);
             centerPlayBtn.addEventListener('click', togglePlay);
 
-
             function formatTime(seconds) {
-                let m = Math.floor(seconds / 60);
-                let s = Math.floor(seconds % 60);
-                m = m >= 10 ? m : "0" + m;
-                s = s >= 10 ? s : "0" + s;
-                return m + ":" + s;
+                if (!isFinite(seconds)) return '00:00';
+                const h = Math.floor(seconds / 3600);
+                const m = Math.floor((seconds % 3600) / 60);
+                const s = Math.floor(seconds % 60);
+                const mm = (m < 10 ? '0' : '') + m, ss = (s < 10 ? '0' : '') + s;
+                return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
             }
 
+            video.addEventListener('loadedmetadata', () => { totalTimeEl.textContent = formatTime(video.duration); });
             video.addEventListener('timeupdate', () => {
-                let curr = video.currentTime;
-                let duration = video.duration;
-                if(duration) {
-                    let progressWidth = (curr / duration) * 100;
-                    progressBar.style.width = progressWidth + "%";
-                    currentTimeEl.innerText = formatTime(curr);
-
-                    // Show Skip Intro between 3s and 10s for demo
-                    if(curr > 3 && curr < 10) {
-                        skipIntroBtn.classList.add('show');
-                    } else {
-                        skipIntroBtn.classList.remove('show');
-                    }
-                }
+                const curr = video.currentTime, duration = video.duration;
+                if (!duration) return;
+                progressBar.style.width = (curr / duration) * 100 + '%';
+                currentTimeEl.textContent = formatTime(curr);
+                skipIntroBtn.classList.toggle('show', curr > 3 && curr < 90 && curr < duration - 90);
+                if (Date.now() - lastSave > 5000) { lastSave = Date.now(); saveProgress(); }
+            });
+            video.addEventListener('error', () => {
+                if (typeof showToast === 'function') showToast('پخش ویدیو با مشکل مواجه شد. اتصال اینترنت را بررسی کنید.');
             });
 
             skipIntroBtn.addEventListener('click', () => {
-                video.currentTime += 85; 
+                video.currentTime = Math.min(video.currentTime + 85, video.duration || video.currentTime + 85);
                 skipIntroBtn.classList.remove('show');
             });
 
-            progressArea.addEventListener('click', (e) => {
-                let timelineWidth = progressArea.clientWidth;
-                let clickedOffsetX = e.offsetX;
-                // Deal with RTL if needed (but controls are LTR)
-                video.currentTime = (clickedOffsetX / timelineWidth) * video.duration;
-            });
+            // Seek: controls are forced LTR in CSS, but compute from bounding rect to be safe in RTL pages
+            function seekFromEvent(e) {
+                const rect = progressArea.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                let ratio = (clientX - rect.left) / rect.width;
+                const rtl = getComputedStyle(progressArea).direction === 'rtl';
+                if (rtl) ratio = 1 - ratio;
+                ratio = Math.max(0, Math.min(1, ratio));
+                if (video.duration) video.currentTime = ratio * video.duration;
+            }
+            progressArea.addEventListener('click', seekFromEvent);
+            let scrubbing = false;
+            progressArea.addEventListener('mousedown', e => { scrubbing = true; seekFromEvent(e); });
+            window.addEventListener('mousemove', e => { if (scrubbing) seekFromEvent(e); });
+            window.addEventListener('mouseup', () => { scrubbing = false; });
+            progressArea.addEventListener('touchstart', seekFromEvent, { passive: true });
+            progressArea.addEventListener('touchmove', seekFromEvent, { passive: true });
 
             muteBtn.addEventListener('click', () => {
                 video.muted = !video.muted;
-                if(video.muted) {
-                    muteBtn.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
-                } else {
-                    muteBtn.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
-                }
+                muteBtn.innerHTML = video.muted ? ICON_MUTE : ICON_VOL;
             });
 
             fullScreenBtn.addEventListener('click', () => {
                 if (!document.fullscreenElement) {
-                    videoContainer.requestFullscreen().catch(err => {});
+                    (videoContainer.requestFullscreen ? videoContainer.requestFullscreen() : video.webkitEnterFullscreen && video.webkitEnterFullscreen());
                 } else {
                     document.exitFullscreen();
                 }
             });
 
-            if(localStorage.getItem('neon_is_logged_in') === 'true') {
-                const avatar = localStorage.getItem('neon_user_avatar');
-                if(avatar) document.getElementById('commentUserAvatar').src = avatar;
-            }
-
-            const likeBtn = document.getElementById('likeBtn');
-            likeBtn.addEventListener('click', () => {
-                if(likeBtn.classList.contains('active')) {
-                    likeBtn.classList.remove('active');
-                    likeBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg> پسندیدن';
-                } else {
-                    likeBtn.classList.add('active');
-                    likeBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg> پسندیدم';
+            // Keyboard shortcuts (space/k play, m mute, f fullscreen, arrows seek)
+            document.addEventListener('keydown', (e) => {
+                const tag = (e.target.tagName || '').toLowerCase();
+                if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+                switch (e.key) {
+                    case ' ': case 'k': e.preventDefault(); togglePlay(); break;
+                    case 'm': muteBtn.click(); break;
+                    case 'f': fullScreenBtn.click(); break;
+                    case 'ArrowRight': video.currentTime = Math.min(video.currentTime + 10, video.duration || 0); break;
+                    case 'ArrowLeft': video.currentTime = Math.max(video.currentTime - 10, 0); break;
                 }
             });
+
+            // ---------- Like / Watchlist / Share ----------
+            const likeBtn = document.getElementById('likeBtn');
+            const ICON_LIKE_OFF = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg> پسندیدن';
+            const ICON_LIKE_ON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg> پسندیدم';
+            function likeKey() { return 'neon_like_' + (anime ? anime.id : 'x'); }
+            function updateLikeBtn() {
+                const liked = localStorage.getItem(likeKey()) === '1';
+                likeBtn.classList.toggle('active', liked);
+                likeBtn.innerHTML = liked ? ICON_LIKE_ON : ICON_LIKE_OFF;
+            }
+            likeBtn.addEventListener('click', () => {
+                const liked = localStorage.getItem(likeKey()) === '1';
+                if (liked) localStorage.removeItem(likeKey()); else localStorage.setItem(likeKey(), '1');
+                updateLikeBtn();
+            });
+            updateLikeBtn();
+
+            const watchlistBtn = document.getElementById('watchlistBtn');
+            function getWatchlist() { try { return JSON.parse(localStorage.getItem('neon_watchlist') || '[]'); } catch (e) { return []; } }
+            function updateWatchlistBtn() {
+                if (!watchlistBtn || !anime) return;
+                const inList = getWatchlist().includes(anime.id);
+                watchlistBtn.classList.toggle('active', inList);
+                watchlistBtn.lastChild.textContent = inList ? ' در لیست من ✓' : ' لیست من';
+            }
+            if (watchlistBtn) {
+                watchlistBtn.addEventListener('click', () => {
+                    if (!anime) return;
+                    let list = getWatchlist();
+                    const inList = list.includes(anime.id);
+                    list = inList ? list.filter(id => id !== anime.id) : list.concat(anime.id);
+                    localStorage.setItem('neon_watchlist', JSON.stringify(list));
+                    updateWatchlistBtn();
+                    if (typeof showToast === 'function') showToast(inList ? 'از لیست تماشای شما حذف شد.' : 'به لیست تماشای شما اضافه شد.');
+                });
+            }
+
+            const shareBtn = document.getElementById('shareBtn');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', async () => {
+                    const url = window.location.href;
+                    const title = document.title;
+                    try {
+                        if (navigator.share) { await navigator.share({ title, url }); return; }
+                        await navigator.clipboard.writeText(url);
+                        if (typeof showToast === 'function') showToast('لینک این قسمت کپی شد.');
+                    } catch (e) { /* user cancelled */ }
+                });
+            }
+
+            // ---------- Comments (stored locally per episode until a backend exists) ----------
+            const commentInput = document.getElementById('commentInput');
+            const commentSubmit = document.getElementById('commentSubmit');
+            const commentsList = document.getElementById('commentsList');
+            function commentsKey() { return 'neon_comments_' + anime.id + '_' + episode.number; }
+            function loadLocalComments() {
+                if (!commentsList || !anime) return;
+                commentsList.querySelectorAll('.local-comment').forEach(el => el.remove());
+                let saved = [];
+                try { saved = JSON.parse(localStorage.getItem(commentsKey()) || '[]'); } catch (e) {}
+                saved.slice().reverse().forEach(c => commentsList.prepend(buildComment(c)));
+                const heading = document.getElementById('commentsHeading');
+                if (heading) heading.textContent = 'نظرات کاربران (' + toFa(commentsList.children.length) + ')';
+            }
+            function buildComment(c) {
+                const wrap = document.createElement('div');
+                wrap.className = 'local-comment';
+                wrap.style.cssText = 'display: flex; gap: 15px;';
+                wrap.innerHTML = `
+                    <img src="${escapeHtml(c.avatar)}" alt="" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                    <div>
+                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 5px;">
+                            <h5 style="font-weight: bold;">${escapeHtml(c.name)}</h5>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(c.when)}</span>
+                            ${c.vip ? '<span class="vip-tag" style="font-size: 0.6rem; padding: 2px 6px;">VIP</span>' : ''}
+                        </div>
+                        <p style="color: #ddd; font-size: 0.95rem; line-height: 1.6;">${escapeHtml(c.text)}</p>
+                    </div>`;
+                return wrap;
+            }
+            if (commentSubmit && commentInput) {
+                const submit = () => {
+                    const text = commentInput.value.trim();
+                    if (!text) return;
+                    if (!isLoggedIn) {
+                        if (typeof showToast === 'function') showToast('برای ثبت نظر ابتدا وارد حساب شوید.');
+                        setTimeout(() => { window.location.href = 'login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search); }, 1200);
+                        return;
+                    }
+                    const c = {
+                        name: localStorage.getItem('neon_user_username') || localStorage.getItem('neon_user_name') || 'کاربر',
+                        avatar: localStorage.getItem('neon_user_avatar') || 'image-search/anime-aesthetic-avatar-square-1.jpg',
+                        vip: isVip, text: text, when: 'همین الان'
+                    };
+                    let saved = [];
+                    try { saved = JSON.parse(localStorage.getItem(commentsKey()) || '[]'); } catch (e) {}
+                    saved.push(c);
+                    localStorage.setItem(commentsKey(), JSON.stringify(saved.slice(-50)));
+                    commentInput.value = '';
+                    loadLocalComments();
+                    if (typeof showToast === 'function') showToast('نظر شما ثبت شد.');
+                };
+                commentSubmit.addEventListener('click', submit);
+                commentInput.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
+            }
+
+            // ---------- User avatar in comment box ----------
+            if (isLoggedIn) {
+                const avatar = localStorage.getItem('neon_user_avatar');
+                if (avatar) document.getElementById('commentUserAvatar').src = avatar;
+            }
+
+            // ---------- Go ----------
+            if (anime) {
+                renderPage();
+                loadLocalComments();
+            } else {
+                setPlayingUI(false);
+            }
         });
     </script>
 </body>

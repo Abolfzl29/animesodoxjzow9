@@ -1494,6 +1494,11 @@ body { background-color: var(--bg-main); color: var(--text-light); font-family: 
     border-color: rgba(255,255,255,0.1);
 }
 
+.ep-card.locked { cursor: not-allowed; }
+.ep-card.locked:hover { border-color: rgba(255, 215, 0, 0.4); }
+.ep-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.w-action-btn.active { border-color: var(--accent); color: var(--accent); }
+
 .ep-card.active {
     background: rgba(255,0,60,0.1);
     border-color: var(--accent);

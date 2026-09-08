@@ -1,0 +1,239 @@
+/*
+ * Single source of truth for catalogue data (temporary, until a real API exists).
+ * Loaded as a plain script -> exposes window.NEON_ANIME.
+ *
+ * Every anime has a stable `id` (slug). Pages link to the player with watch.html?anime=<id>&ep=<n>.
+ * Video URLs are public demo clips (Blender open movies) — replace with real HLS streams later.
+ */
+(function () {
+    const DEMO_VIDEO = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4';
+    const DEMO_VIDEO_2 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+    const DEMO_VIDEO_3 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4';
+
+    function episodes(season, list) {
+        return list.map((e, i) => ({
+            season: season,
+            number: e.number || i + 1,
+            title: e.title,
+            duration: e.duration || '۲۴ دقیقه',
+            vip: !!e.vip,
+            src: e.src || DEMO_VIDEO,
+            desc: e.desc || ''
+        }));
+    }
+
+    const ANIME = [
+        {
+            id: 'attack-on-titan',
+            title: 'حمله به تایتان',
+            titleEn: 'ATTACK ON TITAN',
+            aliases: ['اتک آن تایتان', 'shingeki no kyojin', 'aot', 'attack on titan'],
+            rating: 9.1,
+            year: 2023,
+            age: '+۱۶',
+            quality: '4K HDR',
+            genres: ['action', 'drama'],
+            genreLabel: 'اکشن، فانتزی تاریک',
+            studio: 'MAPPA',
+            seasons: 4,
+            poster: 'image-search/attack-on-titan-final-season-anime-poste-1.jpg',
+            banner: 'image-search/attack-on-titan-final-season-desktop-wal-1.jpg',
+            desc: 'زمانی که تایتان‌های انسان‌خوار بشریت را به مرز انقراض می‌کشانند، بازماندگان در پشت دیوارهای عظیم پناه می‌گیرند. ارن یگر پس از سقوط دیوار ماریا سوگند می‌خورد تمام تایتان‌ها را نابود کند.',
+            currentSeason: 4,
+            episodes: episodes(4, [
+                { number: 19, title: 'دو برادر' },
+                { number: 20, title: 'خاطرات آینده', src: DEMO_VIDEO_2 },
+                { number: 21, title: 'از تو، ۲۰۰۰ سال پیش', desc: 'ارن و متحدانش در تلاشند تا جلوی نقشه‌های تاریک مارلی را بگیرند. اما خیانتی بزرگ در راه است که سرنوشت تمام الدیایی‌ها را برای همیشه تغییر می‌دهد.' },
+                { number: 22, title: 'آب شدن یخ‌ها', vip: true, src: DEMO_VIDEO_3 }
+            ])
+        },
+        {
+            id: 'demon-slayer',
+            title: 'شیطان کش',
+            titleEn: 'DEMON SLAYER',
+            aliases: ['دیمن اسلیر', 'kimetsu no yaiba', 'demon slayer', 'تانجیرو'],
+            rating: 8.7,
+            year: 2024,
+            age: '+۱۳',
+            quality: '4K HDR',
+            genres: ['action'],
+            genreLabel: 'اکشن، فانتزی',
+            studio: 'ufotable',
+            seasons: 4,
+            poster: 'image-search/demon-slayer-tanjiro-anime-vertical-post-1.jpg',
+            banner: 'image-search/demon-slayer-anime-poster-high-quality-1.png',
+            desc: 'تانجیرو کامادو پس از قتل‌عام خانواده‌اش و تبدیل شدن خواهرش نزوکو به شیطان، به سپاه شیطان‌کش‌ها می‌پیوندد تا درمانی برای او پیدا کند.',
+            currentSeason: 4,
+            episodes: episodes(4, [
+                { title: 'برای شکست موزان کیبوتسوجی' },
+                { title: 'ملاقات با هاشیراها', src: DEMO_VIDEO_2 },
+                { title: 'تمرینات هاشیرا' },
+                { title: 'رئیس شیطان‌کش‌ها', vip: true, src: DEMO_VIDEO_3 }
+            ])
+        },
+        {
+            id: 'jujutsu-kaisen',
+            title: 'جوجوتسو کایسن',
+            titleEn: 'JUJUTSU KAISEN',
+            aliases: ['jjk', 'jujutsu kaisen', 'گوجو', 'گوجو ساتورو', 'gojo'],
+            rating: 8.8,
+            year: 2023,
+            age: '+۱۶',
+            quality: '1080p',
+            genres: ['action'],
+            genreLabel: 'اکشن، ماوراءطبیعی',
+            studio: 'MAPPA',
+            seasons: 2,
+            poster: 'image-search/jujutsu-kaisen-anime-poster-vertical-hig-1.jpg',
+            banner: 'image-search/jujutsu-kaisen-gojo-desktop-wallpaper-4k-1.jpg',
+            desc: 'یوجی ایتادوری با بلعیدن انگشت نفرین‌شده‌ی سوکونا، به دنیای جادوگران جوجوتسو کشیده می‌شود و باید تحت نظر ساتورو گوجو با نفرین‌ها بجنگد.',
+            currentSeason: 2,
+            episodes: episodes(2, [
+                { title: 'پنهان‌کاری و قتل' },
+                { title: 'اتفاق شیبویا', src: DEMO_VIDEO_2 },
+                { title: 'مهر و موم شدن' },
+                { title: 'خون سیاه', vip: true, src: DEMO_VIDEO_3 }
+            ])
+        },
+        {
+            id: 'chainsaw-man',
+            title: 'مرد اره‌ای',
+            titleEn: 'CHAINSAW MAN',
+            aliases: ['chainsaw man', 'csm', 'دنجی', 'ماکیما', 'makima'],
+            rating: 8.5,
+            year: 2022,
+            age: '+۱۸',
+            quality: '1080p',
+            genres: ['action', 'drama'],
+            genreLabel: 'اکشن، فانتزی تاریک',
+            studio: 'MAPPA',
+            seasons: 1,
+            poster: 'image-search/chainsaw-man-anime-poster-vertical-high--1.jpg',
+            banner: 'image-search/chainsaw-man-anime-poster-high-quality-1.webp',
+            desc: 'دنجی، نوجوانی فقیر که با شیطان اره‌ای‌اش پوچیتا شکارچی شیطان است، پس از خیانت یاکوزا با پوچیتا یکی می‌شود و به «مرد اره‌ای» تبدیل می‌شود.',
+            currentSeason: 1,
+            episodes: episodes(1, [
+                { title: 'سگ و اره‌برقی' },
+                { title: 'رسیدن به توکیو', src: DEMO_VIDEO_2 },
+                { title: 'ملاقات با میکو' },
+                { title: 'نجات', vip: true, src: DEMO_VIDEO_3 }
+            ])
+        },
+        {
+            id: 'one-piece',
+            title: 'وان پیس',
+            titleEn: 'ONE PIECE',
+            aliases: ['one piece', 'لوفی', 'luffy', 'زورو', 'وانو'],
+            rating: 9.0,
+            year: 2024,
+            age: '+۱۳',
+            quality: '1080p',
+            genres: ['action'],
+            genreLabel: 'اکشن، ماجراجویی',
+            studio: 'Toei Animation',
+            seasons: 21,
+            poster: 'image-search/one-piece-anime-poster-vertical-high-qua-1.jpg',
+            banner: 'image-search/one-piece-wano-high-quality-desktop-wall-1.jpg',
+            desc: 'مانکی دی. لوفی و خدمه‌ی کلاه‌حصیری‌ها در جست‌وجوی گنج افسانه‌ای «وان پیس» دریاها را درمی‌نوردند تا لوفی پادشاه دزدان دریایی شود.',
+            currentSeason: 21,
+            episodes: episodes(21, [
+                { number: 1071, title: 'لوفی به اوج می‌رسد! گیر پنجم' },
+                { number: 1072, title: 'وزن خاطرات', src: DEMO_VIDEO_2 },
+                { number: 1073, title: 'پایان کایدو' },
+                { number: 1074, title: 'سپیده‌دم وانو', vip: true, src: DEMO_VIDEO_3 }
+            ])
+        },
+        {
+            id: 'death-note',
+            title: 'دفترچه مرگ',
+            titleEn: 'DEATH NOTE',
+            aliases: ['death note', 'دث نوت', 'لایت', 'ال', 'ryuk'],
+            rating: 9.0,
+            year: 2006,
+            age: '+۱۶',
+            quality: '1080p',
+            genres: ['drama'],
+            genreLabel: 'معمایی، روان‌شناختی',
+            studio: 'MADHOUSE',
+            seasons: 1,
+            poster: 'image-search/death-note-anime-poster-vertical-high-qu-1.webp',
+            banner: 'image-search/death-note-anime-desktop-wallpaper-4k-2.jpg',
+            desc: 'لایت یاگامی دفترچه‌ای پیدا می‌کند که هرکس نامش در آن نوشته شود می‌میرد. او تصمیم می‌گیرد دنیایی بدون جنایتکار بسازد؛ کارآگاه مرموز «ال» سد راهش می‌شود.',
+            currentSeason: 1,
+            episodes: episodes(1, [
+                { title: 'تولد دوباره' },
+                { title: 'رویارویی', src: DEMO_VIDEO_2 },
+                { title: 'معامله' },
+                { title: 'تعقیب', vip: true, src: DEMO_VIDEO_3 }
+            ])
+        },
+        {
+            id: 'cyberpunk-edgerunners',
+            title: 'سایبرپانک: اج‌رانرز',
+            titleEn: 'CYBERPUNK: EDGERUNNERS',
+            aliases: ['سایبرپانک', 'cyberpunk', 'edgerunners', 'cyberpunk: edgerunners', 'لوسی', 'دیوید'],
+            rating: 8.9,
+            year: 2022,
+            age: '+۱۸',
+            quality: '4K HDR',
+            genres: ['scifi', 'action'],
+            genreLabel: 'سایبرپانک، علمی‌تخیلی',
+            studio: 'TRIGGER',
+            seasons: 1,
+            poster: 'image-search/cyberpunk-edgerunners-anime-poster-verti-1.jpg',
+            banner: 'image-search/cyberpunk-edgerunners-desktop-wallpaper--1.webp',
+            desc: 'در یک شهر پادآرمان‌شهری که درگیر فساد و وسواس سایبرنتیک است، یک پسر خیابانی با استعداد تلاش می‌کند با تبدیل شدن به یک مزدور قانون‌شکن زنده بماند.',
+            currentSeason: 1,
+            episodes: episodes(1, [
+                { title: 'بیایید یک نمایش بسازیم' },
+                { title: 'مثل یک پسر', src: DEMO_VIDEO_2 },
+                { title: 'مرد شهر' },
+                { title: 'لوسی', vip: true, src: DEMO_VIDEO_3 }
+            ])
+        }
+    ];
+
+    const byId = Object.create(null);
+    ANIME.forEach(a => { byId[a.id] = a; });
+
+    function normalize(str) {
+        return String(str || '')
+            .toLowerCase()
+            .replace(/[\u200c\u200f\u200e]/g, ' ')  // ZWNJ / RTL marks
+            .replace(/[ي]/g, 'ی').replace(/[ك]/g, 'ک')
+            .replace(/[-_:،,.!؟?]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function findByTitle(str) {
+        const q = normalize(str);
+        if (!q) return null;
+        return ANIME.find(a => normalize(a.title) === q || normalize(a.titleEn) === q || a.aliases.some(al => normalize(al) === q))
+            || ANIME.find(a => normalize(a.title).includes(q) || a.aliases.some(al => normalize(al).includes(q)))
+            || null;
+    }
+
+    function search(query) {
+        const q = normalize(query);
+        if (!q) return ANIME.slice();
+        return ANIME.filter(a =>
+            normalize(a.title).includes(q) ||
+            normalize(a.titleEn).includes(q) ||
+            normalize(a.genreLabel).includes(q) ||
+            a.aliases.some(al => normalize(al).includes(q))
+        );
+    }
+
+    const FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
+    function toFa(num) {
+        return String(num).replace(/\d/g, d => FA_DIGITS[d]);
+    }
+
+    function watchUrl(anime, episodeNumber) {
+        const id = typeof anime === 'string' ? anime : anime.id;
+        return 'watch.html?anime=' + encodeURIComponent(id) + (episodeNumber ? '&ep=' + episodeNumber : '');
+    }
+
+    window.NEON_ANIME = { list: ANIME, byId, findByTitle, search, toFa, watchUrl, normalize };
+})();
