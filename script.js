@@ -487,14 +487,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (params.get('q')) {
             applyFilter({ query: params.get('q') });
             setTimeout(() => trendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+        } else if (params.get('genre')) {
+            const chip = chips.find(c => c.dataset.genre === params.get('genre'));
+            if (chip) chip.click();
+            setTimeout(() => trendingSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
         }
     }
 
-    // 12. DUMMY LINKS & NOTIFICATIONS HANDLER
+    // 12. "COMING SOON" LINKS
     document.querySelectorAll('a[href="#"]').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            showToast('این بخش در نسخه دمو غیرفعال است.');
+            showToast(link.classList.contains('coming-soon') ? 'این بخش به‌زودی راه‌اندازی می‌شود.' : 'این بخش هنوز فعال نیست.');
             // Close side menu if it's open
             if (sideMenu && sideMenu.classList.contains('active')) toggleMenu();
         });

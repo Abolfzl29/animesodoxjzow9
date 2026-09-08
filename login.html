@@ -85,14 +85,14 @@
                     <p>به نئون انیمه خوش برگشتید.</p>
                 </div>
                 
-                <form class="premium-form" id="loginForm" onsubmit="return false;">
+                <form class="premium-form" id="loginForm" novalidate>
                     <div class="floating-input">
-                        <input type="email" required placeholder=" ">
-                        <label>ایمیل یا شماره موبایل</label>
+                        <input type="text" id="loginIdentifier" name="identifier" autocomplete="username" inputmode="email" required placeholder=" ">
+                        <label for="loginIdentifier">ایمیل یا شماره موبایل</label>
                     </div>
                     <div class="floating-input">
-                        <input type="password" required placeholder=" ">
-                        <label>رمز عبور</label>
+                        <input type="password" id="loginPassword" name="password" autocomplete="current-password" minlength="6" required placeholder=" ">
+                        <label for="loginPassword">رمز عبور</label>
                     </div>
                     <div class="form-options" style="margin-top: 5px;">
                         <label class="checkbox-container">
@@ -100,7 +100,7 @@
                             <span class="checkmark"></span>
                             مرا به خاطر بسپار
                         </label>
-                        <a href="#" class="forgot-link">رمز عبور را فراموش کرده‌اید؟</a>
+                        <a href="#" class="forgot-link" id="forgotLink">رمز عبور را فراموش کرده‌اید؟</a>
                     </div>
                     
                     <button type="submit" class="btn w-100 auth-main-btn" style="margin-top: 20px; padding: 20px; font-size: 1.2rem;">ورود به سیستم</button>
@@ -118,7 +118,7 @@
                     <p>عضویت سریع برای تماشای نامحدود.</p>
                 </div>
 
-                <form class="premium-form" id="signupForm" onsubmit="return false;">
+                <form class="premium-form" id="signupForm" novalidate>
                     
                     <div class="form-section-title">۱. جنسیت و آواتار خود را انتخاب کنید</div>
                     
@@ -159,18 +159,18 @@
 
                     <div class="form-section-title">۲. اطلاعات شخصی</div>
                     <div class="floating-input">
-                        <input type="text" id="regFullName" required placeholder=" ">
-                        <label>نام و نام خانوادگی</label>
+                        <input type="text" id="regFullName" autocomplete="name" required placeholder=" ">
+                        <label for="regFullName">نام و نام خانوادگی</label>
                     </div>
                     
                     <div class="input-row">
                         <div class="floating-input half">
-                            <input type="text" id="regUsername" required placeholder=" ">
-                            <label>نام کاربری (Otaku Name)</label>
+                            <input type="text" id="regUsername" autocomplete="nickname" pattern="[A-Za-z0-9_]{3,20}" title="۳ تا ۲۰ کاراکتر: حروف انگلیسی، عدد یا _" required placeholder=" ">
+                            <label for="regUsername">نام کاربری (Otaku Name)</label>
                         </div>
                         <div class="floating-input half">
-                            <input type="number" min="1" max="99" required placeholder=" ">
-                            <label>سن</label>
+                            <input type="number" id="regAge" min="7" max="99" required placeholder=" ">
+                            <label for="regAge">سن</label>
                         </div>
                     </div>
 
@@ -186,12 +186,12 @@
 
                     <div class="form-section-title">۳. اطلاعات ورود</div>
                     <div class="floating-input">
-                        <input type="email" required placeholder=" ">
-                        <label>آدرس ایمیل</label>
+                        <input type="email" id="regEmail" name="email" autocomplete="email" required placeholder=" ">
+                        <label for="regEmail">آدرس ایمیل</label>
                     </div>
                     <div class="floating-input">
-                        <input type="password" required placeholder=" ">
-                        <label>رمز عبور</label>
+                        <input type="password" id="regPassword" name="new-password" autocomplete="new-password" minlength="6" required placeholder=" ">
+                        <label for="regPassword">رمز عبور (حداقل ۶ کاراکتر)</label>
                     </div>
 
                     <button type="submit" class="btn w-100 auth-main-btn" style="margin-top: 25px; padding: 20px; font-size: 1.2rem;">تکمیل ثبت‌نام</button>
@@ -260,6 +260,7 @@
     </div>
 
     <!-- Script for Forms and Interactions -->
+    <script src="auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const loginContainer = document.getElementById('loginContainer');
@@ -332,82 +333,114 @@
                 }
             }
 
-                                    // Login Logic
+            // Already logged in? Skip the form.
+            if (NeonAuth.isLoggedIn() && !new URLSearchParams(window.location.search).has('force')) {
+                window.location.replace(NeonAuth.nextUrl('profile.html'));
+                return;
+            }
+            // ?mode=signup opens the sign-up form directly
+            if (new URLSearchParams(window.location.search).get('mode') === 'signup') {
+                document.getElementById('goToSignup').click();
+            }
+
+            function messageFor(input) {
+                const label = (input.labels && input.labels[0]) ? input.labels[0].textContent.trim() : 'این فیلد';
+                const v = input.validity;
+                if (v.valueMissing) return `«${label}» را وارد کنید.`;
+                if (v.typeMismatch && input.type === 'email') return 'آدرس ایمیل معتبر نیست.';
+                if (v.tooShort) return `«${label}» باید حداقل ${input.minLength} کاراکتر باشد.`;
+                if (v.patternMismatch) return input.title || `«${label}» نامعتبر است.`;
+                if (v.rangeUnderflow || v.rangeOverflow) return `«${label}» باید بین ${input.min} و ${input.max} باشد.`;
+                return 'لطفاً همه‌ی فیلدها را درست پر کنید.';
+            }
+            function validate(form) {
+                if (form.checkValidity()) return true;
+                const bad = form.querySelector(':invalid');
+                if (bad) {
+                    bad.focus();
+                    bad.closest('.floating-input, .gender-toggle') && bad.closest('.floating-input, .gender-toggle').classList.add('has-error');
+                    bad.addEventListener('input', () => bad.closest('.floating-input') && bad.closest('.floating-input').classList.remove('has-error'), { once: true });
+                    showToast(messageFor(bad), false, 3500);
+                }
+                return false;
+            }
+
+            function finishAuth(btn, doneText, toastText) {
+                btn.innerHTML = doneText;
+                btn.style.background = '#00d26a';
+                btn.style.borderColor = '#00d26a';
+                btn.style.boxShadow = '0 0 20px rgba(0, 210, 106, 0.4)';
+                showToast(toastText, true, 0);
+                setTimeout(() => { window.location.href = NeonAuth.nextUrl('profile.html'); }, 1200);
+            }
+
+            // ----- Login (DEMO: no server -> any credentials pass; VIP is granted for showcasing) -----
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
+                if (!validate(loginForm)) return;
                 const btn = loginForm.querySelector('button[type="submit"]');
-                
-                // Demo logic: login gives VIP, signup gives Normal
-                if(!localStorage.getItem('neon_user_name')) {
-                    localStorage.setItem('neon_user_name', 'کیانوش');
-                    localStorage.setItem('neon_user_username', 'Kianoosh_Otaku');
-                    localStorage.setItem('neon_user_avatar', 'assets/img/gojo-satoru.webp');
-                }
-                localStorage.setItem('neon_is_vip', 'true'); // Show VIP on login
-                localStorage.setItem('neon_is_logged_in', 'true');
+                const identifier = document.getElementById('loginIdentifier').value.trim();
 
                 btn.innerHTML = '<span class="loader-spinner"></span> در حال بررسی...';
                 btn.style.pointerEvents = 'none';
                 btn.style.opacity = '0.8';
 
                 setTimeout(() => {
-                    btn.innerHTML = 'با موفقیت وارد شدید!';
-                    btn.style.background = '#00d26a';
-                    btn.style.borderColor = '#00d26a';
-                    btn.style.boxShadow = '0 0 20px rgba(0, 210, 106, 0.4)';
-                    
-                    showToast('در حال انتقال به حساب کاربری...', true, 0);
-
-                    setTimeout(() => {
-                        window.location.href = 'profile.html';
-                    }, 1500);
-                }, 1500);
+                    // TODO(backend): POST /api/auth/login { identifier, password } -> session cookie + user profile
+                    const existingName = localStorage.getItem('neon_user_name');
+                    NeonAuth.login({
+                        name: existingName || 'کیانوش',
+                        username: localStorage.getItem('neon_user_username') || 'Kianoosh_Otaku',
+                        avatar: localStorage.getItem('neon_user_avatar') || 'assets/img/gojo-satoru.webp',
+                        email: identifier.includes('@') ? identifier : '',
+                        vip: true
+                    });
+                    finishAuth(btn, 'با موفقیت وارد شدید!', 'در حال انتقال...');
+                }, 1200);
             });
 
-                        // Signup Logic
+            // ----- Sign-up -----
             signupForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
-                if(!selectedGender) {
+                if (!selectedGender) {
                     showToast('لطفاً ابتدا جنسیت و آواتار خود را انتخاب کنید!', false, 3000);
                     return;
                 }
+                if (!validate(signupForm)) return;
 
-                // Get selected Avatar
-                let activeAvatar = document.querySelector('.p-avatar.active');
-                let avatarSrc = activeAvatar ? activeAvatar.src : 'assets/img/gojo-satoru.webp';
-                
-                // Get form inputs
-                let fullName = document.getElementById('regFullName').value;
-                let username = document.getElementById('regUsername').value;
-                
-                // Save to localStorage
-                localStorage.setItem('neon_user_name', fullName);
-                localStorage.setItem('neon_user_username', username);
-                localStorage.setItem('neon_user_avatar', avatarSrc);
-                localStorage.setItem('neon_is_logged_in', 'true');
-                localStorage.setItem('neon_is_vip', 'false'); // Defaults to false
+                const activeAvatar = document.querySelector('.p-avatar.active');
+                const avatarSrc = activeAvatar ? activeAvatar.getAttribute('src') : 'assets/img/gojo-satoru.webp';
+                const fullName = document.getElementById('regFullName').value.trim();
+                const username = document.getElementById('regUsername').value.trim();
+                const email = document.getElementById('regEmail').value.trim();
 
                 const btn = signupForm.querySelector('button[type="submit"]');
-                const originalText = btn.textContent;
-                
                 btn.innerHTML = '<span class="loader-spinner"></span> در حال ساخت حساب...';
                 btn.style.pointerEvents = 'none';
                 btn.style.opacity = '0.8';
 
                 setTimeout(() => {
-                    btn.innerHTML = 'حساب با موفقیت ساخته شد!';
-                    btn.style.background = '#00d26a';
-                    btn.style.borderColor = '#00d26a';
-                    btn.style.boxShadow = '0 0 20px rgba(0, 210, 106, 0.4)';
-                    
-                    showToast('خوش آمدید! در حال ورود...', true, 0);
-
-                    setTimeout(() => {
-                        window.location.href = 'profile.html';
-                    }, 1500);
-                }, 2000);
+                    // TODO(backend): POST /api/auth/register { fullName, username, email, password, gender, avatar, favoriteGenre }
+                    NeonAuth.login({ name: fullName, username: username, avatar: avatarSrc, email: email, vip: false });
+                    finishAuth(btn, 'حساب با موفقیت ساخته شد!', 'خوش آمدید! در حال ورود...');
+                }, 1500);
             });
+
+            // ----- Forgot password (no backend yet) -----
+            const forgotLink = document.getElementById('forgotLink');
+            if (forgotLink) {
+                forgotLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const id = document.getElementById('loginIdentifier').value.trim();
+                    if (!id) {
+                        showToast('ابتدا ایمیل یا شماره موبایل خود را وارد کنید.', false, 3000);
+                        document.getElementById('loginIdentifier').focus();
+                        return;
+                    }
+                    // TODO(backend): POST /api/auth/forgot { identifier }
+                    showToast('اگر حسابی با این مشخصات وجود داشته باشد، لینک بازیابی ارسال می‌شود.', false, 4000);
+                });
+            }
         });
     </script>
 </body>

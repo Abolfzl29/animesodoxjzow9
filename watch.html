@@ -28,12 +28,12 @@
         </div>
         
         <div class="side-menu-links">
-            <a href="#"><span class="icon">🏠</span> خانه</a>
-            <a href="#"><span class="icon">🎬</span> سریال‌ها</a>
-            <a href="#"><span class="icon">🍿</span> فیلم‌های سینمایی</a>
-            <a href="#"><span class="icon">📅</span> تقویم پخش هفتگی</a>
-            <a href="#"><span class="icon">🔖</span> لیست تماشای من</a>
-            <a href="#"><span class="icon">🎧</span> رادیو انیمه</a>
+            <a href="index.html"><span class="icon">🏠</span> خانه</a>
+            <a href="index.html#trendingSection"><span class="icon">🎬</span> سریال‌ها</a>
+            <a href="index.html?q=%D8%B3%DB%8C%D9%86%D9%85%D8%A7%DB%8C%DB%8C"><span class="icon">🍿</span> فیلم‌های سینمایی</a>
+            <a href="index.html#schedule"><span class="icon">📅</span> تقویم پخش هفتگی</a>
+            <a href="profile.html"><span class="icon">🔖</span> لیست تماشای من</a>
+            <a href="#" class="coming-soon"><span class="icon">🎧</span> رادیو انیمه</a>
         </div>
         
         <div class="side-menu-vip-promo" id="mobileVipBtn">
@@ -59,24 +59,24 @@
             <div class="logo">NEON<span class="accent">.</span>ANIME</div>
             
             <ul class="nav-links">
-                <li><a href="#" class="active">خانه</a></li>
+                <li><a href="index.html">خانه</a></li>
                 <li class="has-mega-menu">
-                    <a href="#">سریال‌ها <span class="dropdown-arrow">▾</span></a>
+                    <a href="index.html#trendingSection">سریال‌ها <span class="dropdown-arrow">▾</span></a>
                     <div class="mega-menu">
                         <div class="mega-grid">
                             <div class="mega-column">
                                 <h4>ژانرها</h4>
-                                <a href="#">اکشن و ماجراجویی</a>
-                                <a href="#">سایبرپانک و علمی‌تخیلی</a>
-                                <a href="#">فانتزی تاریک</a>
-                                <a href="#">درام و عاشقانه</a>
+                                <a href="index.html?genre=action#trendingSection">اکشن و ماجراجویی</a>
+                                <a href="index.html?genre=scifi#trendingSection">سایبرپانک و علمی‌تخیلی</a>
+                                <a href="index.html?genre=drama#trendingSection">فانتزی تاریک</a>
+                                <a href="index.html?genre=drama#trendingSection">درام و عاشقانه</a>
                             </div>
                             <div class="mega-column">
                                 <h4>برترین‌های تاریخ</h4>
-                                <a href="#">حمله به تایتان</a>
-                                <a href="#">فول متال آلکمیست</a>
-                                <a href="#">دفترچه مرگ</a>
-                                <a href="#">وان پیس</a>
+                                <a href="watch.html?anime=attack-on-titan">حمله به تایتان</a>
+                                <a href="index.html?q=%D9%81%D9%88%D9%84%20%D9%85%D8%AA%D8%A7%D9%84">فول متال آلکمیست</a>
+                                <a href="watch.html?anime=death-note">دفترچه مرگ</a>
+                                <a href="watch.html?anime=one-piece">وان پیس</a>
                             </div>
                             <div class="mega-column featured">
                                 <img src="assets/img/attack-on-titan-wallpaper.webp" alt="Featured" loading="lazy" decoding="async">
@@ -84,8 +84,8 @@
                         </div>
                     </div>
                 </li>
-                <li><a href="#">فیلم‌ها</a></li>
-                <li><a href="#">تقویم پخش</a></li>
+                <li><a href="index.html?q=%D8%B3%DB%8C%D9%86%D9%85%D8%A7%DB%8C%DB%8C">فیلم‌ها</a></li>
+                <li><a href="index.html#schedule">تقویم پخش</a></li>
                 
                 <!-- THREE DOTS MENU -->
                 <li class="more-menu-container">
@@ -95,19 +95,19 @@
                     <div class="three-dots-dropdown" id="moreMenuDropdown">
                         <div class="dropdown-section">
                             <h4>کشف محتوا</h4>
-                            <a href="#">✨ پیشنهاد هوش مصنوعی</a>
-                            <a href="#">🔥 برترین‌های IMDB</a>
-                            <a href="#">🎵 موسیقی انیمه (OST)</a>
+                            <a href="#" class="coming-soon">✨ پیشنهاد هوش مصنوعی</a>
+                            <a href="index.html#top10">🔥 برترین‌های IMDB</a>
+                            <a href="#" class="coming-soon">🎵 موسیقی انیمه (OST)</a>
                         </div>
                         <div class="dropdown-section">
                             <h4>پروفایل من</h4>
-                            <a href="#">👤 حساب کاربری</a>
-                            <a href="#">🔖 لیست تماشای من</a>
+                            <a href="profile.html">👤 حساب کاربری</a>
+                            <a href="profile.html">🔖 لیست تماشای من</a>
                         </div>
                         <div class="dropdown-section">
                             <h4>بیشتر</h4>
-                            <a href="#">📰 اخبار دنیای انیمه</a>
-                            <a href="#">🎧 کامیونیتی دیسکورد</a>
+                            <a href="index.html#news">📰 اخبار دنیای انیمه</a>
+                            <a href="#" class="coming-soon">🎧 کامیونیتی دیسکورد</a>
                         </div>
                     </div>
                 </li>
@@ -408,6 +408,7 @@
     </nav>
 
     <script src="data/anime.js"></script>
+    <script src="auth.js"></script>
     <script src="script.js"></script>
     <script>
         // Bind bottom nav buttons to existing modals
