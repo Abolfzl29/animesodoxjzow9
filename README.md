@@ -1,31 +1,43 @@
 # Neon Anime VOD Platform 🎬
 
-**Hello Next AI Assistant!** 👋
-If you are reading this, the user has handed this project over to you to continue development. Here is everything you need to know about the current state of this project.
+پلتفرم استریم انیمه (فارسی / RTL) — فرانت‌اند خالص بدون فریم‌ورک. این نسخه بعد از بازبینی کد (`CODE-REVIEW.md`) در ۶ مرحله اصلاح شده و به‌عنوان **دمو** آماده‌ی قرارگیری روی هر هاست استاتیکی است. بک‌اند هنوز وجود ندارد (همه‌چیز با `localStorage` شبیه‌سازی می‌شود).
 
 ## 🛠 Tech Stack
-- **HTML5**: Semantic tags, completely Persian (RTL).
-- **CSS3**: Custom variables (`var(--bg-main)`, `--accent`, etc.), heavy use of **Glassmorphism**, Flexbox, and CSS Grid. **No CSS Frameworks** (No Tailwind/Bootstrap).
-- **JavaScript (Vanilla)**: DOM manipulation, GSAP (loaded via CDN for the VIP Modal), and `localStorage` for state management.
-- **Assets**: Local images stored in the `image-search/` directory.
+- **HTML5** (semantic, `lang="fa" dir="rtl"`), **CSS3** با CSS Variables و Glassmorphism، **Vanilla JS**.
+- کتابخانه‌های خارجی: GSAP و typed.js (CDN)، فونت Vazirmatn/Orbitron.
+- تصاویر بهینه‌شده (WebP) در `assets/img/` — کل تصاویر ≈ ۱ مگابایت.
 
-## 📁 Project Structure & Pages
-1. `index.html`: The main landing page. Features a Hero Slider, horizontal scrolling anime cards, a Kebab menu (Three dots), and a Mobile Bottom Navigation.
-2. `login.html`: Authentication page. Features a gender-toggle for avatar selection. Saves user data (`neon_user_name`, `neon_is_logged_in`, etc.) to `localStorage` upon form submit.
-3. `profile.html`: User Dashboard. Reads from `localStorage` to display user's chosen avatar and name. Includes a "Continue Watching" progress grid and Watchlist.
-4. `watch.html`: The Video Player page. Contains a custom-built video player with Play/Pause, Mute, Fullscreen, and an animated "Skip Intro" button. Also includes a sidebar for the episode list.
-5. `style.css`: Global stylesheet containing all the premium UI logic.
-6. `script.js`: Global logic for modals, mobile side-drawer, navigation scroll effects, and live counters.
+## 📁 ساختار
+| فایل | نقش |
+|---|---|
+| `index.html` | صفحه‌ی اصلی: هیرو اسلایدر، ردیف‌های کارت، تقویم پخش، Top10، FAQ، خبرنامه، مودال جزئیات |
+| `watch.html` | پلیر: از URL می‌خواند (`watch.html?anime=<id>&ep=<n>`)، لیست قسمت‌ها، قفل VIP، ادامه‌ی تماشا، پخش خودکار قسمت بعد، میانبرهای کیبورد |
+| `login.html` | ورود / ثبت‌نام با اعتبارسنجی + ریدایرکت `?next=` |
+| `profile.html` | داشبورد: ادامه‌ی تماشا و لیست تماشای واقعی (از storage)، ویرایش پروفایل، خروج |
+| `404.html` | صفحه‌ی خطا |
+| `data/anime.js` | **منبع داده‌ی واحد** کاتالوگ (`window.NEON_ANIME`) — همه‌ی کارت‌ها/پلیر/جستجو از این پر می‌شوند؛ بعداً با API جایگزین می‌شود |
+| `auth.js` | لایه‌ی سشن (`NeonAuth`) — تنها جایی که برای اتصال به بک‌اند واقعی باید عوض شود |
+| `script.js` | منطق مشترک: منوها، مودال‌ها، جستجو، فیلتر، اسلایدر، توست، ... |
+| `style.css` | استایل سراسری |
+| `assets/` | تصاویر WebP، favicon، آیکون‌های PWA، og-image |
+| `manifest.webmanifest`, `robots.txt`, `sitemap.xml` | متادیتای سایت |
 
-## 🧠 Smart UI (Local Storage Simulation)
-We simulated a backend using `localStorage`. 
-- Logging in sets `neon_is_vip = true`. 
-- Signing up sets `neon_is_vip = false`. 
-- The UI in `profile.html` and `index.html` dynamically updates the Profile Avatar and VIP badges based on these values.
+## 🚀 اجرا
+فایل‌ها استاتیک‌اند؛ کافی است پوشه را روی هر وب‌سرور (Nginx/Apache/Netlify/Vercel/GitHub Pages) بگذارید. برای تست محلی:
 
-## 🚀 Recommended Next Steps
-- Convert the site to a **PWA (Progressive Web App)** by adding `manifest.json` and a Service Worker.
-- Build `catalog.html` for advanced filtering and infinite scrolling.
-- Hook up a real Backend (Node.js, Python, or Firebase) to replace the `localStorage` logic.
+```bash
+python3 -m http.server 8080   # سپس http://localhost:8080
+```
 
-Good luck! Build something awesome. 🚀
+## 🧠 شبیه‌سازی بک‌اند (موقت)
+کلیدهای `localStorage` با پیشوند `neon_` (ورود، نام، آواتار، VIP، لیست تماشا، پیشرفت تماشا، نظرات). **این‌ها امنیتی نیستند** — قفل VIP و لینک ویدیو باید سمت سرور اعمال شود.
+
+## ✅ تغییرات این نسخه (خلاصه)
+1. تعمیر `watch.html` خراب (`\n`های متنی، تگ‌های اضافه) و اضافه‌شدن اجزای مشترک به آن
+2. بازسازی `script.js`؛ دکمه‌های پخش واقعاً به پلیر می‌روند؛ جستجو، فیلتر، تب‌ها و Escape کار می‌کنند
+3. منبع داده‌ی واحد + پلیر واقعی با لیست قسمت و ادامه‌ی تماشا
+4. تصاویر: حذف بلااستفاده‌ها، WebP، lazy-load (۷.۱MB → ۱.۰MB)، ویدیوها `https`
+5. احراز هویت شبیه‌سازی‌شده‌ی تمیز (`auth.js`)، پروفایل واقعی، خروج در موبایل
+6. SEO/متا، favicon، فوتر، 404، manifest، اصلاحات موبایل
+
+جزئیات و آنچه هنوز مانده (بک‌اند، پرداخت، HLS، ادمین): `CODE-REVIEW.md`
