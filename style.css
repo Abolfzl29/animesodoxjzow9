@@ -56,6 +56,7 @@ body { background-color: var(--bg-main); color: var(--text-light); font-family: 
 .main-nav { position: fixed; top: 0; left: 0; width: 100%; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%); transition: all 0.4s; }
 .main-nav.scrolled { padding: 15px 5%; background-color: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .nav-left, .nav-right { display: flex; align-items: center; gap: 20px; }
+a.logo, a.logo:visited { text-decoration: none; }
 .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--text-light); letter-spacing: 2px; text-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-right: 15px; }
 
 /* Audio Visualizer */
@@ -392,6 +393,7 @@ body { background-color: var(--bg-main); color: var(--text-light); font-family: 
 }
 .subscribe-form input { 
     flex: 1; 
+    min-width: 0; /* let the input shrink on narrow screens (fixes horizontal page scroll on mobile) */
     padding: 10px 20px; 
     border: none;
     background: transparent; 
@@ -402,7 +404,7 @@ body { background-color: var(--bg-main); color: var(--text-light); font-family: 
 }
 .subscribe-form button { 
     border-radius: 40px; 
-    padding: 0 35px; 
+    padding: 0 clamp(14px, 4vw, 35px); 
     white-space: nowrap; 
     border: none;
     background: var(--accent);
@@ -1096,6 +1098,10 @@ body { background-color: var(--bg-main); color: var(--text-light); font-family: 
     body {
         padding-bottom: 70px;
     }
+    /* keep the back-to-top button and toasts above the fixed bottom nav */
+    .back-to-top { bottom: 90px; right: 16px; }
+    #toastContainer { bottom: 90px; left: 12px; right: 12px; }
+    .toast { font-size: 0.9rem; }
 
     .mobile-bottom-nav {
         display: flex;
@@ -1626,7 +1632,11 @@ body { background-color: var(--bg-main); color: var(--text-light); font-family: 
     }
     .watch-sidebar {
         position: static;
-        max-height: 500px;
+        max-height: none; /* stacked below the player: no need to squeeze the list */
+    }
+    .episodes-list {
+        max-height: 420px; /* the list itself scrolls; related grid stays fully visible */
+        flex-shrink: 0;
     }
 }
 @media (max-width: 600px) {
@@ -1729,4 +1739,21 @@ body { background-color: var(--bg-main); color: var(--text-light); font-family: 
         scroll-snap-align: start;
         flex-shrink: 0;
     }
+}
+
+
+/* ========================================================================= */
+/* FOOTER */
+/* ========================================================================= */
+.site-footer { position: relative; z-index: 5; margin-top: 60px; border-top: 1px solid var(--glass-border); background: linear-gradient(to bottom, rgba(10,10,12,0.6), rgba(10,10,12,0.95)); backdrop-filter: blur(20px); }
+.footer-inner { max-width: 1400px; margin: 0 auto; padding: 50px 5% 30px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+.footer-brand p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.9; margin-top: 15px; max-width: 420px; }
+.footer-col h4 { font-size: 1rem; font-weight: 800; margin-bottom: 15px; color: white; }
+.footer-col a { display: block; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; padding: 6px 0; transition: color 0.2s, transform 0.2s; }
+.footer-col a:hover { color: var(--accent); transform: translateX(-4px); }
+.footer-bottom { border-top: 1px solid var(--glass-border); padding: 18px 5%; display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.85rem; max-width: 1400px; margin: 0 auto; }
+@media (max-width: 900px) {
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 30px; padding: 40px 20px 20px; }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-bottom { padding: 15px 20px 25px; }
 }

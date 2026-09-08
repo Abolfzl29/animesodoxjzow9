@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isActive) {
             sideMenu.classList.remove('active');
             if(mobileBackdrop) mobileBackdrop.classList.remove('active');
-            if(hamburgerBtn) hamburgerBtn.classList.remove('active');
+            if(hamburgerBtn) { hamburgerBtn.classList.remove('active'); hamburgerBtn.setAttribute('aria-expanded', 'false'); }
             document.body.style.overflow = '';
         } else {
             sideMenu.classList.add('active');
             if(mobileBackdrop) mobileBackdrop.classList.add('active');
-            if(hamburgerBtn) hamburgerBtn.classList.add('active');
+            if(hamburgerBtn) { hamburgerBtn.classList.add('active'); hamburgerBtn.setAttribute('aria-expanded', 'true'); }
             document.body.style.overflow = 'hidden';
         }
     }
@@ -205,6 +205,47 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // 5a. CONTINUE WATCHING ROW ON THE HOME PAGE (from saved player progress)
+    const continueSection = document.getElementById('continueSection');
+    if (continueSection && DATA) {
+        const row = document.getElementById('continueCards');
+        const items = [];
+        Object.keys(localStorage).forEach(k => {
+            const m = k.match(/^neon_progress_(.+)_(\d+)$/);
+            if (!m || !DATA.byId[m[1]]) return;
+            const anime = DATA.byId[m[1]];
+            const ep = anime.episodes.find(e => e.number === parseInt(m[2], 10)) || { number: parseInt(m[2], 10), season: anime.currentSeason };
+            items.push({ anime, ep, ratio: parseFloat(localStorage.getItem(k)) || 0 });
+        });
+        if (items.length) {
+            items.slice(0, 8).forEach(it => {
+                const a = document.createElement('a');
+                a.className = 'anime-card landscape';
+                a.href = DATA.watchUrl(it.anime, it.ep.number);
+                a.dataset.anime = it.anime.id;
+                a.style.cssText = 'display:block; text-decoration:none; color:inherit;';
+                a.innerHTML = `
+                    <img src="${it.anime.banner}" alt="" class="card-static-img" loading="lazy" decoding="async">
+                    <div class="card-overlay">
+                        <div class="card-actions" style="margin-bottom: 5px;">
+                            <span class="action-btn play-btn-small" title="ادامه پخش">▶</span>
+                        </div>
+                        <div class="card-details-sleek">
+                            <h3 class="sleek-title"></h3>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;"></div>
+                        </div>
+                    </div>
+                    <div style="position:absolute; bottom:0; left:0; width:100%; height:4px; background:rgba(255,255,255,0.2); z-index:4;">
+                        <div style="width: ${Math.round(it.ratio * 100)}%; height: 100%; background: var(--accent);"></div>
+                    </div>`;
+                a.querySelector('.sleek-title').textContent = it.anime.title;
+                a.querySelector('.card-details-sleek div').textContent = `فصل ${DATA.toFa(it.ep.season)} - قسمت ${DATA.toFa(it.ep.number)}`;
+                row.appendChild(a);
+            });
+            continueSection.style.display = '';
+        }
+    }
+
     // 5b. HOVER PREVIEW VIDEOS ON CARDS (lazy: only load/play while hovered, desktop only)
     if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
         document.querySelectorAll('.anime-card').forEach(card => {
@@ -266,6 +307,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (vipOpenBtn) vipOpenBtn.addEventListener('click', openVipModal);
     if (vipCloseBtn) vipCloseBtn.addEventListener('click', closeVipModal);
     if (vipCloseBackdrop) vipCloseBackdrop.addEventListener('click', closeVipModal);
+
+    // 7b. PLAN SELECTION (demo checkout)
+    // TODO(backend): replace with a redirect to the real payment gateway / checkout API.
+    document.querySelectorAll('.plan-select-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const plan = btn.dataset.plan || '';
+            const auth = window.NeonAuth;
+            if (!auth || !auth.isLoggedIn()) {
+                showToast('برای خرید اشتراک ابتدا وارد حساب شوید.');
+                setTimeout(() => { window.location.href = 'login.html?next=' + encodeURIComponent('index.html?vip=1'); }, 900);
+                return;
+            }
+            if (auth.currentUser().vip) { showToast('اشتراک ویژه شما هم‌اکنون فعال است.'); closeVipModal(); return; }
+            auth.setVip(true);
+            if (typeof auth.applyToChrome === 'function') auth.applyToChrome();
+            showToast(`اشتراک ${plan} (نسخه نمایشی) فعال شد؛ درگاه پرداخت هنوز متصل نیست.`);
+            closeVipModal();
+        });
+    });
+    // Deep link: index.html?vip=1 opens the plans modal (used after login redirect).
+    if (new URLSearchParams(window.location.search).get('vip') === '1') setTimeout(openVipModal, 400);
 
     // 8. THREE DOTS MENU
     const threeDotsBtn = document.getElementById('threeDotsBtn');
@@ -694,6 +756,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 tab.classList.add('active');
             });
         });
+    }
+
+    // Footer year (Persian calendar)
+    const footerYear = document.getElementById('footerYear');
+    if (footerYear) {
+        try { footerYear.textContent = new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(new Date()); } catch (e) {}
     }
 
     // 20. CLOSE ANY OPEN OVERLAY WITH ESCAPE

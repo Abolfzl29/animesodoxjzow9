@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پنل کاربری | نئون انیمه</title>
+    <meta name="description" content="داشبورد کاربری: ادامه تماشا، لیست تماشا و تنظیمات حساب.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:title" content="پنل کاربری | نئون انیمه">
+    <meta property="og:description" content="داشبورد کاربری: ادامه تماشا، لیست تماشا و تنظیمات حساب.">
+    <meta name="theme-color" content="#0a0a0c">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/icon-192.png" sizes="192x192" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta property="og:site_name" content="Neon Anime">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:image" content="assets/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -234,7 +248,7 @@
                     <span class="status-badge" style="background: var(--accent); color: white;">ورود / عضویت</span>
                 </div>
             </a>
-            <button class="close-side-btn" id="closeSideBtn">✕</button>
+            <button class="close-side-btn" id="closeSideBtn" aria-label="بستن منو">✕</button>
         </div>
         
         <div class="side-menu-links">
@@ -264,11 +278,11 @@
     <nav class="main-nav" id="navbar">
         <div class="nav-left">
             <!-- Hamburger for Mobile -->
-            <button class="hamburger-btn" id="hamburgerBtn">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="منو" aria-controls="sideMenu" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
 
-            <div class="logo">NEON<span class="accent">.</span>ANIME</div>
+            <a class="logo" href="index.html" aria-label="نئون انیمه - صفحه اصلی">NEON<span class="accent">.</span>ANIME</a>
             
             <ul class="nav-links">
                 <li><a href="index.html">خانه</a></li>
@@ -301,7 +315,7 @@
                 
                 <!-- THREE DOTS MENU -->
                 <li class="more-menu-container">
-                    <button class="three-dots-btn" id="threeDotsBtn" title="بیشتر">
+                    <button class="three-dots-btn" id="threeDotsBtn" title="بیشتر" aria-label="منوی بیشتر" aria-haspopup="true">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                     </button>
                     <div class="three-dots-dropdown" id="moreMenuDropdown">
@@ -328,7 +342,7 @@
         
         <div class="nav-right">
             <!-- Audio Visualizer -->
-            <div class="audio-visualizer hide-mobile" style="cursor:pointer;" style="cursor:pointer;" title="رادیو انیمه (در حال پخش)">
+            <div class="audio-visualizer hide-mobile" style="cursor:pointer;" title="رادیو انیمه (در حال پخش)">
                 <span></span><span></span><span></span><span></span><span></span>
             </div>
 
@@ -339,11 +353,11 @@
             </div>
 
             <button class="vip-nav-btn hide-mobile" id="vipOpenBtn">اشتراک VIP ✦</button>
-            <button class="icon-btn" id="searchBtnIcon" title="جستجو">🔍</button>
+            <button class="icon-btn" id="searchBtnIcon" title="جستجو" aria-label="جستجو">🔍</button>
 
             <!-- NOTIFICATION DROPDOWN -->
             <div class="notification-container" style="position: relative;">
-                <button class="icon-btn hide-mobile" id="bellBtnIcon" title="اعلانات">
+                <button class="icon-btn hide-mobile" id="bellBtnIcon" title="اعلانات" aria-label="اعلانات">
                     🔔
                     <span class="notification-dot"></span>
                 </button>
@@ -389,7 +403,7 @@
     <div class="vip-modal" id="vipModal">
         <div class="vip-backdrop" id="vipCloseBackdrop"></div>
         <div class="vip-modal-content">
-            <button class="vip-close-btn" id="vipCloseBtn">✕</button>
+            <button class="vip-close-btn" id="vipCloseBtn" aria-label="بستن">✕</button>
             
             <div class="vip-header">
                 <h2>ارتقا به سطح <span class="accent">نئون پلاس</span></h2>
@@ -511,7 +525,41 @@
 
 
 
-<!-- Mobile Bottom Navigation -->
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
+                <p>پلتفرم تماشای آنلاین انیمه با دوبله اختصاصی و زیرنویس فارسی. این نسخه یک <strong>دموی نمایشی</strong> است و هنوز به سرور واقعی متصل نیست.</p>
+            </div>
+            <div class="footer-col">
+                <h4>دسترسی سریع</h4>
+                <a href="index.html">خانه</a>
+                <a href="index.html#trendingSection">تازه و پرطرفدار</a>
+                <a href="index.html#schedule">تقویم پخش</a>
+                <a href="index.html#top10">۱۰ انیمه برتر</a>
+            </div>
+            <div class="footer-col">
+                <h4>حساب کاربری</h4>
+                <a href="login.html">ورود</a>
+                <a href="login.html?mode=signup">ثبت‌نام</a>
+                <a href="profile.html">پنل کاربری</a>
+                <a href="#" class="coming-soon">اشتراک ویژه</a>
+            </div>
+            <div class="footer-col">
+                <h4>قوانین</h4>
+                <a href="#" class="coming-soon">قوانین استفاده</a>
+                <a href="#" class="coming-soon">حریم خصوصی</a>
+                <a href="#" class="coming-soon">تماس با ما</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span id="footerYear">۱۴۰۵</span> نئون انیمه</span>
+            <span class="en-text">v0.2 · demo</span>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
         <a href="index.html" class="bottom-nav-item">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
