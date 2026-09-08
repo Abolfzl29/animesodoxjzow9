@@ -78,26 +78,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const scheduleData = {
         0: [ 
-            { title: "وان پیس", time: "۱۴:۳۰", img: "image-search/one-piece-anime-poster-high-quality-2.webp" },
-            { title: "حمله به تایتان", time: "۱۶:۰۰", img: "image-search/attack-on-titan-final-season-desktop-wal-1.jpg" },
-            { title: "جوجوتسو کایسن", time: "۱۹:۳۰", img: "image-search/jujutsu-kaisen-anime-poster-high-quality-1.jpg" }
+            { title: "وان پیس", time: "۱۴:۳۰", img: "assets/img/one-piece.webp" },
+            { title: "حمله به تایتان", time: "۱۶:۰۰", img: "assets/img/attack-on-titan-wallpaper.webp" },
+            { title: "جوجوتسو کایسن", time: "۱۹:۳۰", img: "assets/img/jujutsu-kaisen.webp" }
         ],
         1: [ 
-            { title: "دفترچه مرگ", time: "۱۸:۰۰", img: "image-search/death-note-anime-poster-high-quality-1.webp" },
-            { title: "مرد اره‌ای", time: "۲۱:۰۰", img: "image-search/chainsaw-man-anime-poster-high-quality-1.webp" }
+            { title: "دفترچه مرگ", time: "۱۸:۰۰", img: "assets/img/death-note.webp" },
+            { title: "مرد اره‌ای", time: "۲۱:۰۰", img: "assets/img/chainsaw-man.webp" }
         ],
         2: [
-            { title: "جوجوتسو کایسن", time: "۲۱:۳۰", img: "image-search/jujutsu-kaisen-anime-poster-high-quality-1.jpg" },
-            { title: "مرد اره‌ای", time: "۲۳:۰۰", img: "image-search/chainsaw-man-anime-poster-high-quality-1.webp" },
-            { title: "سایبرپانک: اج‌رانرز", time: "۰۰:۳۰", img: "image-search/cyberpunk-edgerunners-official-desktop-w-1.webp" }
+            { title: "جوجوتسو کایسن", time: "۲۱:۳۰", img: "assets/img/jujutsu-kaisen.webp" },
+            { title: "مرد اره‌ای", time: "۲۳:۰۰", img: "assets/img/chainsaw-man.webp" },
+            { title: "سایبرپانک: اج‌رانرز", time: "۰۰:۳۰", img: "assets/img/cyberpunk-edgerunners-2.webp" }
         ],
         3: [ 
-            { title: "شیطان کش", time: "۲۰:۰۰", img: "image-search/demon-slayer-anime-poster-high-quality-1.png" },
-            { title: "وان پیس", time: "۲۲:۰۰", img: "image-search/one-piece-anime-poster-high-quality-2.webp" }
+            { title: "شیطان کش", time: "۲۰:۰۰", img: "assets/img/demon-slayer.webp" },
+            { title: "وان پیس", time: "۲۲:۰۰", img: "assets/img/one-piece.webp" }
         ],
         4: [ 
-            { title: "اتک آن تایتان", time: "۲۲:۱۵", img: "image-search/attack-on-titan-final-season-desktop-wal-1.jpg" },
-            { title: "دفترچه مرگ", time: "۲۳:۳۰", img: "image-search/death-note-anime-poster-high-quality-1.webp" }
+            { title: "اتک آن تایتان", time: "۲۲:۱۵", img: "assets/img/attack-on-titan-wallpaper.webp" },
+            { title: "دفترچه مرگ", time: "۲۳:۳۰", img: "assets/img/death-note.webp" }
         ]
     };
 
@@ -204,6 +204,26 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = 'watch.html' + (title ? '?title=' + encodeURIComponent(title) : '');
         });
     });
+
+    // 5b. HOVER PREVIEW VIDEOS ON CARDS (lazy: only load/play while hovered, desktop only)
+    if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+        document.querySelectorAll('.anime-card').forEach(card => {
+            const vid = card.querySelector('.card-hover-video');
+            if (!vid) return;
+            let hoverTimer = null;
+            card.addEventListener('mouseenter', () => {
+                hoverTimer = setTimeout(() => {
+                    if (vid.preload === 'none') vid.preload = 'metadata';
+                    vid.play().catch(() => {});
+                }, 400);
+            });
+            card.addEventListener('mouseleave', () => {
+                clearTimeout(hoverTimer);
+                vid.pause();
+                vid.currentTime = 0;
+            });
+        });
+    }
 
     // 6. Navbar Glass Effect
     const navbar = document.getElementById('navbar');

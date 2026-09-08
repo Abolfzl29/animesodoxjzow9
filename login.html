@@ -67,7 +67,7 @@
         <!-- Visual Banner -->
         <div class="auth-page-left">
             <a href="index.html" class="back-to-home">→ بازگشت به خانه</a>
-            <img src="image-search/one-piece-wano-high-quality-desktop-wall-1.jpg" alt="Auth Background">
+            <img src="assets/img/one-piece-wano-wallpaper.webp" alt="Auth Background" loading="eager" decoding="async">
             <div class="auth-page-overlay"></div>
             <div class="auth-page-branding">
                 <h2 class="en-text">NEON<span class="accent">.</span>ANIME</h2>
@@ -140,20 +140,20 @@
 <div class="premium-avatar-picker" style="margin-bottom: 0px;">
                         <!-- BOY AVATARS -->
                         <div class="avatar-group" id="boyAvatars">
-                            <img src="image-search/gojo-satoru-anime-profile-picture-high-q-1.webp" class="p-avatar active" alt="Gojo">
-                            <img src="image-search/levi-ackerman-anime-profile-picture-high-1.png" class="p-avatar" alt="Levi">
-                            <img src="image-search/tanjiro-kamado-anime-profile-picture-hig-1.jpg" class="p-avatar" alt="Tanjiro">
-                            <img src="image-search/l-death-note-anime-profile-picture-high--1.webp" class="p-avatar" alt="L">
-                            <img src="image-search/roronoa-zoro-anime-profile-picture-high--1.jpg" class="p-avatar" alt="Zoro">
+                            <img src="assets/img/gojo-satoru.webp" class="p-avatar active" alt="Gojo" loading="lazy" decoding="async">
+                            <img src="assets/img/levi-ackerman.webp" class="p-avatar" alt="Levi" loading="lazy" decoding="async">
+                            <img src="assets/img/tanjiro-kamado.webp" class="p-avatar" alt="Tanjiro" loading="lazy" decoding="async">
+                            <img src="assets/img/l-death-note.webp" class="p-avatar" alt="L" loading="lazy" decoding="async">
+                            <img src="assets/img/roronoa-zoro.webp" class="p-avatar" alt="Zoro" loading="lazy" decoding="async">
                         </div>
                         
                         <!-- GIRL AVATARS -->
                         <div class="avatar-group" id="girlAvatars">
-                            <img src="image-search/makima-chainsaw-man-anime-profile-pictur-1.webp" class="p-avatar" alt="Makima">
-                            <img src="image-search/nezuko-anime-profile-picture-high-qualit-1.jpg" class="p-avatar" alt="Nezuko">
-                            <img src="image-search/mikasa-ackerman-solo-profile-picture-hd-1.jpg" class="p-avatar" alt="Mikasa">
-                            <img src="image-search/power-chainsaw-man-anime-profile-picture-1.png" class="p-avatar" alt="Power">
-                            <img src="image-search/nami-one-piece-portrait-profile-picture--1.jpg" class="p-avatar" alt="Nami">
+                            <img src="assets/img/makima-chainsaw-man.webp" class="p-avatar" alt="Makima" loading="lazy" decoding="async">
+                            <img src="assets/img/nezuko.webp" class="p-avatar" alt="Nezuko" loading="lazy" decoding="async">
+                            <img src="assets/img/mikasa-ackerman.webp" class="p-avatar" alt="Mikasa" loading="lazy" decoding="async">
+                            <img src="assets/img/power-chainsaw-man.webp" class="p-avatar" alt="Power" loading="lazy" decoding="async">
+                            <img src="assets/img/nami-one-piece.webp" class="p-avatar" alt="Nami" loading="lazy" decoding="async">
                         </div>
                     </div>
 
@@ -341,7 +341,7 @@
                 if(!localStorage.getItem('neon_user_name')) {
                     localStorage.setItem('neon_user_name', 'کیانوش');
                     localStorage.setItem('neon_user_username', 'Kianoosh_Otaku');
-                    localStorage.setItem('neon_user_avatar', 'image-search/gojo-satoru-anime-profile-picture-high-q-1.webp');
+                    localStorage.setItem('neon_user_avatar', 'assets/img/gojo-satoru.webp');
                 }
                 localStorage.setItem('neon_is_vip', 'true'); // Show VIP on login
                 localStorage.setItem('neon_is_logged_in', 'true');
@@ -375,7 +375,7 @@
 
                 // Get selected Avatar
                 let activeAvatar = document.querySelector('.p-avatar.active');
-                let avatarSrc = activeAvatar ? activeAvatar.src : 'image-search/gojo-satoru-anime-profile-picture-high-q-1.webp';
+                let avatarSrc = activeAvatar ? activeAvatar.src : 'assets/img/gojo-satoru.webp';
                 
                 // Get form inputs
                 let fullName = document.getElementById('regFullName').value;

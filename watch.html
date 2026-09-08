@@ -18,7 +18,7 @@
     <div class="side-menu" id="sideMenu">
         <div class="side-menu-header">
             <a href="login.html" id="loginTriggerBtn2" class="auth-trigger" style="display:flex; align-items:center; gap:15px; cursor:pointer; text-decoration: none;" title="ورود / ثبت‌نام">
-                <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="User">
+                <img src="assets/img/avatar-1.webp" alt="User" loading="eager" decoding="async">
                 <div>
                     <h4>کاربر مهمان</h4>
                     <span class="status-badge" style="background: var(--accent); color: white;">ورود / عضویت</span>
@@ -79,7 +79,7 @@
                                 <a href="#">وان پیس</a>
                             </div>
                             <div class="mega-column featured">
-                                <img src="image-search/attack-on-titan-final-season-desktop-wal-1.jpg" alt="Featured">
+                                <img src="assets/img/attack-on-titan-wallpaper.webp" alt="Featured" loading="lazy" decoding="async">
                             </div>
                         </div>
                     </div>
@@ -142,14 +142,14 @@
                     </div>
                     <div class="notif-body">
                         <div class="notif-item unread">
-                            <img src="image-search/jujutsu-kaisen-anime-poster-high-quality-1.jpg" alt="JJK">
+                            <img src="assets/img/jujutsu-kaisen.webp" alt="JJK" loading="lazy" decoding="async">
                             <div class="notif-info">
                                 <p>قسمت جدید <strong>جوجوتسو کایسن</strong> با دوبله اختصاصی منتشر شد!</p>
                                 <span>۲ ساعت پیش</span>
                             </div>
                         </div>
                         <div class="notif-item">
-                            <img src="image-search/chainsaw-man-anime-poster-high-quality-1.webp" alt="CSM">
+                            <img src="assets/img/chainsaw-man.webp" alt="CSM" loading="lazy" decoding="async">
                             <div class="notif-info">
                                 <p>آلبوم موسیقی متن <strong>مرد اره‌ای</strong> به رادیو انیمه اضافه شد.</p>
                                 <span>دیروز</span>
@@ -168,7 +168,7 @@
             
             <a href="profile.html" class="user-profile hide-mobile" style="text-decoration: none; cursor:pointer;" title="ورود / ثبت‌نام">
 
-                <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="Profile">
+                <img src="assets/img/avatar-1.webp" alt="Profile" loading="eager" decoding="async">
             </a>
         </div>
     </nav>
@@ -249,7 +249,7 @@
         <div class="watch-main">
             <!-- Custom Video Player -->
             <div class="video-player-wrapper paused" id="videoContainer">
-                <video id="mainVideo" preload="metadata" playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" poster="image-search/attack-on-titan-final-season-desktop-wal-1.jpg"></video>
+                <video id="mainVideo" preload="metadata" playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" poster="assets/img/attack-on-titan-wallpaper.webp"></video>
                 
                 <!-- Center Play Button -->
                 <div class="center-play-btn" id="centerPlayBtn"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"></path></svg></div>
@@ -333,7 +333,7 @@
             <div class="watch-comments">
                 <h3 style="font-size: 1.4rem; margin-bottom: 20px;" id="commentsHeading">نظرات کاربران</h3>
                 <div class="comment-input-area">
-                    <img src="image-search/anime-aesthetic-avatar-square-1.jpg" alt="User" id="commentUserAvatar">
+                    <img src="assets/img/avatar-1.webp" alt="User" id="commentUserAvatar" loading="eager" decoding="async">
                     <div class="comment-input-wrapper">
                         <input type="text" id="commentInput" placeholder="نظرت رو درباره این قسمت بنویس..." maxlength="500">
                         <button class="comment-submit" id="commentSubmit" type="button">ارسال نظر</button>
@@ -341,7 +341,7 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;" id="commentsList">
                     <div style="display: flex; gap: 15px;">
-                        <img src="image-search/anime-aesthetic-avatar-square-2.jpg" alt="User" style="width: 45px; height: 45px; border-radius: 50%;">
+                        <img src="assets/img/avatar-2.webp" alt="User" style="width: 45px; height: 45px; border-radius: 50%;" loading="lazy" decoding="async">
                         <div>
                             <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 5px;">
                                 <h5 style="font-weight: bold;">Levi_Fan_99</h5>
@@ -352,7 +352,7 @@
                         </div>
                     </div>
                     <div style="display: flex; gap: 15px;">
-                        <img src="image-search/anime-aesthetic-avatar-square-3.jpg" alt="User" style="width: 45px; height: 45px; border-radius: 50%;">
+                        <img src="assets/img/avatar-3.webp" alt="User" style="width: 45px; height: 45px; border-radius: 50%;" loading="lazy" decoding="async">
                         <div>
                             <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 5px;">
                                 <h5 style="font-weight: bold;">OtakuGirl</h5>
@@ -750,7 +750,7 @@
                 wrap.className = 'local-comment';
                 wrap.style.cssText = 'display: flex; gap: 15px;';
                 wrap.innerHTML = `
-                    <img src="${escapeHtml(c.avatar)}" alt="" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                    <img src="${escapeHtml(c.avatar)}" alt="" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;" loading="lazy" decoding="async">
                     <div>
                         <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 5px;">
                             <h5 style="font-weight: bold;">${escapeHtml(c.name)}</h5>
@@ -772,7 +772,7 @@
                     }
                     const c = {
                         name: localStorage.getItem('neon_user_username') || localStorage.getItem('neon_user_name') || 'کاربر',
-                        avatar: localStorage.getItem('neon_user_avatar') || 'image-search/anime-aesthetic-avatar-square-1.jpg',
+                        avatar: localStorage.getItem('neon_user_avatar') || 'assets/img/avatar-1.webp',
                         vip: isVip, text: text, when: 'همین الان'
                     };
                     let saved = [];
