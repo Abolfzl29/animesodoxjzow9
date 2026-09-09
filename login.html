@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+    <script>
+        // Apply saved theme before paint to avoid a flash of the wrong theme
+        (function () {
+            try {
+                var t = localStorage.getItem('neon_theme');
+                if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+            } catch (e) {}
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورود / ثبت‌نام | Neon Anime</title>

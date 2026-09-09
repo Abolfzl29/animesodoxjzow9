@@ -12,7 +12,45 @@
     --neon-purple: #8a2be2;
     --glass-bg: rgba(20, 20, 25, 0.6);
     --glass-border: rgba(255, 255, 255, 0.08);
+    color-scheme: dark;
 }
+
+/* ===== Light (Day) theme ===== */
+:root[data-theme="light"] {
+    --bg-main: #f4f5f7;
+    --bg-surface: #ffffff;
+    --text-light: #14161a;
+    --text-muted: #5c636b;
+    --accent: #e60033;
+    --accent-glow: rgba(230, 0, 51, 0.35);
+    --neon-blue: #0091a7;
+    --neon-purple: #6d28d9;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    color-scheme: light;
+}
+
+/* Smooth transition when switching themes */
+body,
+.main-nav,
+.glass-card,
+.side-menu,
+.notification-dropdown,
+.search-modal,
+.footer,
+.modal-content {
+    transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+/* Theme toggle button */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.theme-toggle-btn .theme-icon-sun { display: none; }
+:root[data-theme="light"] .theme-toggle-btn .theme-icon-sun { display: inline; }
+:root[data-theme="light"] .theme-toggle-btn .theme-icon-moon { display: none; }
 
 html { scroll-behavior: smooth; }
 * { margin: 0; padding: 0; box-sizing: border-box; }

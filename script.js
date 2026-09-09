@@ -764,6 +764,30 @@ document.addEventListener("DOMContentLoaded", () => {
         try { footerYear.textContent = new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(new Date()); } catch (e) {}
     }
 
+    // 19b. DAY / NIGHT THEME TOGGLE
+    (function initThemeToggle() {
+        const root = document.documentElement;
+        function currentTheme() {
+            return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        }
+        function applyTheme(theme) {
+            if (theme === 'light') root.setAttribute('data-theme', 'light');
+            else root.removeAttribute('data-theme');
+            try { localStorage.setItem('neon_theme', theme); } catch (e) {}
+            document.querySelectorAll('#themeToggleBtn').forEach(btn => {
+                btn.setAttribute('aria-pressed', String(theme === 'light'));
+                btn.title = theme === 'light' ? 'حالت شب' : 'حالت روز';
+            });
+        }
+        // Keep buttons in sync with the theme already applied by the head script
+        applyTheme(currentTheme());
+        document.querySelectorAll('#themeToggleBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                applyTheme(currentTheme() === 'light' ? 'dark' : 'light');
+            });
+        });
+    })();
+
     // 20. CLOSE ANY OPEN OVERLAY WITH ESCAPE
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
