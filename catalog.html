@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آرشیو انیمه‌ها | نئون انیمه</title>
+    <meta name="description" content="آرشیو انیمه‌های نئون انیمه؛ مرور دسته‌بندی‌شده بر اساس ژانر، جستجو و مشاهده همه عناوین.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="آرشیو انیمه‌ها | نئون انیمه">
+    <meta property="og:description" content="انیمه‌ها را بر اساس ژانر مرور کنید و سریع‌تر به عنوان مورد علاقه‌تان برسید.">
+    <meta name="theme-color" content="#0a0a0c">
+    <script>
+        // Apply the saved theme before paint and keep browser chrome in sync.
+        (function () {
+            var theme = 'dark';
+            try {
+                if (localStorage.getItem('neon_theme') === 'light') {
+                    theme = 'light';
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) {}
+            document.querySelector('meta[name="theme-color"]').setAttribute(
+                'content', theme === 'light' ? '#f4f1f9' : '#0a0a0c'
+            );
+        })();
+    </script>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/icon-192.png" sizes="192x192" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta property="og:site_name" content="Neon Anime">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:image" content="assets/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="catalog.css">
+</head>
+<body class="catalog-page">
+    <div id="toastContainer" aria-live="polite"></div>
+
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <aside class="side-menu" id="sideMenu" aria-label="منوی اصلی">
+        <div class="side-menu-header">
+            <a href="login.html" id="loginTriggerBtn2" class="auth-trigger" title="ورود / ثبت‌نام">
+                <img src="assets/img/avatar-1.webp" alt="تصویر کاربر" width="48" height="48" loading="eager" decoding="async">
+                <div>
+                    <h4>کاربر مهمان</h4>
+                    <span class="status-badge">ورود / عضویت</span>
+                </div>
+            </a>
+            <button class="close-side-btn" id="closeSideBtn" type="button" aria-label="بستن منو">✕</button>
+        </div>
+        <div class="side-menu-links">
+            <a href="index.html"><span class="icon">🏠</span> خانه</a>
+            <a href="catalog.html" class="active"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
+            <a href="catalog.html?genre=action#catalogResults"><span class="icon">⚔️</span> انیمه‌های اکشن</a>
+            <a href="catalog.html?genre=dark-fantasy#catalogResults"><span class="icon">🌑</span> فانتزی تاریک</a>
+            <a href="index.html#schedule"><span class="icon">📅</span> تقویم پخش</a>
+            <a href="profile.html"><span class="icon">🔖</span> لیست تماشای من</a>
+        </div>
+    </aside>
+
+    <div class="ambient-bg" aria-hidden="true">
+        <div class="glow-orb purple"></div>
+        <div class="glow-orb blue"></div>
+    </div>
+
+    <nav class="main-nav catalog-nav" id="navbar" aria-label="ناوبری اصلی">
+        <div class="nav-left">
+            <button class="hamburger-btn" id="hamburgerBtn" type="button" aria-label="باز کردن منو" aria-controls="sideMenu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <a class="logo" href="index.html" aria-label="نئون انیمه - صفحه اصلی">NEON<span class="accent">.</span>ANIME</a>
+            <ul class="nav-links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="catalog.html" class="active">آرشیو انیمه‌ها</a></li>
+                <li><a href="catalog.html?genre=action#catalogResults">اکشن</a></li>
+                <li><a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a></li>
+                <li><a href="index.html#schedule">تقویم پخش</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn" id="catalogSearchTrigger" type="button" title="جستجو در آرشیو" aria-label="جستجو در آرشیو">🔍</button>
+            <button class="icon-btn theme-toggle-btn" id="themeToggleBtn" type="button" title="حالت روز / شب" aria-label="تغییر حالت روز و شب">
+                <span class="theme-icon-moon">🌙</span><span class="theme-icon-sun">☀️</span>
+            </button>
+            <a href="profile.html" class="user-profile" title="ورود / ثبت‌نام">
+                <img src="assets/img/avatar-1.webp" alt="پروفایل" width="42" height="42" loading="eager" decoding="async">
+            </a>
+        </div>
+    </nav>
+
+    <header class="catalog-hero">
+        <div class="catalog-hero-art" aria-hidden="true"></div>
+        <div class="catalog-hero-inner">
+            <nav class="catalog-breadcrumb" aria-label="مسیر صفحه">
+                <a href="index.html">خانه</a><span>‹</span><span aria-current="page">آرشیو انیمه‌ها</span>
+            </nav>
+            <span class="catalog-kicker">آرشیو دسته‌بندی‌شده</span>
+            <h1>دنیای بعدی‌ات را<br><span class="accent">بر اساس ژانر</span> پیدا کن</h1>
+            <p>به‌جای یک فهرست شلوغ، انیمه‌ها را در مجموعه‌های ژانری جدا مرور کن؛ هر بخش فقط چند انتخاب نشان می‌دهد و آرشیو کامل خودش را دارد.</p>
+
+            <form class="catalog-search" id="catalogSearchForm" action="catalog.html" method="get" role="search">
+                <label class="sr-only" for="catalogSearchInput">جستجو در آرشیو انیمه‌ها</label>
+                <span aria-hidden="true">⌕</span>
+                <input id="catalogSearchInput" name="q" type="search" autocomplete="off" placeholder="نام انیمه، شخصیت یا ژانر...">
+                <button type="submit">جستجو</button>
+            </form>
+
+            <div class="catalog-hero-meta" aria-label="آمار آرشیو">
+                <span><strong id="catalogTitleCount">۰</strong> عنوان منتخب</span>
+                <span><strong id="catalogGenreCount">۰</strong> ژانر</span>
+                <a href="catalog.html?view=all#catalogResults">مشاهده کل آرشیو ←</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="catalog-main">
+        <nav class="catalog-genre-nav" id="catalogGenreNav" aria-label="انتخاب ژانر">
+            <!-- Rendered from data/anime.js -->
+        </nav>
+
+        <section id="catalogLanding" aria-labelledby="catalogLandingTitle">
+            <div class="catalog-page-heading">
+                <div>
+                    <span class="catalog-eyebrow">مرور سریع</span>
+                    <h2 id="catalogLandingTitle">هر ژانر، یک بخش جدا</h2>
+                    <p>برای دیدن همه عناوین هر ژانر، روی «مشاهده همه» بزن.</p>
+                </div>
+                <a class="catalog-outline-btn" href="catalog.html?view=all#catalogResults">همه عناوین</a>
+            </div>
+            <div id="catalogSections" class="catalog-sections"></div>
+        </section>
+
+        <section id="catalogResults" class="catalog-results" aria-labelledby="catalogResultsTitle" hidden>
+            <a class="catalog-back-link" href="catalog.html">→ بازگشت به دسته‌بندی ژانری</a>
+            <div class="catalog-results-header">
+                <div>
+                    <span class="catalog-eyebrow" id="catalogResultsEyebrow">آرشیو</span>
+                    <h2 id="catalogResultsTitle">همه انیمه‌ها</h2>
+                    <p id="catalogResultsDescription"></p>
+                </div>
+                <label class="catalog-sort">
+                    <span>مرتب‌سازی</span>
+                    <select id="catalogSortSelect">
+                        <option value="featured">پیشنهادی</option>
+                        <option value="rating">بالاترین امتیاز</option>
+                        <option value="newest">جدیدترین</option>
+                        <option value="title">نام عنوان</option>
+                    </select>
+                </label>
+            </div>
+            <div class="catalog-result-summary" role="status" aria-live="polite"><span id="catalogResultCount">۰ عنوان</span></div>
+            <div id="catalogAllGrid" class="catalog-all-grid"></div>
+            <div id="catalogEmpty" class="catalog-empty" hidden>
+                <span aria-hidden="true">⌕</span>
+                <h3>عنوانی پیدا نشد</h3>
+                <p>عبارت دیگری جستجو کن یا به دسته‌بندی ژانری برگرد.</p>
+                <a class="btn btn-play" href="catalog.html">مرور ژانرها</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
+                <p>آرشیو انیمه با دسته‌بندی روشن و مسیر کوتاه‌تر برای رسیدن به عنوان مورد علاقه‌ات.</p>
+            </div>
+            <div class="footer-col">
+                <h4>آرشیو</h4>
+                <a href="catalog.html?view=all#catalogResults">همه عناوین</a>
+                <a href="catalog.html?genre=action#catalogResults">اکشن</a>
+                <a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a>
+                <a href="catalog.html?genre=scifi#catalogResults">علمی‌تخیلی</a>
+            </div>
+            <div class="footer-col">
+                <h4>دسترسی سریع</h4>
+                <a href="index.html">خانه</a>
+                <a href="index.html#schedule">تقویم پخش</a>
+                <a href="index.html#top10">۱۰ انیمه برتر</a>
+                <a href="profile.html">لیست تماشای من</a>
+            </div>
+            <div class="footer-col">
+                <h4>حساب کاربری</h4>
+                <a href="login.html">ورود</a>
+                <a href="login.html?mode=signup">ثبت‌نام</a>
+                <a href="profile.html">پنل کاربری</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span id="footerYear">۱۴۰۵</span> نئون انیمه</span>
+            <span class="en-text">CATALOG · v0.3</span>
+        </div>
+    </footer>
+
+    <nav class="mobile-bottom-nav" aria-label="ناوبری موبایل">
+        <a href="index.html" class="bottom-nav-item">
+            <span aria-hidden="true">⌂</span><span>خانه</span>
+        </a>
+        <a href="catalog.html" class="bottom-nav-item active">
+            <span aria-hidden="true">▦</span><span>آرشیو</span>
+        </a>
+        <button type="button" class="bottom-nav-item catalog-bottom-search" id="bottomCatalogSearch">
+            <span aria-hidden="true">⌕</span><span>جستجو</span>
+        </button>
+        <a href="profile.html" class="bottom-nav-item">
+            <span aria-hidden="true">♙</span><span>پروفایل</span>
+        </a>
+    </nav>
+
+    <script src="data/anime.js"></script>
+    <script src="auth.js"></script>
+    <script src="catalog.js"></script>
+</body>
+</html>

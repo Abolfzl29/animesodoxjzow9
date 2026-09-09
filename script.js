@@ -59,9 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCounter();
     }
 
-    // 3. TYPED.JS EFFECT
-    if (document.querySelector('.typed-text')) {
-        new Typed('.typed-text', {
+    // 3. TYPED.JS EFFECT (optional CDN enhancement)
+    const typedTarget = document.querySelector('.typed-text');
+    if (typedTarget && typeof window.Typed === 'function') {
+        new window.Typed('.typed-text', {
             strings: ['اکشن خالص', 'سایبرپانک', 'شاهکار بصری', 'فانتزی تاریک'],
             typeSpeed: 50,
             backSpeed: 30,
@@ -70,6 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
             showCursor: true,
             cursorChar: '|'
         });
+    } else if (typedTarget) {
+        // Keep the rest of the homepage (especially search) functional if the
+        // optional third-party script is unavailable.
+        typedTarget.textContent = 'انیمه';
     }
 
     // 4. INTERACTIVE SCHEDULE TABS
@@ -486,7 +491,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function submitSearch(query) {
         const q = (query || '').trim();
         if (!q) return;
-        window.location.href = 'index.html?q=' + encodeURIComponent(q) + '#trendingSection';
+        // Full-site search belongs to the dedicated catalogue, not only the
+        // handful of cards rendered on the homepage.
+        window.location.href = 'catalog.html?q=' + encodeURIComponent(q) + '#catalogResults';
     }
 
     if(searchBtnIcon) searchBtnIcon.addEventListener('click', openSearch);
@@ -774,6 +781,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (theme === 'light') root.setAttribute('data-theme', 'light');
             else root.removeAttribute('data-theme');
             try { localStorage.setItem('neon_theme', theme); } catch (e) {}
+            const metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (metaTheme) metaTheme.setAttribute('content', theme === 'light' ? '#f4f1f9' : '#0a0a0c');
             document.querySelectorAll('#themeToggleBtn').forEach(btn => {
                 btn.setAttribute('aria-pressed', String(theme === 'light'));
                 btn.title = theme === 'light' ? 'حالت شب' : 'حالت روز';
