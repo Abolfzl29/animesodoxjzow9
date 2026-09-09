@@ -1801,18 +1801,18 @@ a.logo, a.logo:visited { text-decoration: none; }
 /* Scoped selectors also override the page-local login/profile styles.        */
 /* ========================================================================= */
 :root[data-theme="light"] {
-    --bg-main: #f5f6fa;
-    --text-light: #1c2333;
-    --text-muted: #596477;
+    --bg-main: #f4f1f9;
+    --text-light: #241d38;
+    --text-muted: #625a74;
     --neon-blue: #00798c;
-    --glass-border: #dce1ea;
-    --day-soft: #edf0f6;
-    --day-shadow: 0 8px 28px rgba(29, 42, 68, 0.08);
+    --glass-border: #dfd7eb;
+    --day-soft: #eee8f6;
+    --day-shadow: 0 12px 32px rgba(65, 35, 102, 0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
 }
 
 :root[data-theme="light"] .main-nav,
 :root[data-theme="light"] .main-nav.scrolled {
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(252, 249, 255, 0.88);
     border-bottom: 1px solid var(--glass-border);
     box-shadow: 0 4px 24px rgba(29, 42, 68, 0.06);
     backdrop-filter: blur(20px);
@@ -1839,12 +1839,12 @@ a.logo, a.logo:visited { text-decoration: none; }
 :root[data-theme="light"] :is(.notif-info p, .review-text, .watch-desc) { color: var(--text-muted); }
 :root[data-theme="light"] :is(.side-menu-header, .notif-header, .faq-item, .review-anime-tag, .form-section-title, .details-tabs, .sidebar-header) { border-color: var(--glass-border); }
 
-/* A bright hero panel with a soft fade into the page, not a dark glass box. */
+/* Pearl glass over saturated artwork, fading into the lavender canvas. */
 :root[data-theme="light"] .gradient-overlay {
-    background: linear-gradient(270deg, rgba(245,246,250,0.7), rgba(245,246,250,0.05) 75%), linear-gradient(to top, var(--bg-main), transparent 45%);
+    background: linear-gradient(270deg, rgba(62,27,94,0.25), transparent 65%), linear-gradient(to top, var(--bg-main) 2%, rgba(244,241,249,0.5) 16%, transparent 40%);
 }
 :root[data-theme="light"] .glass-panel {
-    background: rgba(255,255,255,0.94);
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(247,238,255,0.88));
     border-color: var(--glass-border);
     box-shadow: var(--day-shadow);
 }
@@ -1865,12 +1865,12 @@ a.logo, a.logo:visited { text-decoration: none; }
 /* White labels on darkened artwork must not inherit the page's dark ink. */
 :root[data-theme="light"] :is(.card-overlay, .category-card, .video-player-wrapper, .ep-img-wrapper .play-circle) { color: #fff; }
 :root[data-theme="light"] :is(.faq-container, .review-card, .studio-card, .watch-info, .watch-sidebar, .watch-comments, .profile-sidebar, .profile-header, .progress-card, .auth-form-container, .pricing-card) {
-    background: var(--bg-surface);
+    background: linear-gradient(145deg, #fff, #faf7ff);
     border-color: var(--glass-border);
     box-shadow: var(--day-shadow);
 }
 :root[data-theme="light"] :is(.newsletter-banner .glass-panel, .side-menu-vip-promo, .pricing-card.premium) {
-    background: linear-gradient(135deg, #fff, #fff0f4);
+    background: radial-gradient(ellipse at top right, #f5dff1, transparent 65%), linear-gradient(120deg, #fff, #eee5ff);
     border-color: #f0c8d3;
     box-shadow: var(--day-shadow);
 }
@@ -1897,8 +1897,8 @@ a.logo, a.logo:visited { text-decoration: none; }
 :root[data-theme="light"] .vip-tag { color: #805400; background: #fff4d7; border-color: #e6cd8d; }
 :root[data-theme="light"] .profile-avatar { box-shadow: var(--day-shadow); }
 :root[data-theme="light"] .progress-bar-container { background: #dce1ea; }
-:root[data-theme="light"] .site-footer { background: #fff; }
-:root[data-theme="light"] .glow-orb { opacity: 0.06; }
+:root[data-theme="light"] .site-footer { background: linear-gradient(160deg, #fcfaff, #ece4f6); }
+:root[data-theme="light"] .glow-orb { opacity: 0.12; }
 
 /* Search, account forms and detail dialogs. Keep focus and selected states clear. */
 :root[data-theme="light"] .search-modal { background: rgba(245,246,250,0.98); }
@@ -1932,3 +1932,111 @@ a.logo, a.logo:visited { text-decoration: none; }
     --comment-text: #596477;
 }
 :root[data-theme="light"] #searchInput:focus { --search-field-border: var(--accent); }
+
+/* DAY THEME / PEARL NEON — visual identity, without changing night mode. */
+:root[data-theme="light"] body {
+    background-image: radial-gradient(ellipse at 100% 15%, rgba(164,112,237,0.1), transparent 38%),
+                      radial-gradient(ellipse at 0% 65%, rgba(230,0,86,0.06), transparent 35%);
+}
+:root[data-theme="light"] .main-nav::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c2a0ed, #e8a2c6, transparent);
+    pointer-events: none;
+}
+:root[data-theme="light"] .logo { letter-spacing: 1.5px; }
+:root[data-theme="light"] .logo .accent { text-shadow: 0 0 16px rgba(230,0,86,0.35); }
+:root[data-theme="light"] .theme-toggle-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fff, #ece2fb);
+    border: 1px solid #dac9ed;
+    box-shadow: 0 3px 12px rgba(83,42,121,0.08);
+}
+:root[data-theme="light"] .slide-content .glass-panel {
+    border: 1px solid rgba(255,255,255,0.85);
+    border-top: 2px solid #e7c8f5;
+    border-radius: 24px;
+    box-shadow: 0 28px 70px rgba(29,9,48,0.23), 0 0 0 5px rgba(255,255,255,0.08), inset 0 1px 25px rgba(255,255,255,0.5);
+    backdrop-filter: blur(32px) saturate(140%);
+    -webkit-backdrop-filter: blur(32px) saturate(140%);
+}
+:root[data-theme="light"] .slide-title { letter-spacing: -0.8px; }
+:root[data-theme="light"] .slide-subtitle { color: #70518e; font-size: 0.85rem; letter-spacing: 2px; }
+:root[data-theme="light"] .typed-container { color: #6b467f; }
+:root[data-theme="light"] .live-badge {
+    background: #f9e6f0;
+    color: #9e154c;
+    border: 1px solid #edc4da;
+    font-size: 0.8rem;
+    letter-spacing: 0.2px;
+}
+:root[data-theme="light"] .btn-play {
+    background: linear-gradient(115deg, #c91457, #8732bd);
+    color: #fff;
+    box-shadow: 0 7px 20px rgba(160,30,115,0.24);
+}
+:root[data-theme="light"] .btn-play:hover {
+    background: linear-gradient(115deg, #ad0f4b, #6f259e);
+    box-shadow: 0 10px 28px rgba(160,30,115,0.35);
+}
+:root[data-theme="light"] .dot.active { width: 28px; border-radius: 8px; background: linear-gradient(90deg, #d32265, #8a36bd); }
+:root[data-theme="light"] .row-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.5px;
+}
+:root[data-theme="light"] .row-title::before {
+    content: "";
+    flex: 0 0 4px;
+    height: 24px;
+    border-radius: 8px;
+    background: linear-gradient(#e60057, #8b38c7);
+    box-shadow: 0 0 12px rgba(201,20,87,0.2);
+}
+:root[data-theme="light"] .anime-card { border-radius: 15px; border-color: rgba(102,64,141,0.18); }
+:root[data-theme="light"] .anime-card:hover {
+    border-color: #b678cf;
+    box-shadow: 0 14px 32px rgba(80,36,114,0.22), 0 0 0 2px rgba(183,120,207,0.12);
+}
+:root[data-theme="light"] .card-details-sleek { background: rgba(21,12,36,0.65); border-color: rgba(235,204,255,0.25); }
+:root[data-theme="light"] .anime-card:hover .sleek-title { color: #ffc4e3; }
+:root[data-theme="light"] .sleek-rating { background: rgba(28,17,44,0.8); }
+:root[data-theme="light"] .huge-number {
+    color: #eee6f6;
+    -webkit-text-stroke: 2px #aa85c4;
+    text-shadow: 5px 8px 18px rgba(85,40,119,0.12);
+}
+:root[data-theme="light"] .top-10-item:hover .huge-number { color: #f4ddea; -webkit-text-stroke-color: #bc3675; }
+:root[data-theme="light"] .character-circle img {
+    border-color: #e2c9ef;
+    background: linear-gradient(135deg, #fff, #ecd6f7);
+    box-shadow: 0 8px 25px rgba(110,53,149,0.12);
+}
+:root[data-theme="light"] .character-circle:hover img { border-color: #b35acb; box-shadow: 0 10px 30px rgba(157,62,185,0.22); }
+:root[data-theme="light"] :is(.schedule-container, .faq-container, .review-card, .studio-card) { border-radius: 20px; }
+:root[data-theme="light"] :is(.studio-card:hover, .review-card:hover) { border-color: #c2a2da; box-shadow: 0 12px 30px rgba(106,55,146,0.13); }
+:root[data-theme="light"] .schedule-days { background: linear-gradient(90deg, #f3edf9, #fbeef5); }
+:root[data-theme="light"] .chip { background: rgba(255,255,255,0.7); }
+:root[data-theme="light"] .chip.active { background: #33213f; border-color: #33213f; box-shadow: 0 4px 12px rgba(64,30,89,0.16); }
+:root[data-theme="light"] .newsletter-banner .glass-panel { border-radius: 28px; border-color: #dcbfe9; }
+:root[data-theme="light"] .review-stars { color: #a76800; }
+:root[data-theme="light"] .mobile-bottom-nav { background: rgba(251,247,255,0.95); border-top-color: #d9c6e9; }
+
+@media (max-width: 900px) {
+    :root[data-theme="light"] .slide-content .glass-panel {
+        border-radius: 18px;
+        box-shadow: 0 16px 36px rgba(29,9,48,0.18);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+    :root[data-theme="light"] .slide-subtitle { letter-spacing: 1px; font-size: 0.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    :root[data-theme="light"] .glow-orb { animation: none; }
+    :root[data-theme="light"] :is(.anime-card, .character-circle img, .btn-play) { transition: none; }
+}
