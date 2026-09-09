@@ -774,6 +774,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (theme === 'light') root.setAttribute('data-theme', 'light');
             else root.removeAttribute('data-theme');
             try { localStorage.setItem('neon_theme', theme); } catch (e) {}
+            const metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (metaTheme) metaTheme.setAttribute('content', theme === 'light' ? '#f4f1f9' : '#0a0a0c');
             document.querySelectorAll('#themeToggleBtn').forEach(btn => {
                 btn.setAttribute('aria-pressed', String(theme === 'light'));
                 btn.title = theme === 'light' ? 'حالت شب' : 'حالت روز';
