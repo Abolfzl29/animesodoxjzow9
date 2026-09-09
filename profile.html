@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+    <script>
+        // Apply saved theme before paint to avoid a flash of the wrong theme
+        (function () {
+            try {
+                var t = localStorage.getItem('neon_theme');
+                if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+            } catch (e) {}
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پنل کاربری | نئون انیمه</title>
@@ -354,6 +363,7 @@
 
             <button class="vip-nav-btn hide-mobile" id="vipOpenBtn">اشتراک VIP ✦</button>
             <button class="icon-btn" id="searchBtnIcon" title="جستجو" aria-label="جستجو">🔍</button>
+            <button class="icon-btn theme-toggle-btn" id="themeToggleBtn" title="حالت روز / شب" aria-label="تغییر حالت روز و شب"><span class="theme-icon-moon">🌙</span><span class="theme-icon-sun">☀️</span></button>
 
             <!-- NOTIFICATION DROPDOWN -->
             <div class="notification-container" style="position: relative;">
