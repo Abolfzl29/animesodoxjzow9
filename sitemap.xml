@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Replace YOUR-DOMAIN.example with the real domain before deploying. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://YOUR-DOMAIN.example/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://YOUR-DOMAIN.example/catalog.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://YOUR-DOMAIN.example/watch.html?anime=attack-on-titan</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://YOUR-DOMAIN.example/watch.html?anime=demon-slayer</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://YOUR-DOMAIN.example/watch.html?anime=jujutsu-kaisen</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://YOUR-DOMAIN.example/watch.html?anime=chainsaw-man</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://YOUR-DOMAIN.example/watch.html?anime=one-piece</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://YOUR-DOMAIN.example/watch.html?anime=death-note</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://YOUR-DOMAIN.example/watch.html?anime=cyberpunk-edgerunners</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/catalog.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/anime.html?id=attack-on-titan</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/anime.html?id=demon-slayer</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/anime.html?id=jujutsu-kaisen</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/anime.html?id=chainsaw-man</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/anime.html?id=one-piece</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/anime.html?id=death-note</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/anime.html?id=cyberpunk-edgerunners</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/watch.html?anime=attack-on-titan</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/watch.html?anime=demon-slayer</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/watch.html?anime=jujutsu-kaisen</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/watch.html?anime=chainsaw-man</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/watch.html?anime=one-piece</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/watch.html?anime=death-note</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://abolfzl29.github.io/animesodoxjzow9/watch.html?anime=cyberpunk-edgerunners</loc><changefreq>weekly</changefreq></url>
 </urlset>

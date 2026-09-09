@@ -32,9 +32,9 @@
 
         function createAnimeCard(anime) {
             const card = element('a', 'anime-card landscape catalog-anime-card');
-            card.href = DATA.watchUrl(anime);
+            card.href = DATA.detailUrl(anime);
             card.dataset.anime = anime.id;
-            card.setAttribute('aria-label', `تماشای ${anime.title}`);
+            card.setAttribute('aria-label', `جزئیات ${anime.title}`);
 
             const image = element('img', 'card-static-img');
             image.src = anime.banner;
