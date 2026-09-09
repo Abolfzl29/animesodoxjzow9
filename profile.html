@@ -314,10 +314,10 @@
                             </div>
                             <div class="mega-column">
                                 <h4>برترین‌های تاریخ</h4>
-                                <a href="watch.html?anime=attack-on-titan">حمله به تایتان</a>
-                                <a href="watch.html?anime=cyberpunk-edgerunners">سایبرپانک: اج‌رانرز</a>
-                                <a href="watch.html?anime=death-note">دفترچه مرگ</a>
-                                <a href="watch.html?anime=one-piece">وان پیس</a>
+                                <a href="anime.html?id=attack-on-titan">حمله به تایتان</a>
+                                <a href="anime.html?id=cyberpunk-edgerunners">سایبرپانک: اج‌رانرز</a>
+                                <a href="anime.html?id=death-note">دفترچه مرگ</a>
+                                <a href="anime.html?id=one-piece">وان پیس</a>
                             </div>
                             <div class="mega-column featured">
                                 <img src="assets/img/attack-on-titan-wallpaper.webp" alt="Featured" loading="lazy" decoding="async">
@@ -739,7 +739,7 @@
             function listCard(anime) {
                 const a = document.createElement('a');
                 a.className = 'anime-card landscape';
-                a.href = DATA.watchUrl(anime);
+                a.href = DATA.detailUrl(anime);
                 a.style.cssText = 'display:block; text-decoration:none; color:inherit;';
                 a.innerHTML = `
                     <img src="${anime.banner}" alt="${anime.title}" class="card-static-img" loading="lazy" decoding="async">

@@ -2,7 +2,9 @@
  * Single source of truth for catalogue data (temporary, until a real API exists).
  * Loaded as a plain script -> exposes window.NEON_ANIME.
  *
- * Every anime has a stable `id` (slug). Pages link to the player with watch.html?anime=<id>&ep=<n>.
+ * Every anime has a stable `id` (slug).
+ * Detail pages: anime.html?id=<id>
+ * Player pages: watch.html?anime=<id>&ep=<n>
  * Video URLs are public demo clips (Blender open movies) — replace with real HLS streams later.
  */
 (function () {
@@ -48,10 +50,17 @@
             genreLabel: 'اکشن، فانتزی تاریک، درام',
             studio: 'MAPPA',
             seasons: 4,
+            status: 'finished',
+            statusLabel: 'پایان‌یافته',
             poster: 'assets/img/attack-on-titan.webp',
             banner: 'assets/img/attack-on-titan-wallpaper.webp',
+            trailer: DEMO_VIDEO_2,
             desc: 'زمانی که تایتان‌های انسان‌خوار بشریت را به مرز انقراض می‌کشانند، بازماندگان در پشت دیوارهای عظیم پناه می‌گیرند. ارن یگر پس از سقوط دیوار ماریا سوگند می‌خورد تمام تایتان‌ها را نابود کند.',
             currentSeason: 4,
+            characters: [
+                { name: 'میکاسا آکرمن', nameEn: 'Mikasa Ackerman', role: 'قهرمان', img: 'assets/img/mikasa-ackerman.webp' },
+                { name: 'لیوای آکرمن', nameEn: 'Levi Ackerman', role: 'قهرمان', img: 'assets/img/levi-ackerman.webp' }
+            ],
             episodes: episodes(4, [
                 { number: 19, title: 'دو برادر' },
                 { number: 20, title: 'خاطرات آینده', src: DEMO_VIDEO_2 },
@@ -72,10 +81,17 @@
             genreLabel: 'اکشن، فانتزی',
             studio: 'ufotable',
             seasons: 4,
+            status: 'airing',
+            statusLabel: 'در حال پخش',
             poster: 'assets/img/demon-slayer-tanjiro.webp',
             banner: 'assets/img/demon-slayer.webp',
+            trailer: DEMO_VIDEO_3,
             desc: 'تانجیرو کامادو پس از قتل‌عام خانواده‌اش و تبدیل شدن خواهرش نزوکو به شیطان، به سپاه شیطان‌کش‌ها می‌پیوندد تا درمانی برای او پیدا کند.',
             currentSeason: 4,
+            characters: [
+                { name: 'تانجیرو کامادو', nameEn: 'Tanjiro Kamado', role: 'قهرمان', img: 'assets/img/tanjiro-kamado.webp' },
+                { name: 'نزوکو کامادو', nameEn: 'Nezuko Kamado', role: 'قهرمان', img: 'assets/img/nezuko.webp' }
+            ],
             episodes: episodes(4, [
                 { title: 'برای شکست موزان کیبوتسوجی' },
                 { title: 'ملاقات با هاشیراها', src: DEMO_VIDEO_2 },
@@ -96,10 +112,16 @@
             genreLabel: 'اکشن، فانتزی، ماوراءطبیعی',
             studio: 'MAPPA',
             seasons: 2,
+            status: 'airing',
+            statusLabel: 'در حال پخش',
             poster: 'assets/img/jujutsu-kaisen-2.webp',
             banner: 'assets/img/jujutsu-kaisen-gojo-wallpaper.webp',
+            trailer: DEMO_VIDEO,
             desc: 'یوجی ایتادوری با بلعیدن انگشت نفرین‌شده‌ی سوکونا، به دنیای جادوگران جوجوتسو کشیده می‌شود و باید تحت نظر ساتورو گوجو با نفرین‌ها بجنگد.',
             currentSeason: 2,
+            characters: [
+                { name: 'ساتورو گوجو', nameEn: 'Satoru Gojo', role: 'معلم', img: 'assets/img/gojo-satoru.webp' }
+            ],
             episodes: episodes(2, [
                 { title: 'پنهان‌کاری و قتل' },
                 { title: 'اتفاق شیبویا', src: DEMO_VIDEO_2 },
@@ -120,10 +142,17 @@
             genreLabel: 'اکشن، فانتزی تاریک، درام',
             studio: 'MAPPA',
             seasons: 1,
+            status: 'finished',
+            statusLabel: 'پایان‌یافته',
             poster: 'assets/img/chainsaw-man-2.webp',
             banner: 'assets/img/chainsaw-man.webp',
+            trailer: DEMO_VIDEO_2,
             desc: 'دنجی، نوجوانی فقیر که با شیطان اره‌ای‌اش پوچیتا شکارچی شیطان است، پس از خیانت یاکوزا با پوچیتا یکی می‌شود و به «مرد اره‌ای» تبدیل می‌شود.',
             currentSeason: 1,
+            characters: [
+                { name: 'ماکیما', nameEn: 'Makima', role: 'شخصیت اصلی', img: 'assets/img/makima-chainsaw-man.webp' },
+                { name: 'پاور', nameEn: 'Power', role: 'قهرمان', img: 'assets/img/power-chainsaw-man.webp' }
+            ],
             episodes: episodes(1, [
                 { title: 'سگ و اره‌برقی' },
                 { title: 'رسیدن به توکیو', src: DEMO_VIDEO_2 },
@@ -144,10 +173,17 @@
             genreLabel: 'اکشن، ماجراجویی',
             studio: 'Toei Animation',
             seasons: 21,
+            status: 'airing',
+            statusLabel: 'در حال پخش',
             poster: 'assets/img/one-piece-thumb.webp',
             banner: 'assets/img/one-piece-wano-wallpaper.webp',
+            trailer: DEMO_VIDEO_3,
             desc: 'مانکی دی. لوفی و خدمه‌ی کلاه‌حصیری‌ها در جست‌وجوی گنج افسانه‌ای «وان پیس» دریاها را درمی‌نوردند تا لوفی پادشاه دزدان دریایی شود.',
             currentSeason: 21,
+            characters: [
+                { name: 'رورونوا زورو', nameEn: 'Roronoa Zoro', role: 'قهرمان', img: 'assets/img/roronoa-zoro.webp' },
+                { name: 'نامی', nameEn: 'Nami', role: 'قهرمان', img: 'assets/img/nami-one-piece.webp' }
+            ],
             episodes: episodes(21, [
                 { number: 1071, title: 'لوفی به اوج می‌رسد! گیر پنجم' },
                 { number: 1072, title: 'وزن خاطرات', src: DEMO_VIDEO_2 },
@@ -168,10 +204,16 @@
             genreLabel: 'درام، معمایی، روان‌شناختی',
             studio: 'MADHOUSE',
             seasons: 1,
+            status: 'finished',
+            statusLabel: 'پایان‌یافته',
             poster: 'assets/img/death-note-poster.webp',
             banner: 'assets/img/death-note-wallpaper.webp',
+            trailer: DEMO_VIDEO,
             desc: 'لایت یاگامی دفترچه‌ای پیدا می‌کند که هرکس نامش در آن نوشته شود می‌میرد. او تصمیم می‌گیرد دنیایی بدون جنایتکار بسازد؛ کارآگاه مرموز «ال» سد راهش می‌شود.',
             currentSeason: 1,
+            characters: [
+                { name: 'ال', nameEn: 'L', role: 'کارآگاه', img: 'assets/img/l-death-note.webp' }
+            ],
             episodes: episodes(1, [
                 { title: 'تولد دوباره' },
                 { title: 'رویارویی', src: DEMO_VIDEO_2 },
@@ -192,10 +234,16 @@
             genreLabel: 'سایبرپانک، علمی‌تخیلی',
             studio: 'TRIGGER',
             seasons: 1,
+            status: 'finished',
+            statusLabel: 'پایان‌یافته',
             poster: 'assets/img/cyberpunk-edgerunners.webp',
             banner: 'assets/img/cyberpunk-edgerunners-wallpaper.webp',
+            trailer: DEMO_VIDEO_2,
             desc: 'در یک شهر پادآرمان‌شهری که درگیر فساد و وسواس سایبرنتیک است، یک پسر خیابانی با استعداد تلاش می‌کند با تبدیل شدن به یک مزدور قانون‌شکن زنده بماند.',
             currentSeason: 1,
+            characters: [
+                { name: 'دیوید و لوسی', nameEn: 'David & Lucy', role: 'قهرمانان', img: 'assets/img/cyberpunk-edgerunners-2.webp' }
+            ],
             episodes: episodes(1, [
                 { title: 'بیایید یک نمایش بسازیم' },
                 { title: 'مثل یک پسر', src: DEMO_VIDEO_2 },
@@ -265,5 +313,26 @@
         return 'watch.html?anime=' + encodeURIComponent(id) + (episodeNumber ? '&ep=' + episodeNumber : '');
     }
 
-    window.NEON_ANIME = { list: ANIME, genres: GENRES, byId, findByTitle, search, toFa, watchUrl, normalize };
+    function detailUrl(anime) {
+        const id = typeof anime === 'string' ? anime : anime.id;
+        return 'anime.html?id=' + encodeURIComponent(id);
+    }
+
+    function progressKey(anime, episodeNumber) {
+        const id = typeof anime === 'string' ? anime : anime.id;
+        return 'neon_progress_' + id + '_' + episodeNumber;
+    }
+
+    window.NEON_ANIME = {
+        list: ANIME,
+        genres: GENRES,
+        byId,
+        findByTitle,
+        search,
+        toFa,
+        watchUrl,
+        detailUrl,
+        progressKey,
+        normalize
+    };
 })();

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /profile.html
 Disallow: /login.html
 
-Sitemap: https://YOUR-DOMAIN.example/sitemap.xml
+Sitemap: https://abolfzl29.github.io/animesodoxjzow9/sitemap.xml

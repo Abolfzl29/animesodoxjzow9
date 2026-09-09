@@ -113,14 +113,17 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if(items && items.length > 0) {
             items.forEach(item => {
+                const catalog = window.NEON_ANIME;
+                const match = catalog ? catalog.findByTitle(item.title) : null;
+                const href = match && catalog.detailUrl ? catalog.detailUrl(match) : 'catalog.html';
                 scheduleContent.innerHTML += `
-                    <div class="schedule-card">
+                    <a class="schedule-card" href="${href}" data-anime="${match ? match.id : ''}">
                         <img src="${item.img}" alt="${item.title}">
                         <div class="schedule-info">
                             <h4>${item.title}</h4>
                             <p>ساعت ${item.time}</p>
                         </div>
-                    </div>
+                    </a>
                 `;
             });
         } else {
@@ -207,6 +210,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const titleEl = scope.querySelector('.sleek-title, .slide-title, #modalTitle, h3, h4');
             const title = titleEl ? titleEl.innerText.trim() : '';
             window.location.href = 'watch.html' + (title ? '?title=' + encodeURIComponent(title) : '');
+        });
+    });
+
+    document.querySelectorAll('.more-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const anime = resolveAnimeFromElement(btn);
+            if (anime && DATA.detailUrl) window.location.href = DATA.detailUrl(anime);
         });
     });
 
@@ -369,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const video = slide.querySelector('video');
                 if (video) {
                     if (i === index) {
-                        video.play().catch(e => console.log('Auto-play prevented', e));
+                        Promise.resolve(video.play()).catch(() => {});
                     } else {
                         video.pause();
                         video.currentTime = 0;
@@ -739,6 +751,15 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll('.anime-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 if (e.target.closest('.action-btn')) return;
+                // Resume / player links must keep going to watch.html.
+                if (card.closest('#continueSection, #continueCards, #continueRow')) return;
+                if (card.getAttribute('href') && /watch\.html/.test(card.getAttribute('href'))) return;
+                const anime = resolveAnimeFromElement(card);
+                if (anime && DATA && DATA.detailUrl) {
+                    e.preventDefault();
+                    window.location.href = DATA.detailUrl(anime);
+                    return;
+                }
                 const titleEl = card.querySelector('.sleek-title, .glass-card-title');
                 const imgEl = card.querySelector('img');
                 if (titleEl && modalTitle) modalTitle.innerText = titleEl.innerText;
