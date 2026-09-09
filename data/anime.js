@@ -10,6 +10,18 @@
     const DEMO_VIDEO_2 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
     const DEMO_VIDEO_3 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4';
 
+    const GENRES = [
+        { id: 'action', label: 'اکشن', description: 'نبردهای نفس‌گیر و قهرمان‌های فراموش‌نشدنی' },
+        { id: 'dark-fantasy', label: 'فانتزی تاریک', description: 'جهان‌های رازآلود با داستان‌های تیره و حماسی' },
+        { id: 'fantasy', label: 'فانتزی', description: 'قدرت‌های شگفت‌انگیز و دنیاهای خیال‌انگیز' },
+        { id: 'drama', label: 'درام', description: 'داستان‌های عمیق، شخصیت‌محور و احساسی' },
+        { id: 'scifi', label: 'علمی‌تخیلی', description: 'آینده، فناوری و دنیاهای سایبرپانکی' },
+        { id: 'mystery', label: 'معمایی', description: 'پرونده‌ها و رازهایی که باید کشف شوند' },
+        { id: 'psychological', label: 'روان‌شناختی', description: 'نبردهای ذهنی و روایت‌های چندلایه' },
+        { id: 'adventure', label: 'ماجراجویی', description: 'سفرهای بزرگ و سرزمین‌های ناشناخته' },
+        { id: 'supernatural', label: 'ماوراءطبیعی', description: 'نفرین‌ها، ارواح و نیروهای ناشناخته' }
+    ];
+
     function episodes(season, list) {
         return list.map((e, i) => ({
             season: season,
@@ -32,7 +44,7 @@
             year: 2023,
             age: '+۱۶',
             quality: '4K HDR',
-            genres: ['action', 'drama'],
+            genres: ['action', 'dark-fantasy', 'drama'],
             genreLabel: 'اکشن، فانتزی تاریک',
             studio: 'MAPPA',
             seasons: 4,
@@ -56,7 +68,7 @@
             year: 2024,
             age: '+۱۳',
             quality: '4K HDR',
-            genres: ['action'],
+            genres: ['action', 'fantasy'],
             genreLabel: 'اکشن، فانتزی',
             studio: 'ufotable',
             seasons: 4,
@@ -80,7 +92,7 @@
             year: 2023,
             age: '+۱۶',
             quality: '1080p',
-            genres: ['action'],
+            genres: ['action', 'fantasy', 'supernatural'],
             genreLabel: 'اکشن، ماوراءطبیعی',
             studio: 'MAPPA',
             seasons: 2,
@@ -104,7 +116,7 @@
             year: 2022,
             age: '+۱۸',
             quality: '1080p',
-            genres: ['action', 'drama'],
+            genres: ['action', 'dark-fantasy', 'drama'],
             genreLabel: 'اکشن، فانتزی تاریک',
             studio: 'MAPPA',
             seasons: 1,
@@ -128,7 +140,7 @@
             year: 2024,
             age: '+۱۳',
             quality: '1080p',
-            genres: ['action'],
+            genres: ['action', 'adventure'],
             genreLabel: 'اکشن، ماجراجویی',
             studio: 'Toei Animation',
             seasons: 21,
@@ -152,7 +164,7 @@
             year: 2006,
             age: '+۱۶',
             quality: '1080p',
-            genres: ['drama'],
+            genres: ['drama', 'mystery', 'psychological'],
             genreLabel: 'معمایی، روان‌شناختی',
             studio: 'MADHOUSE',
             seasons: 1,
@@ -235,5 +247,5 @@
         return 'watch.html?anime=' + encodeURIComponent(id) + (episodeNumber ? '&ep=' + episodeNumber : '');
     }
 
-    window.NEON_ANIME = { list: ANIME, byId, findByTitle, search, toFa, watchUrl, normalize };
+    window.NEON_ANIME = { list: ANIME, genres: GENRES, byId, findByTitle, search, toFa, watchUrl, normalize };
 })();
