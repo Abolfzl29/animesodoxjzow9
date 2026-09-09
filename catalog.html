@@ -55,8 +55,8 @@
         <div class="side-menu-links">
             <a href="index.html"><span class="icon">🏠</span> خانه</a>
             <a href="catalog.html" class="active"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
-            <a href="catalog.html?genre=action"><span class="icon">⚔️</span> انیمه‌های اکشن</a>
-            <a href="catalog.html?genre=dark-fantasy"><span class="icon">🌑</span> فانتزی تاریک</a>
+            <a href="catalog.html?genre=action#catalogResults"><span class="icon">⚔️</span> انیمه‌های اکشن</a>
+            <a href="catalog.html?genre=dark-fantasy#catalogResults"><span class="icon">🌑</span> فانتزی تاریک</a>
             <a href="index.html#schedule"><span class="icon">📅</span> تقویم پخش</a>
             <a href="profile.html"><span class="icon">🔖</span> لیست تماشای من</a>
         </div>
@@ -76,8 +76,8 @@
             <ul class="nav-links">
                 <li><a href="index.html">خانه</a></li>
                 <li><a href="catalog.html" class="active">آرشیو انیمه‌ها</a></li>
-                <li><a href="catalog.html?genre=action">اکشن</a></li>
-                <li><a href="catalog.html?genre=dark-fantasy">فانتزی تاریک</a></li>
+                <li><a href="catalog.html?genre=action#catalogResults">اکشن</a></li>
+                <li><a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a></li>
                 <li><a href="index.html#schedule">تقویم پخش</a></li>
             </ul>
         </div>
@@ -102,17 +102,17 @@
             <h1>دنیای بعدی‌ات را<br><span class="accent">بر اساس ژانر</span> پیدا کن</h1>
             <p>به‌جای یک فهرست شلوغ، انیمه‌ها را در مجموعه‌های ژانری جدا مرور کن؛ هر بخش فقط چند انتخاب نشان می‌دهد و آرشیو کامل خودش را دارد.</p>
 
-            <form class="catalog-search" id="catalogSearchForm" role="search">
+            <form class="catalog-search" id="catalogSearchForm" action="catalog.html" method="get" role="search">
                 <label class="sr-only" for="catalogSearchInput">جستجو در آرشیو انیمه‌ها</label>
                 <span aria-hidden="true">⌕</span>
-                <input id="catalogSearchInput" type="search" autocomplete="off" placeholder="نام انیمه، شخصیت یا ژانر...">
+                <input id="catalogSearchInput" name="q" type="search" autocomplete="off" placeholder="نام انیمه، شخصیت یا ژانر...">
                 <button type="submit">جستجو</button>
             </form>
 
             <div class="catalog-hero-meta" aria-label="آمار آرشیو">
                 <span><strong id="catalogTitleCount">۰</strong> عنوان منتخب</span>
                 <span><strong id="catalogGenreCount">۰</strong> ژانر</span>
-                <a href="catalog.html?view=all">مشاهده کل آرشیو ←</a>
+                <a href="catalog.html?view=all#catalogResults">مشاهده کل آرشیو ←</a>
             </div>
         </div>
     </header>
@@ -129,7 +129,7 @@
                     <h2 id="catalogLandingTitle">هر ژانر، یک بخش جدا</h2>
                     <p>برای دیدن همه عناوین هر ژانر، روی «مشاهده همه» بزن.</p>
                 </div>
-                <a class="catalog-outline-btn" href="catalog.html?view=all">همه عناوین</a>
+                <a class="catalog-outline-btn" href="catalog.html?view=all#catalogResults">همه عناوین</a>
             </div>
             <div id="catalogSections" class="catalog-sections"></div>
         </section>
@@ -152,7 +152,7 @@
                     </select>
                 </label>
             </div>
-            <div class="catalog-result-summary"><span id="catalogResultCount">۰ عنوان</span></div>
+            <div class="catalog-result-summary" role="status" aria-live="polite"><span id="catalogResultCount">۰ عنوان</span></div>
             <div id="catalogAllGrid" class="catalog-all-grid"></div>
             <div id="catalogEmpty" class="catalog-empty" hidden>
                 <span aria-hidden="true">⌕</span>
@@ -171,10 +171,10 @@
             </div>
             <div class="footer-col">
                 <h4>آرشیو</h4>
-                <a href="catalog.html?view=all">همه عناوین</a>
-                <a href="catalog.html?genre=action">اکشن</a>
-                <a href="catalog.html?genre=dark-fantasy">فانتزی تاریک</a>
-                <a href="catalog.html?genre=scifi">علمی‌تخیلی</a>
+                <a href="catalog.html?view=all#catalogResults">همه عناوین</a>
+                <a href="catalog.html?genre=action#catalogResults">اکشن</a>
+                <a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a>
+                <a href="catalog.html?genre=scifi#catalogResults">علمی‌تخیلی</a>
             </div>
             <div class="footer-col">
                 <h4>دسترسی سریع</h4>

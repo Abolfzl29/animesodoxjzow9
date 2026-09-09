@@ -493,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!q) return;
         // Full-site search belongs to the dedicated catalogue, not only the
         // handful of cards rendered on the homepage.
-        window.location.href = 'catalog.html?q=' + encodeURIComponent(q);
+        window.location.href = 'catalog.html?q=' + encodeURIComponent(q) + '#catalogResults';
     }
 
     if(searchBtnIcon) searchBtnIcon.addEventListener('click', openSearch);

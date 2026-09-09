@@ -11,15 +11,15 @@
     const DEMO_VIDEO_3 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4';
 
     const GENRES = [
-        { id: 'action', label: 'اکشن', description: 'نبردهای نفس‌گیر و قهرمان‌های فراموش‌نشدنی' },
-        { id: 'dark-fantasy', label: 'فانتزی تاریک', description: 'جهان‌های رازآلود با داستان‌های تیره و حماسی' },
-        { id: 'fantasy', label: 'فانتزی', description: 'قدرت‌های شگفت‌انگیز و دنیاهای خیال‌انگیز' },
-        { id: 'drama', label: 'درام', description: 'داستان‌های عمیق، شخصیت‌محور و احساسی' },
-        { id: 'scifi', label: 'علمی‌تخیلی', description: 'آینده، فناوری و دنیاهای سایبرپانکی' },
-        { id: 'mystery', label: 'معمایی', description: 'پرونده‌ها و رازهایی که باید کشف شوند' },
-        { id: 'psychological', label: 'روان‌شناختی', description: 'نبردهای ذهنی و روایت‌های چندلایه' },
-        { id: 'adventure', label: 'ماجراجویی', description: 'سفرهای بزرگ و سرزمین‌های ناشناخته' },
-        { id: 'supernatural', label: 'ماوراءطبیعی', description: 'نفرین‌ها، ارواح و نیروهای ناشناخته' }
+        { id: 'action', label: 'اکشن', aliases: ['action'], description: 'نبردهای نفس‌گیر و قهرمان‌های فراموش‌نشدنی' },
+        { id: 'dark-fantasy', label: 'فانتزی تاریک', aliases: ['dark fantasy'], description: 'جهان‌های رازآلود با داستان‌های تیره و حماسی' },
+        { id: 'fantasy', label: 'فانتزی', aliases: ['fantasy'], description: 'قدرت‌های شگفت‌انگیز و دنیاهای خیال‌انگیز' },
+        { id: 'drama', label: 'درام', aliases: ['drama'], description: 'داستان‌های عمیق، شخصیت‌محور و احساسی' },
+        { id: 'scifi', label: 'علمی‌تخیلی', aliases: ['علمی تخیلی', 'sci fi', 'sci-fi', 'science fiction', 'cyberpunk'], description: 'آینده، فناوری و دنیاهای سایبرپانکی' },
+        { id: 'mystery', label: 'معمایی', aliases: ['رازآلود', 'mystery'], description: 'پرونده‌ها و رازهایی که باید کشف شوند' },
+        { id: 'psychological', label: 'روان‌شناختی', aliases: ['روانشناختی', 'psychological'], description: 'نبردهای ذهنی و روایت‌های چندلایه' },
+        { id: 'adventure', label: 'ماجراجویی', aliases: ['adventure'], description: 'سفرهای بزرگ و سرزمین‌های ناشناخته' },
+        { id: 'supernatural', label: 'ماوراءطبیعی', aliases: ['ماورایی', 'supernatural'], description: 'نفرین‌ها، ارواح و نیروهای ناشناخته' }
     ];
 
     function episodes(season, list) {
@@ -39,13 +39,13 @@
             id: 'attack-on-titan',
             title: 'حمله به تایتان',
             titleEn: 'ATTACK ON TITAN',
-            aliases: ['اتک آن تایتان', 'shingeki no kyojin', 'aot', 'attack on titan'],
+            aliases: ['اتک آن تایتان', 'shingeki no kyojin', 'aot', 'attack on titan', 'ارن', 'ارن یگر', 'میکاسا', 'لیوای'],
             rating: 9.1,
             year: 2023,
             age: '+۱۶',
             quality: '4K HDR',
             genres: ['action', 'dark-fantasy', 'drama'],
-            genreLabel: 'اکشن، فانتزی تاریک',
+            genreLabel: 'اکشن، فانتزی تاریک، درام',
             studio: 'MAPPA',
             seasons: 4,
             poster: 'assets/img/attack-on-titan.webp',
@@ -63,7 +63,7 @@
             id: 'demon-slayer',
             title: 'شیطان کش',
             titleEn: 'DEMON SLAYER',
-            aliases: ['دیمن اسلیر', 'kimetsu no yaiba', 'demon slayer', 'تانجیرو'],
+            aliases: ['دیمن اسلیر', 'kimetsu no yaiba', 'demon slayer', 'تانجیرو', 'نزوکو', 'موزان'],
             rating: 8.7,
             year: 2024,
             age: '+۱۳',
@@ -87,13 +87,13 @@
             id: 'jujutsu-kaisen',
             title: 'جوجوتسو کایسن',
             titleEn: 'JUJUTSU KAISEN',
-            aliases: ['jjk', 'jujutsu kaisen', 'گوجو', 'گوجو ساتورو', 'gojo'],
+            aliases: ['jjk', 'jujutsu kaisen', 'گوجو', 'گوجو ساتورو', 'gojo', 'یوجی', 'ایتادوری', 'سوکونا'],
             rating: 8.8,
             year: 2023,
             age: '+۱۶',
             quality: '1080p',
             genres: ['action', 'fantasy', 'supernatural'],
-            genreLabel: 'اکشن، ماوراءطبیعی',
+            genreLabel: 'اکشن، فانتزی، ماوراءطبیعی',
             studio: 'MAPPA',
             seasons: 2,
             poster: 'assets/img/jujutsu-kaisen-2.webp',
@@ -111,13 +111,13 @@
             id: 'chainsaw-man',
             title: 'مرد اره‌ای',
             titleEn: 'CHAINSAW MAN',
-            aliases: ['chainsaw man', 'csm', 'دنجی', 'ماکیما', 'makima'],
+            aliases: ['chainsaw man', 'csm', 'دنجی', 'ماکیما', 'makima', 'پوچیتا', 'پاور'],
             rating: 8.5,
             year: 2022,
             age: '+۱۸',
             quality: '1080p',
             genres: ['action', 'dark-fantasy', 'drama'],
-            genreLabel: 'اکشن، فانتزی تاریک',
+            genreLabel: 'اکشن، فانتزی تاریک، درام',
             studio: 'MAPPA',
             seasons: 1,
             poster: 'assets/img/chainsaw-man-2.webp',
@@ -135,7 +135,7 @@
             id: 'one-piece',
             title: 'وان پیس',
             titleEn: 'ONE PIECE',
-            aliases: ['one piece', 'لوفی', 'luffy', 'زورو', 'وانو'],
+            aliases: ['one piece', 'لوفی', 'luffy', 'زورو', 'وانو', 'نامی', 'سانجی'],
             rating: 9.0,
             year: 2024,
             age: '+۱۳',
@@ -159,13 +159,13 @@
             id: 'death-note',
             title: 'دفترچه مرگ',
             titleEn: 'DEATH NOTE',
-            aliases: ['death note', 'دث نوت', 'لایت', 'ال', 'ryuk'],
+            aliases: ['death note', 'دث نوت', 'لایت', 'لایت یاگامی', 'یاگامی', 'ال', 'ریوک', 'ryuk'],
             rating: 9.0,
             year: 2006,
             age: '+۱۶',
             quality: '1080p',
             genres: ['drama', 'mystery', 'psychological'],
-            genreLabel: 'معمایی، روان‌شناختی',
+            genreLabel: 'درام، معمایی، روان‌شناختی',
             studio: 'MADHOUSE',
             seasons: 1,
             poster: 'assets/img/death-note-poster.webp',
@@ -207,6 +207,7 @@
 
     const byId = Object.create(null);
     ANIME.forEach(a => { byId[a.id] = a; });
+    const genreById = new Map(GENRES.map(genre => [genre.id, genre]));
 
     function normalize(str) {
         return String(str || '')
@@ -229,12 +230,29 @@
     function search(query) {
         const q = normalize(query);
         if (!q) return ANIME.slice();
-        return ANIME.filter(a =>
-            normalize(a.title).includes(q) ||
-            normalize(a.titleEn).includes(q) ||
-            normalize(a.genreLabel).includes(q) ||
-            a.aliases.some(al => normalize(al).includes(q))
-        );
+
+        const terms = q.split(' ');
+        return ANIME.filter(anime => {
+            const genreTerms = anime.genres.flatMap(id => {
+                const genre = genreById.get(id);
+                return genre ? [genre.id, genre.label, ...(genre.aliases || [])] : [id];
+            });
+            const haystack = normalize([
+                anime.title,
+                anime.titleEn,
+                anime.genreLabel,
+                anime.studio,
+                anime.year,
+                anime.quality,
+                anime.desc,
+                ...anime.aliases,
+                ...genreTerms
+            ].join(' '));
+
+            // Multi-word searches may match across title, character and genre
+            // fields instead of requiring one pre-composed display label.
+            return terms.every(term => haystack.includes(term));
+        });
     }
 
     const FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
