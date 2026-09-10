@@ -759,3 +759,15 @@
     .catalog-anime-card .card-static-img,
     .catalog-card-play { transition: none; }
 }
+
+/* Light theme — hero search box + breadcrumb were white-on-white */
+:root[data-theme="light"] .catalog-search {
+    background: #fff;
+    border-color: var(--glass-border);
+    box-shadow: var(--day-shadow);
+}
+:root[data-theme="light"] .catalog-search > span { color: var(--text-muted); }
+:root[data-theme="light"] .catalog-search input::placeholder { color: var(--text-muted); }
+:root[data-theme="light"] .catalog-breadcrumb,
+:root[data-theme="light"] .catalog-breadcrumb a { color: var(--text-muted); }
+:root[data-theme="light"] .catalog-breadcrumb a:hover { color: var(--accent); }
