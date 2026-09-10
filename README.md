@@ -38,6 +38,19 @@
 python3 -m http.server 8080   # سپس http://localhost:8080
 ```
 
+## 🚂 دیپلوی روی Railway
+ریپو آماده‌ی دیپلوی مستقیم روی Railway است (یک سرویس، `Dockerfile` + `nginx` + `railway.json`):
+
+1. در [Railway](https://railway.app) روی **New Project** → **Deploy from GitHub repo** بزن و ریپوی `animesodoxjzow9` را انتخاب کن.
+2. Railway خودش `Dockerfile` را تشخیص می‌دهد و بیلد می‌گیرد (چیز دیگری لازم نیست تنظیم کنی).
+3. بعد از دیپلوی، از تب **Settings** → بخش **Networking** روی **Generate Domain** بزن تا آدرس عمومی بگیری (مثل `xxx.up.railway.app`).
+4. هر پوش جدید به برنچی که به سرویس وصل است، به‌صورت خودکار ریدپلوی می‌شود.
+
+نکته‌ها:
+- پورت را Railway خودش با متغیر `PORT` می‌دهد؛ `Dockerfile` به‌صورت خودکار nginx را روی همان پورت بالا می‌آورد.
+- صفحه‌ی ۴۰۴ اختصاصی (`404.html`) و کش استاتیک در `nginx.conf` تنظیم شده است.
+- تست محلی با داکر: `docker build -t neon-anime . && docker run -p 8080:8080 neon-anime`
+
 ## 🧠 شبیه‌سازی بک‌اند (موقت)
 کلیدهای `localStorage` با پیشوند `neon_` (ورود، نام، آواتار، VIP، لیست تماشا، پیشرفت تماشا، تاریخچه، نظرات). **این‌ها امنیتی نیستند** — قفل VIP و لینک ویدیو باید سمت سرور اعمال شود.
 
