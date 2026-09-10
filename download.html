@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جزئیات انیمه | نئون انیمه</title>
-    <meta name="description" content="صفحه اختصاصی هر عنوان در نئون انیمه؛ داستان، قسمت‌ها، تریلر و ادامه تماشا.">
+    <title>دانلود انیمه | نئون انیمه</title>
+    <meta name="description" content="دانلود قسمت‌های انیمه با کیفیت‌های مختلف، زیرنویس فارسی و دوبله اختصاصی در نئون انیمه.">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="جزئیات انیمه | نئون انیمه">
-    <meta property="og:description" content="صفحه اختصاصی هر عنوان در نئون انیمه؛ داستان، قسمت‌ها، تریلر و ادامه تماشا.">
+    <meta property="og:title" content="دانلود انیمه | نئون انیمه">
+    <meta property="og:description" content="دانلود قسمت‌های انیمه با کیفیت‌های مختلف، زیرنویس فارسی و دوبله اختصاصی در نئون انیمه.">
     <meta name="theme-color" content="#0a0a0c">
-    <link rel="canonical" id="canonicalLink" href="anime.html">
+    <link rel="canonical" id="canonicalLink" href="download.html">
     <script>
         // Apply the saved theme before paint and keep browser chrome in sync.
         (function () {
@@ -30,19 +30,17 @@
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
     <link rel="manifest" href="manifest.webmanifest">
     <meta property="og:site_name" content="Neon Anime">
-    <meta property="og:type" content="video.tv_show">
+    <meta property="og:type" content="website">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:image" content="assets/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="catalog.css">
-    <link rel="stylesheet" href="anime.css">
     <link rel="stylesheet" href="download.css">
-    <link rel="stylesheet" href="mag.css">
 </head>
-<body class="catalog-page anime-page">
-    <a class="skip-link" href="#animeMain">پرش به محتوای اصلی</a>
+<body class="catalog-page download-page">
+    <a class="skip-link" href="#downloadMain">پرش به محتوای اصلی</a>
     <div id="toastContainer" aria-live="polite"></div>
 
     <div class="mobile-backdrop" id="mobileBackdrop"></div>
@@ -92,7 +90,6 @@
                 <li><a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a></li>
                 <li><a href="schedule.html">تقویم پخش</a></li>
                 <li><a href="mag.html">مجله</a></li>
-            
                 <li class="more-menu-container">
                     <button class="three-dots-btn" id="threeDotsBtn" type="button" title="منوی بیشتر" aria-label="منوی بیشتر" aria-haspopup="true">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
@@ -135,7 +132,7 @@
             <button class="vip-close-btn" id="vipCloseBtn" type="button" aria-label="بستن">✕</button>
             <div class="vip-header">
                 <h2 id="vipModalTitle">ارتقا به سطح <span class="accent">نئون پلاس</span></h2>
-                <p>قسمت‌های ویژه فقط با اشتراک فعال می‌شوند. در نسخه نمایشی، پلن را انتخاب کنید تا قفل باز شود.</p>
+                <p>کیفیت‌های 1080p و 4K و قسمت‌های ویژه فقط با اشتراک فعال می‌شوند. در نسخه نمایشی، پلن را انتخاب کنید تا قفل باز شود.</p>
             </div>
             <div class="pricing-grid">
                 <div class="pricing-card">
@@ -174,105 +171,72 @@
         </div>
     </div>
 
-    <div class="trailer-modal" id="trailerModal" role="dialog" aria-modal="true" aria-labelledby="trailerTitle" hidden>
-        <div class="trailer-backdrop" id="trailerBackdrop"></div>
-        <div class="trailer-dialog">
-            <div class="trailer-toolbar">
-                <h2 id="trailerTitle">تریلر</h2>
-                <button class="vip-close-btn" id="trailerCloseBtn" type="button" aria-label="بستن تریلر">✕</button>
-            </div>
-            <div class="trailer-frame">
-                <video id="trailerVideo" controls playsinline preload="none" poster=""></video>
-            </div>
-        </div>
-    </div>
-
-    <main class="anime-main" id="animeMain">
-        <section id="animeNotFound" class="catalog-empty anime-empty" hidden>
-            <span aria-hidden="true">⌕</span>
+    <main class="download-main" id="downloadMain">
+        <section id="downloadNotFound" class="catalog-empty download-empty" hidden>
+            <span aria-hidden="true">📥</span>
             <h1>این عنوان پیدا نشد</h1>
-            <p id="animeNotFoundCopy">شناسه واردشده در آرشیو وجود ندارد. به آرشیو برگرد و یکی از ۷ عنوان موجود را انتخاب کن.</p>
+            <p id="downloadNotFoundCopy">شناسه واردشده در آرشیو وجود ندارد. به آرشیو برگرد و یکی از عنوان‌ها را انتخاب کن.</p>
             <div class="anime-empty-actions">
                 <a class="btn btn-play" href="catalog.html">مرور آرشیو</a>
                 <a class="btn btn-info" href="index.html">صفحه اصلی</a>
             </div>
         </section>
 
-        <article id="animePage" hidden>
-            <header class="anime-hero" id="animeHero">
-                <div class="anime-hero-art" id="animeHeroArt" aria-hidden="true"></div>
-                <div class="anime-hero-inner">
-                    <nav class="catalog-breadcrumb" aria-label="مسیر صفحه">
-                        <a href="index.html">خانه</a><span>‹</span>
-                        <a href="catalog.html">آرشیو انیمه‌ها</a><span>‹</span>
-                        <span id="animeCrumb" aria-current="page">جزئیات</span>
-                    </nav>
-                    <div class="anime-hero-layout">
-                        <div class="anime-poster-wrap">
-                            <img id="animePoster" alt="" width="420" height="630" decoding="async">
-                            <span class="anime-poster-badge" id="animeStatusBadge"></span>
-                        </div>
-                        <div class="anime-hero-copy">
-                            <span class="catalog-kicker" id="animeStudio"></span>
-                            <h1 id="animeTitle"></h1>
-                            <p class="anime-title-en en-text" id="animeTitleEn"></p>
-                            <ul class="anime-meta" id="animeMeta" aria-label="اطلاعات عنوان"></ul>
-                            <div class="anime-genres" id="animeGenres"></div>
-                            <p class="anime-desc" id="animeDesc"></p>
-                            <div class="anime-continue" id="animeContinue" hidden>
-                                <div class="anime-continue-copy">
-                                    <strong id="animeContinueLabel">ادامه تماشا</strong>
-                                    <span id="animeContinueMeta"></span>
-                                </div>
-                                <div class="anime-continue-bar" aria-hidden="true"><i id="animeContinueFill"></i></div>
-                            </div>
-                            <div class="anime-actions">
-                                <a class="btn btn-play" id="animePlayBtn" href="watch.html">▶ پخش</a>
-                                <a class="btn btn-download" id="animeDownloadBtn" href="download.html">⬇ دانلود</a>
-                                <button class="btn btn-info" id="animeWatchlistBtn" type="button">+ لیست من</button>
-                                <button class="btn btn-info" id="animeTrailerBtn" type="button">🎞 تریلر</button>
-                            </div>
-                        </div>
+        <article id="downloadPage" hidden>
+            <nav class="catalog-breadcrumb" aria-label="مسیر صفحه">
+                <a href="index.html">خانه</a><span>‹</span>
+                <a href="catalog.html">آرشیو انیمه‌ها</a><span>‹</span>
+                <a href="anime.html" id="downloadCrumbAnime">جزئیات</a><span>‹</span>
+                <span id="downloadCrumb" aria-current="page">دانلود</span>
+            </nav>
+
+            <header class="dl-hero">
+                <div class="dl-hero-art" id="downloadHeroArt" aria-hidden="true"></div>
+                <img class="dl-poster" id="downloadPoster" alt="" width="220" height="330" decoding="async">
+                <div class="dl-hero-copy">
+                    <span class="catalog-kicker" id="downloadStudio"></span>
+                    <h1 id="downloadTitle"></h1>
+                    <p class="dl-title-en en-text" id="downloadTitleEn"></p>
+                    <ul class="dl-meta" id="downloadMeta" aria-label="اطلاعات عنوان"></ul>
+                    <div class="dl-hero-actions">
+                        <a class="btn btn-play" id="downloadPlayBtn" href="watch.html">▶ پخش آنلاین</a>
+                        <a class="btn btn-info" id="downloadDetailsBtn" href="anime.html">جزئیات انیمه</a>
                     </div>
                 </div>
             </header>
 
-            <div class="anime-body">
-                <section class="anime-section" aria-labelledby="episodesHeading">
-                    <div class="catalog-page-heading">
-                        <div>
-                            <span class="catalog-eyebrow">قسمت‌ها</span>
-                            <h2 id="episodesHeading">لیست قسمت‌ها</h2>
-                            <p id="episodesDescription">یک قسمت را انتخاب کن تا وارد پلیر شوی. قسمت‌های ویژه برای کاربران VIP قفل‌اند.</p>
-                        </div>
-                        <span class="catalog-outline-btn" id="episodeCountLabel" aria-live="polite">۰ قسمت</span>
+            <section class="dl-section" aria-labelledby="dlEpisodesHeading">
+                <div class="catalog-page-heading">
+                    <div>
+                        <span class="catalog-eyebrow">قدم اول</span>
+                        <h2 id="dlEpisodesHeading">انتخاب قسمت</h2>
+                        <p id="dlEpisodesDescription">قسمتی که می‌خواهی دانلود کنی را انتخاب کن.</p>
                     </div>
-                    <div class="anime-episode-grid" id="episodeGrid"></div>
-                </section>
+                    <span class="catalog-outline-btn" id="dlEpisodeCountLabel" aria-live="polite">۰ قسمت</span>
+                </div>
+                <div class="dl-ep-grid" id="dlEpisodeGrid" role="group" aria-label="انتخاب قسمت"></div>
+            </section>
 
-                <section class="anime-section" id="castSection" aria-labelledby="castHeading" hidden>
-                    <div class="catalog-page-heading">
-                        <div>
-                            <span class="catalog-eyebrow">عوامل</span>
-                            <h2 id="castHeading">شخصیت‌ها</h2>
-                            <p>چهره‌های اصلی این عنوان.</p>
-                        </div>
+            <section class="dl-section" aria-labelledby="dlQualityHeading">
+                <div class="catalog-page-heading">
+                    <div>
+                        <span class="catalog-eyebrow">قدم دوم</span>
+                        <h2 id="dlQualityHeading">انتخاب کیفیت</h2>
+                        <p id="dlQualityDescription">دانلود قسمت ۱</p>
                     </div>
-                    <div class="anime-cast-row" id="castRow"></div>
-                </section>
+                </div>
+                <div class="dl-quality-grid" id="dlQualityGrid"></div>
+                <p class="dl-demo-note">⚠️ فایل‌ها در این نسخه نمایشی هستند و بعداً با لینک‌های واقعی جایگزین می‌شوند.</p>
+            </section>
 
-                <section class="anime-section" id="relatedSection" aria-labelledby="relatedHeading" hidden>
-                    <div class="catalog-page-heading">
-                        <div>
-                            <span class="catalog-eyebrow">پیشنهاد</span>
-                            <h2 id="relatedHeading">عنوان‌های مشابه</h2>
-                            <p>اگر این داستان را دوست داشتی، این‌ها را هم ببین.</p>
-                        </div>
-                        <a class="catalog-outline-btn" href="catalog.html">آرشیو کامل</a>
-                    </div>
-                    <div class="catalog-all-grid anime-related-grid" id="relatedGrid"></div>
-                </section>
-            </div>
+            <section class="dl-section dl-help" aria-labelledby="dlHelpHeading">
+                <h2 id="dlHelpHeading">راهنمای دانلود</h2>
+                <ul>
+                    <li>📱 همه کیفیت‌ها زیرنویس فارسی چسبیده دارند؛ برای پخش از VLC یا MX Player استفاده کن.</li>
+                    <li>💾 کیفیت‌های 1080p و 4K مخصوص اعضای <strong>نئون پلاس</strong> است.</li>
+                    <li>🔒 قسمت‌هایی که علامت قفل دارند فقط با اشتراک ویژه باز می‌شوند.</li>
+                </ul>
+            </section>
         </article>
     </main>
 
@@ -280,7 +244,7 @@
         <div class="footer-inner">
             <div class="footer-brand">
                 <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
-                <p>صفحه اختصاصی هر انیمه؛ از داستان و تریلر تا انتخاب قسمت و ادامه تماشا.</p>
+                <p>دانلود قسمت‌های انیمه با کیفیت دلخواه، زیرنویس فارسی و دوبله اختصاصی.</p>
             </div>
             <div class="footer-col">
                 <h4>آرشیو</h4>
@@ -305,7 +269,7 @@
         </div>
         <div class="footer-bottom">
             <span>© <span id="footerYear">۱۴۰۵</span> نئون انیمه</span>
-            <span class="en-text">DETAIL · v0.4</span>
+            <span class="en-text">DOWNLOAD · v0.5</span>
         </div>
     </footer>
 
@@ -325,9 +289,7 @@
     </nav>
 
     <script src="data/anime.js"></script>
-    <script src="data/articles.js"></script>
     <script src="auth.js"></script>
-    <script src="anime.js"></script>
-    <script src="mag.js"></script>
+    <script src="download.js"></script>
 </body>
 </html>

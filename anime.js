@@ -239,6 +239,14 @@
                 ? `ادامه تماشای ${anime.title} از قسمت ${toFa(resume.episode.number)}`
                 : `پخش ${anime.title}`);
 
+            const download = document.getElementById('animeDownloadBtn');
+            if (download) {
+                download.href = target ? DATA.downloadUrl(anime, target.number) : DATA.downloadUrl(anime);
+                download.setAttribute('aria-label', target
+                    ? `دانلود ${anime.title} از قسمت ${toFa(target.number)}`
+                    : `دانلود ${anime.title}`);
+            }
+
             const continueBox = document.getElementById('animeContinue');
             if (resume) {
                 continueBox.hidden = false;

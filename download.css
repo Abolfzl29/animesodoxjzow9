@@ -1,0 +1,437 @@
+/* Download page + shared download buttons/banners used by anime.html and watch.html. */
+
+/* ============ Shared big download button ============ */
+.btn-download {
+    background: linear-gradient(135deg, #ff003c 0%, #ff5e3a 60%, #ffaa00 130%);
+    color: #fff !important;
+    border: none;
+    min-height: 54px;
+    padding: 14px 30px;
+    font-size: 1.08rem;
+    font-weight: 900;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(255, 0, 60, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+.btn-download::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+    transform: translateX(-120%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+}
+.btn-download:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 16px 42px rgba(255, 0, 60, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-download:hover::after { transform: translateX(120%); }
+.btn-download:active { transform: translateY(-1px) scale(1); }
+.btn-download:focus-visible {
+    outline: 3px solid rgba(255, 122, 89, 0.8);
+    outline-offset: 3px;
+}
+.btn-download-lg {
+    min-height: 62px;
+    padding: 16px 44px;
+    font-size: 1.2rem;
+}
+
+/* ============ Watch page: download CTA banner (replaces the old rows) ============ */
+.dl-cta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 18px;
+    padding: 20px 24px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 0, 60, 0.3);
+    background:
+        radial-gradient(circle at 12% 20%, rgba(255, 0, 60, 0.16), transparent 55%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+}
+.dl-cta-icon {
+    flex: 0 0 auto;
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    font-size: 1.7rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ff003c, #ff5e3a);
+    box-shadow: 0 8px 22px rgba(255, 0, 60, 0.45);
+}
+.dl-cta-copy { flex: 1 1 auto; min-width: 0; }
+.dl-cta-copy h2 {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--text-light);
+    margin-bottom: 4px;
+}
+.dl-cta-copy p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+.dl-cta .btn-download { flex: 0 0 auto; }
+
+/* ============ Download page layout ============ */
+.download-main {
+    position: relative;
+    z-index: 5;
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    padding: 118px 5% 90px;
+}
+.download-empty {
+    margin: 40px auto;
+    width: min(760px, 100%);
+    text-align: center;
+}
+.download-empty h1 {
+    margin-top: 12px;
+    color: var(--text-light);
+    font-size: 1.7rem;
+}
+.download-page .catalog-breadcrumb { margin-bottom: 22px; }
+
+.dl-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 28px;
+    align-items: center;
+    padding: 28px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+.dl-hero-art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center 25%;
+    opacity: 0.22;
+    filter: blur(2px) saturate(1.2);
+}
+.dl-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to left, transparent 30%, var(--bg-main) 130%);
+    pointer-events: none;
+}
+.dl-poster {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+    background: #121217;
+}
+.dl-hero-copy { position: relative; z-index: 1; }
+.dl-hero-copy h1 {
+    color: var(--text-light);
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+.dl-title-en {
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+}
+.dl-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0;
+    padding: 0;
+    list-style: none;
+}
+.dl-meta li {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text-light);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+.dl-meta .rating { color: #ffd978; }
+.dl-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.dl-hero-actions .btn { text-decoration: none; min-height: 48px; }
+
+.dl-section { margin-top: 46px; }
+
+/* Episode picker */
+.dl-ep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+}
+.dl-ep {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+    color: inherit;
+    font: inherit;
+    text-align: right;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.dl-ep:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 0, 60, 0.45);
+}
+.dl-ep:focus-visible {
+    outline: 3px solid rgba(255, 71, 118, 0.72);
+    outline-offset: 2px;
+}
+.dl-ep.is-selected {
+    border-color: var(--accent);
+    background: rgba(255, 0, 60, 0.1);
+    box-shadow: 0 10px 28px rgba(255, 0, 60, 0.18);
+}
+.dl-ep-num {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: rgba(255, 0, 60, 0.14);
+    border: 1px solid rgba(255, 0, 60, 0.3);
+    color: var(--text-light);
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+.dl-ep.is-selected .dl-ep-num {
+    background: var(--accent);
+    color: #fff;
+}
+.dl-ep-copy { min-width: 0; }
+.dl-ep-copy strong {
+    display: block;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+.dl-ep-copy span {
+    display: block;
+    margin-top: 3px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dl-ep.is-locked { opacity: 0.75; }
+.dl-ep.is-locked .dl-ep-num { background: rgba(255, 255, 255, 0.06); border-color: var(--glass-border); }
+
+/* Quality cards */
+.dl-quality-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+.dl-quality {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    overflow: hidden;
+    transition: 0.2s;
+}
+.dl-quality:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 0, 60, 0.4);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+}
+.dl-quality.is-best {
+    border-color: rgba(255, 170, 0, 0.5);
+    background:
+        radial-gradient(circle at 85% 15%, rgba(255, 170, 0, 0.12), transparent 55%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+}
+.dl-quality-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(255, 170, 0, 0.16);
+    border: 1px solid rgba(255, 170, 0, 0.4);
+    color: #ffd978;
+    font-size: 0.7rem;
+    font-weight: 900;
+}
+.dl-quality-info { flex: 1 1 auto; min-width: 0; }
+.dl-quality-info strong {
+    font-family: Orbitron, Vazirmatn, sans-serif;
+    font-size: 1.35rem;
+    color: var(--text-light);
+    letter-spacing: 0.02em;
+}
+.dl-quality-info span {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+.dl-quality-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+.dl-quality-tags i {
+    font-style: normal;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+.dl-quality-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 132px;
+    min-height: 50px;
+    padding: 12px 22px;
+    border-radius: 13px;
+    border: none;
+    background: linear-gradient(135deg, #ff003c, #ff5e3a);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(255, 0, 60, 0.35);
+    transition: 0.2s;
+}
+.dl-quality-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 0, 60, 0.5);
+}
+.dl-quality.is-locked .dl-quality-btn {
+    background: #3a3a42;
+    box-shadow: none;
+}
+.dl-quality.is-locked { opacity: 0.9; }
+
+.dl-demo-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(255, 170, 0, 0.08);
+    border: 1px solid rgba(255, 170, 0, 0.25);
+    color: #ffd978;
+    font-size: 0.85rem;
+    line-height: 1.8;
+}
+
+.dl-help {
+    padding: 24px 26px;
+    border-radius: 18px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.025);
+}
+.dl-help h2 {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+.dl-help ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.9;
+}
+
+/* VIP modal visibility (same contract as anime page) */
+.download-page .vip-modal {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.download-page .vip-modal:not(.active) {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Light theme */
+:root[data-theme="light"] .dl-hero,
+:root[data-theme="light"] .dl-ep,
+:root[data-theme="light"] .dl-quality,
+:root[data-theme="light"] .dl-help,
+:root[data-theme="light"] .dl-cta {
+    background: linear-gradient(145deg, #fff, #faf7ff);
+    box-shadow: var(--day-shadow);
+}
+:root[data-theme="light"] .dl-hero::after {
+    background: linear-gradient(to left, transparent 20%, #f4f1f9 135%);
+}
+:root[data-theme="light"] .dl-ep.is-selected { background: rgba(255, 0, 60, 0.07); }
+:root[data-theme="light"] .dl-quality-tags i { background: rgba(0, 0, 0, 0.04); }
+:root[data-theme="light"] .dl-demo-note { background: rgba(255, 170, 0, 0.12); color: #8a5b00; }
+:root[data-theme="light"] .dl-quality.is-locked .dl-quality-btn { background: #c9c4d4; color: #fff; }
+
+/* Responsive */
+@media (max-width: 760px) {
+    .download-main { padding: 104px 16px 70px; }
+    .dl-hero { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
+    .dl-poster { width: min(170px, 46vw); }
+    .dl-quality-grid { grid-template-columns: 1fr; }
+    .dl-ep-grid { grid-template-columns: 1fr 1fr; }
+    .dl-ep { padding: 10px 12px; gap: 10px; }
+    .dl-ep-num { width: 42px; height: 42px; font-size: 1.05rem; border-radius: 11px; }
+    .dl-ep-copy span { display: none; }
+    .dl-cta { flex-wrap: wrap; }
+    .dl-cta .btn-download { width: 100%; }
+}
+@media (max-width: 460px) {
+    .dl-ep-grid { grid-template-columns: 1fr; }
+    .dl-quality { flex-wrap: wrap; }
+    .dl-quality-btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .btn-download,
+    .btn-download::after,
+    .dl-ep,
+    .dl-quality,
+    .dl-quality-btn { transition: none; }
+}
