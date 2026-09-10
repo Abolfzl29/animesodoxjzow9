@@ -47,7 +47,11 @@
         Object.keys(localStorage).forEach(k => { if (k.indexOf('neon_') === 0) localStorage.removeItem(k); });
     }
 
-    function setVip(flag) { localStorage.setItem(KEYS.vip, flag ? 'true' : 'false'); }
+    function setVip(flag, plan) {
+        localStorage.setItem(KEYS.vip, flag ? 'true' : 'false');
+        if (plan) localStorage.setItem('neon_vip_plan', plan);
+        if (!flag) localStorage.removeItem('neon_vip_plan');
+    }
 
     // Where to go after login: ?next=... (same-origin relative paths only) or the profile page.
     function nextUrl(fallback) {
