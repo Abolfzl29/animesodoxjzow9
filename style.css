@@ -2074,3 +2074,39 @@ a.logo, a.logo:visited { text-decoration: none; }
     :root[data-theme="light"] .glow-orb { animation: none; }
     :root[data-theme="light"] :is(.anime-card, .character-circle img, .btn-play) { transition: none; }
 }
+
+/* ========================================================================= */
+/* LIGHT THEME — visibility fixes: elements that rendered white-on-white     */
+/* ========================================================================= */
+
+/* «زیرنویس» badge: white text on a near-white card in light mode */
+:root[data-theme="light"] .lang-badge.sub {
+    background: #e8edf5;
+    color: #3d4a5e;
+    border-color: #c3cdda;
+    box-shadow: none;
+}
+
+/* «ورود / عضویت» badge in the side menu: #ccc on light lavender */
+:root[data-theme="light"] .status-badge {
+    background: rgba(36, 29, 56, 0.07);
+    color: #453d58;
+}
+
+/* Player quality badge: white text on a light chip */
+:root[data-theme="light"] .quality-badge {
+    background: #eef0f6;
+    color: var(--text-light);
+    border-color: #c9c2d6;
+}
+
+/* Three-dots «بیشتر» dropdown: solid white panel with clearly readable items,
+   including the last entries (اخبار / دیسکورد) at the bottom */
+:root[data-theme="light"] .three-dots-dropdown {
+    background: #fff;
+    border-color: var(--glass-border);
+    box-shadow: var(--day-shadow);
+}
+:root[data-theme="light"] .dropdown-section h4 { color: var(--accent); }
+:root[data-theme="light"] .dropdown-section a { color: #3f3a4e; }
+:root[data-theme="light"] .dropdown-section a:hover { color: var(--accent); }

@@ -428,6 +428,7 @@
     border-color: var(--glass-border);
     color: var(--text-light);
 }
+:root[data-theme="light"] .anime-continue-copy { color: var(--text-light); }
 :root[data-theme="light"] .anime-continue-copy span { color: var(--text-muted); }
 :root[data-theme="light"] .anime-ep {
     background: linear-gradient(145deg, #fff, #faf7ff);

@@ -303,10 +303,31 @@
     box-shadow: 0 6px 18px rgba(20, 10, 40, 0.06);
 }
 :root[data-theme="light"] .sch-card:hover { box-shadow: 0 12px 28px rgba(20, 10, 40, 0.12); }
-:root[data-theme="light"] .sch-btn { background: #f3f0f8; border-color: rgba(0, 0, 0, 0.08); }
-:root[data-theme="light"] .sch-chip { background: #f5f2fa; border-color: rgba(0, 0, 0, 0.08); }
+/* Buttons: give them a real outline + fill so they don't melt into the white cards */
+:root[data-theme="light"] .sch-btn {
+    background: #f1eef7;
+    border-color: #c9c2d6;
+    color: var(--text-light);
+}
+:root[data-theme="light"] .sch-btn:hover {
+    background: #e9e4f3;
+    border-color: #a89ec4;
+    color: var(--text-light);
+}
+:root[data-theme="light"] .sch-btn--watch:hover { color: #fff; }
+:root[data-theme="light"] .sch-btn--remind { border-color: #9fc0cb; }
+:root[data-theme="light"] .sch-btn--remind:hover {
+    background: #e4f2f5;
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+}
+:root[data-theme="light"] .sch-btn--remind.is-on {
+    background: #d8edf2;
+    border-color: #0091a7;
+    color: #00657a;
+}
+:root[data-theme="light"] .sch-chip { background: #f5f2fa; border-color: #c9c2d6; }
 :root[data-theme="light"] .sch-chip.is-active { background: rgba(230, 0, 51, 0.08); }
 :root[data-theme="light"] .sch-day:hover { background: rgba(0, 0, 0, 0.04); }
 :root[data-theme="light"] .sch-time { background: rgba(230, 0, 51, 0.06); }
-:root[data-theme="light"] .sch-btn--remind.is-on { background: rgba(0, 145, 167, 0.08); }
 :root[data-theme="light"] .sch-vip { background: rgba(255, 209, 102, 0.15); color: #9a6b00; border-color: rgba(154, 107, 0, 0.35); }
