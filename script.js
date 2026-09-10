@@ -232,7 +232,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!m || !DATA.byId[m[1]]) return;
             const anime = DATA.byId[m[1]];
             const ep = anime.episodes.find(e => e.number === parseInt(m[2], 10)) || { number: parseInt(m[2], 10), season: anime.currentSeason };
-            items.push({ anime, ep, ratio: parseFloat(localStorage.getItem(k)) || 0 });
+            const ratio = parseFloat(localStorage.getItem(k)) || 0;
+            // Finished episodes (and "opened but never played" ones) belong to
+            // completed.html, not to the resume row — keep the contract in sync
+            // with library.js.
+            if (ratio >= 0.95 || ratio < 0.01) return;
+            items.push({ anime, ep, ratio: ratio });
         });
         if (items.length) {
             items.slice(0, 8).forEach(it => {
@@ -299,8 +304,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function openVipModal() {
         if(!vipModal) return;
+        // Some pages ship the modal with the `hidden` attribute (progressive
+        // enhancement), so make sure it is displayed before animating.
+        vipModal.removeAttribute('hidden');
         vipModal.classList.add('active');
         document.body.style.overflow = 'hidden';
+
+        // GSAP is an optional CDN enhancement: without it the modal still opens.
+        if (typeof window.gsap === 'undefined') return;
 
         const tl = gsap.timeline();
         tl.fromTo(vipCloseBackdrop, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" });
@@ -310,6 +321,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function closeVipModal() {
+        if(!vipModal) return;
+        if (typeof window.gsap === 'undefined') {
+            vipModal.classList.remove('active');
+            document.body.style.overflow = '';
+            return;
+        }
         gsap.to('.vip-modal-content', { y: 30, opacity: 0, duration: 0.3, ease: "power2.in" });
         gsap.to(vipCloseBackdrop, { opacity: 0, duration: 0.4, ease: "power2.in", onComplete: () => {
             vipModal.classList.remove('active');
