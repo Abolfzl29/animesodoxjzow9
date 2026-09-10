@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تاریخچه تماشا | نئون انیمه</title>
-    <meta name="description" content="تاریخچه‌ی کامل قسمت‌های تماشاشده در نئون انیمه با زمان آخرین تماشا و درصد پیشرفت.">
-    <meta name="robots" content="noindex, nofollow">
-    <meta property="og:title" content="تاریخچه تماشا | نئون انیمه">
-    <meta property="og:description" content="تاریخچه‌ی کامل قسمت‌های تماشاشده در نئون انیمه با زمان آخرین تماشا و درصد پیشرفت.">
+    <title>تقویم پخش هفتگی | نئون انیمه</title>
+    <meta name="description" content="تقویم پخش هفتگی نئون انیمه؛ قسمت‌های امروز، ساعت انتشار هر انیمه در هر روز هفته، فیلتر دوبله و زیرنویس و یادآوری انتشار.">
+    <meta property="og:title" content="تقویم پخش هفتگی | نئون انیمه">
+    <meta property="og:description" content="قسمت‌های امروز، ساعت انتشار، فیلتر دوبله/زیرنویس و یادآوری انتشار در تقویم هفتگی نئون انیمه.">
     <meta name="theme-color" content="#0a0a0c">
     <script>
         // Apply the saved theme before paint and keep browser chrome in sync.
@@ -35,10 +34,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="library.css">
+    <link rel="stylesheet" href="schedule.css">
 </head>
-<body class="library-page">
-    <a class="skip-link" href="#libMain">پرش به محتوای اصلی</a>
+<body class="schedule-page">
+    <a class="skip-link" href="#schMain">پرش به محتوای اصلی</a>
     <div id="toastContainer" aria-live="polite" role="status"></div>
 
     <div class="mobile-backdrop" id="mobileBackdrop"></div>
@@ -86,11 +85,11 @@
             <ul class="nav-links">
                 <li><a href="index.html">خانه</a></li>
                 <li><a href="catalog.html">آرشیو انیمه‌ها</a></li>
-                <li><a href="continue-watching.html">ادامه تماشا</a></li>
+                <li><a href="schedule.html">تقویم پخش</a></li>
                 <li><a href="favorites.html">لیست من</a></li>
                 <li class="more-menu-container">
                     <button class="three-dots-btn" id="threeDotsBtn" type="button" title="منوی بیشتر" aria-label="منوی بیشتر" aria-haspopup="true">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
                     </button>
                     <div class="three-dots-dropdown" id="moreMenuDropdown">
                         <div class="dropdown-section">
@@ -168,73 +167,51 @@
         </div>
     </div>
 
-    <main class="lib-main" id="libMain">
-        <header class="lib-page-head">
-            <p class="lib-kicker">کتابخانه من</p>
-            <h1>تاریخچه تماشا</h1>
-            <p class="lib-lead">تمام قسمت‌هایی که در این مرورگر تماشا کرده‌اید، به‌ترتیب زمان و با درصد پیشرفت. حذف از این صفحه فقط رکورد تاریخچه را پاک می‌کند و پیشرفت قسمت دست‌نخورده می‌ماند.</p>
+    <main class="sch-main" id="schMain">
+        <header class="sch-head">
+            <p class="sch-kicker">برنامهٔ هفتگی</p>
+            <h1>تقویم <span class="accent">پخش</span></h1>
+            <p class="sch-lead">هفت روز هفته، ساعت انتشار هر قسمت و نسخهٔ دوبله یا زیرنویس؛ با یک کلیک برای انتشار موردعلاقه‌تان یادآوری تنظیم کنید. زمان‌ها به وقت تهران است.</p>
         </header>
 
-        <div class="lib-layout">
-            <aside class="lib-sidebar" id="libSidebar" aria-label="منوی کتابخانه"></aside>
+        <!-- SECTION: Today's episodes -->
+        <section class="sch-section" id="schTodaySection" aria-labelledby="schTodayTitle">
+            <div class="sch-section-head">
+                <h2 id="schTodayTitle">پخش <span class="accent">امروز</span></h2>
+                <p class="sch-today-date" id="schTodayDate" aria-live="polite"></p>
+            </div>
+            <div class="sch-today-grid" id="schTodayList"></div>
+        </section>
 
-            <div class="lib-body">
-                <h2 class="lib-sr-only">رکوردهای تاریخچه تماشا</h2>
-
-                <div class="lib-warning" id="libWarning" role="status" hidden></div>
-
-                <div class="lib-toolbar">
-                    <div class="lib-toolbar__group">
-                        <button class="lib-btn" id="libManageBtn" type="button" aria-pressed="false">مدیریت</button>
-                        <label class="lib-sort-label" for="libSort">مرتب‌سازی</label>
-                        <select class="lib-select" id="libSort"></select>
-                    </div>
-                    <p class="lib-count" id="libCount" aria-live="polite"></p>
-                </div>
-
-                <div class="lib-manage-bar" id="libManageBar" hidden>
-                    <button class="lib-btn" id="libSelectAllBtn" type="button">انتخاب همه</button>
-                    <button class="lib-btn" id="libExitManageBtn" type="button">خروج از مدیریت</button>
-                    <span class="lib-manage-bar__count" id="libManageCount" aria-live="polite">موردی انتخاب نشده</span>
-                    <button class="lib-btn lib-btn--danger" id="libDeleteBtn" type="button" disabled>حذف انتخاب‌شده‌ها</button>
-                </div>
-
-                <div class="lib-grid" id="libGrid" aria-busy="true"></div>
-
-                <div class="lib-panel" id="libLoading">
-                    <span class="lib-panel__icon" aria-hidden="true">◌</span>
-                    <h2>در حال بارگذاری کتابخانه…</h2>
-                    <p>اگر این پیام باقی ماند، جاوااسکریپت مرورگر غیرفعال است یا فایل data/anime.js بارگذاری نشده است.</p>
-                </div>
-
-                <div class="lib-panel" id="libEmpty" hidden>
-                    <span class="lib-panel__icon" aria-hidden="true">⟲</span>
-                    <h2>تاریخچه‌ای ثبت نشده است</h2>
-                    <p>پس از شروع پخش هر قسمت، رکورد آن با زمان و درصد پیشرفت در این صفحه ثبت می‌شود.</p>
-                    <div class="lib-panel__actions">
-                        <a class="lib-btn lib-btn--primary" href="catalog.html">مرور آرشیو انیمه‌ها</a>
-                        <a class="lib-btn" href="index.html">صفحه اصلی</a>
-                    </div>
-                </div>
-
-                <div class="lib-panel" id="libError" hidden>
-                    <span class="lib-panel__icon" aria-hidden="true">⚠</span>
-                    <h2>منبع داده در دسترس نیست</h2>
-                    <p>فایل data/anime.js بارگذاری نشد؛ برای نمایش کتابخانه به اطلاعات آرشیو نیاز است.</p>
-                    <div class="lib-panel__actions">
-                        <button class="lib-btn lib-btn--primary" id="libErrorRetry" type="button">تلاش دوباره</button>
-                        <a class="lib-btn" href="catalog.html">رفتن به آرشیو</a>
-                    </div>
+        <!-- SECTION: Weekly calendar -->
+        <section class="sch-section" id="schWeekSection" aria-labelledby="schWeekTitle">
+            <h2 class="sch-sr-only" id="schWeekTitle">تقویم هفتگی</h2>
+            <div class="sch-toolbar">
+                <div class="sch-days" id="schDays" role="tablist" aria-label="روزهای هفته"></div>
+                <div class="sch-filters" role="group" aria-label="فیلتر نسخهٔ پخش">
+                    <button class="sch-chip is-active" type="button" data-lang="all" aria-pressed="true">همه</button>
+                    <button class="sch-chip" type="button" data-lang="dub" aria-pressed="false"><span class="lang-badge dub">دوبله</span></button>
+                    <button class="sch-chip" type="button" data-lang="sub" aria-pressed="false"><span class="lang-badge sub">زیرنویس</span></button>
                 </div>
             </div>
-        </div>
+            <div class="sch-content" id="schContent" role="tabpanel" aria-live="polite" aria-busy="true"></div>
+        </section>
+
+        <!-- SECTION: Reminders -->
+        <section class="sch-section" id="schRemindersSection" aria-labelledby="schRemindersTitle">
+            <div class="sch-section-head">
+                <h2 id="schRemindersTitle">یادآوری‌های <span class="accent">فعال</span></h2>
+                <p class="sch-reminders-hint">با 🔔 روی هر قسمت یادآوری بسازید؛ نزدیک ساعت انتشار اطلاع می‌دهیم. برای دریافت اعلان سیستمی، اجازهٔ Notification را تأیید کنید؛ در غیر این صورت یادآوری فقط داخل همین صفحه نمایش داده می‌شود.</p>
+            </div>
+            <div class="sch-reminders" id="schReminderList"></div>
+        </section>
     </main>
 
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
                 <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
-                <p>کتابخانه‌ی شخصی شما: علاقه‌مندی‌ها، ادامه تماشا، تاریخچه و عنوان‌های تکمیل‌شده.</p>
+                <p>تقویم پخش هفتگی: قسمت‌های امروز، ساعت انتشار و یادآوری پخش انیمه‌های در حال انتشار.</p>
             </div>
             <div class="footer-col">
                 <h3>کتابخانه من</h3>
@@ -259,7 +236,7 @@
         </div>
         <div class="footer-bottom">
             <span>© <span id="footerYear">۱۴۰۵</span> نئون انیمه</span>
-            <span class="en-text">LIBRARY · v0.5</span>
+            <span class="en-text">SCHEDULE · v0.5</span>
         </div>
     </footer>
 
@@ -282,6 +259,6 @@
     <script src="auth.js"></script>
     <script src="script.js"></script>
     <script src="library.js"></script>
-    <script src="history.js"></script>
+    <script src="schedule.js"></script>
 </body>
 </html>
