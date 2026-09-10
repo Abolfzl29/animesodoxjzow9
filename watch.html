@@ -479,6 +479,7 @@
     <script src="data/anime.js"></script>
     <script src="auth.js"></script>
     <script src="script.js"></script>
+    <script src="library.js"></script>
     <script>
         // Bind bottom nav buttons to existing modals
         document.addEventListener('DOMContentLoaded', () => {
@@ -534,6 +535,11 @@
             const skipIntroBtn = document.getElementById('skipIntroBtn');
             const fullScreenBtn = document.getElementById('fullScreenBtn');
             const centerPlayBtn = document.getElementById('centerPlayBtn');
+
+            // Shared library engine (watch history contract). The player keeps
+            // working on its own if the file is missing.
+            const Lib = window.NeonLibrary || null;
+            const COMPLETE_RATIO = Lib ? Lib.COMPLETE_AT : 0.95;
 
             const ICON_PLAY = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>';
             const ICON_PAUSE = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
@@ -591,7 +597,8 @@
                         <div class="ep-thumb-wrapper">
                             <img src="${anime.banner}" class="ep-thumb" alt="${escapeHtml(anime.title)} قسمت ${toFa(ep.number)}" loading="lazy" style="width: 120px; height: 70px;${locked ? ' opacity: 0.5;' : ''}">
                             ${locked ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" stroke-width="2" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : ''}
-                            ${saved > 0 ? `<div class="ep-progress" style="width: ${Math.round(saved * 100)}%;"></div>` : ''}
+                            ${saved > 0 && saved < COMPLETE_RATIO ? `<div class="ep-progress" style="width: ${Math.round(saved * 100)}%;"></div>` : ''}
+                            ${saved >= COMPLETE_RATIO ? '<span class="ep-done-mark" aria-hidden="true">✓</span>' : ''}
                         </div>
                         <div class="ep-details">
                             <div class="ep-title"${locked ? ' style="color:#aaa;"' : ''}>قسمت ${toFa(ep.number)}: ${escapeHtml(ep.title)}</div>
@@ -643,20 +650,47 @@
             }
 
             // ---------- Progress memory (resume where you left off) ----------
+            // Contract: neon_progress_<id>_<ep> keeps the real watched ratio
+            // (including 1.0 for finished episodes, so the "completed" page can
+            // detect them), and neon_watch_history keeps one record per episode.
             let lastSave = 0;
-            function saveProgress() {
-                if (!anime || !episode || !video.duration) return;
+            function currentRatio() {
+                if (!video.duration || !isFinite(video.duration)) return 0;
                 const ratio = video.currentTime / video.duration;
-                if (ratio > 0.02 && ratio < 0.97) {
-                    localStorage.setItem(progressKey(anime, episode), ratio.toFixed(4));
-                    localStorage.setItem('neon_last_watched', JSON.stringify({ anime: anime.id, ep: episode.number, title: anime.title, banner: anime.banner, ratio: ratio, at: Date.now() }));
-                } else if (ratio >= 0.97) {
-                    localStorage.removeItem(progressKey(anime, episode));
+                if (!isFinite(ratio)) return 0;
+                return Math.max(0, Math.min(1, ratio));
+            }
+            function saveProgress() {
+                if (!anime || !episode) return;
+                const ratio = currentRatio();
+                if (ratio < 0.02) return; // nothing worth remembering yet
+                localStorage.setItem(progressKey(anime, episode), ratio.toFixed(4));
+                localStorage.setItem('neon_last_watched', JSON.stringify({ anime: anime.id, ep: episode.number, title: anime.title, banner: anime.banner, ratio: ratio, at: Date.now() }));
+                recordHistory(ratio);
+            }
+            /** One record per (anime, episode) — repeated calls only refresh it. */
+            function recordHistory(ratio) {
+                if (!anime || !episode) return;
+                if (Lib && typeof Lib.upsertHistory === 'function') {
+                    Lib.upsertHistory(anime.id, episode.number, ratio);
+                    return;
                 }
+                // Fallback if library.js is unavailable: keep the same shape.
+                try {
+                    const raw = JSON.parse(localStorage.getItem('neon_watch_history') || '[]');
+                    const list = Array.isArray(raw) ? raw : [];
+                    const kept = list.filter(r => !(r && r.anime === anime.id && Number(r.ep) === episode.number));
+                    kept.push({ anime: anime.id, ep: episode.number, ratio: ratio, watchedAt: Date.now() });
+                    kept.sort((a, b) => (a.watchedAt || 0) - (b.watchedAt || 0));
+                    localStorage.setItem('neon_watch_history', JSON.stringify(kept.slice(-200)));
+                } catch (e) {}
             }
             function restoreProgress() {
                 const saved = parseFloat(localStorage.getItem(progressKey(anime, episode)) || '0');
                 if (!saved) return;
+                // A finished episode starts from the beginning again instead of
+                // jumping to the very end (which would auto-advance instantly).
+                if (saved >= COMPLETE_RATIO) return;
                 const apply = () => { if (video.duration) video.currentTime = saved * video.duration; };
                 if (video.readyState >= 1) apply(); else video.addEventListener('loadedmetadata', apply, { once: true });
             }
@@ -671,11 +705,20 @@
             function togglePlay() {
                 if (video.paused) video.play().catch(() => {}); else video.pause();
             }
-            video.addEventListener('play', () => setPlayingUI(true));
+            video.addEventListener('play', () => {
+                setPlayingUI(true);
+                // Real playback started: make sure the episode is in the history.
+                recordHistory(currentRatio());
+            });
             video.addEventListener('pause', () => setPlayingUI(false));
             video.addEventListener('ended', () => {
                 setPlayingUI(false);
                 saveProgress();
+                // The episode is finished: pin it to 100% for both contracts.
+                if (anime && episode) {
+                    localStorage.setItem(progressKey(anime, episode), '1');
+                    recordHistory(1);
+                }
                 // Auto-advance to the next unlocked episode
                 const idx = anime ? anime.episodes.indexOf(episode) : -1;
                 const next = idx >= 0 ? anime.episodes.slice(idx + 1).find(e => !e.vip || isVip) : null;

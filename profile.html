@@ -37,6 +37,7 @@
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="library.css">
 
     
     <style>
@@ -125,40 +126,6 @@
         }
         .edit-profile-btn:hover { background: white; color: black; }
 
-        .dashboard-section { margin-bottom: 50px; width: 100%; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .section-header h2 { font-size: 1.8rem; font-weight: 800; border-right: 4px solid var(--accent); padding-right: 15px; }
-        .view-all { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
-        .view-all:hover { color: var(--accent); }
-
-        .continue-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 25px; 
-            width: 100%;
-        }
-        .progress-card {
-            background: rgba(255,255,255,0.03); border-radius: 15px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; cursor: pointer; position: relative;
-        }
-        .progress-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
-        .progress-img-wrapper { position: relative; width: 100%; aspect-ratio: 16/9; }
-        .progress-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .progress-card:hover .progress-img-wrapper img { transform: scale(1.05); filter: brightness(0.7); }
-        .play-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-            width: 50px; height: 50px; background: rgba(255,0,60,0.9); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; opacity: 0;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 20px rgba(255,0,60,0.6);
-        }
-        .progress-card:hover .play-overlay { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .play-overlay svg { fill: white; width: 20px; height: 20px; margin-right: -3px; }
-        .progress-info { padding: 15px; position: relative; }
-        .progress-info h4 { font-size: 1.1rem; margin-bottom: 5px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .progress-info p { font-size: 0.85rem; color: var(--text-muted); }
-        .progress-bar-container { width: 100%; height: 4px; background: rgba(255,255,255,0.1); position: absolute; bottom: 0; left: 0; }
-        .progress-bar-fill { height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
-
         @media (max-width: 900px) {
             .profile-wrapper { flex-direction: column; padding: 100px 20px 80px; }
             .profile-sidebar { display: none; }
@@ -168,81 +135,14 @@
             .profile-avatar { width: 110px; height: 110px; }
             .edit-profile-btn { margin-right: 0; margin-top: 15px; width: 100%; justify-content: center; }
             .profile-text h1 { justify-content: center; font-size: 1.8rem; }
-            
-            /* Horizontal Scroll for Cards on Mobile */
-            .continue-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; }
-            .continue-grid::-webkit-scrollbar { display: none; }
-            .progress-card { min-width: 260px; scroll-snap-align: start; flex-shrink: 0; }
-            .anime-card.landscape { min-width: 220px; scroll-snap-align: start; flex-shrink: 0; }
-        }
-    
-        
-        .profile-cards-row {
-            display: grid !important;
-            grid-template-rows: max-content !important;
-            grid-auto-flow: column !important;
-            grid-auto-columns: 240px !important;
-            gap: 15px !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            scroll-snap-type: x mandatory !important;
-            padding-bottom: 20px !important;
-            width: 100% !important;
-        }
-        .profile-cards-row::-webkit-scrollbar { display: none !important; }
-        
-        .profile-cards-row .anime-card {
-            width: 100% !important;
-            min-width: 0 !important;
         }
 
-        @media (max-width: 900px) {
-            .profile-cards-row {
-                grid-auto-columns: calc(65% - 7.5px) !important;
-            }
+        /* The overview grids are shared with the library pages (library.css) */
+        .lib-overview-more:focus-visible,
+        .lib-overview-stat:focus-visible {
+            outline: 3px solid var(--neon-blue, #00f0ff);
+            outline-offset: 3px;
         }
-
-        /* Old profile cards row */
-        .old-profile-cards-row {
-            grid-auto-columns: 240px; /* Exact size user loves from #trendingSection */
-            grid-template-rows: max-content;
-            width: 100%;
-        }
-        @media (max-width: 900px) {
-            
-        .profile-cards-row {
-            display: grid !important;
-            grid-template-rows: max-content !important;
-            grid-auto-flow: column !important;
-            grid-auto-columns: 240px !important;
-            gap: 15px !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            scroll-snap-type: x mandatory !important;
-            padding-bottom: 20px !important;
-            width: 100% !important;
-        }
-        .profile-cards-row::-webkit-scrollbar { display: none !important; }
-        
-        .profile-cards-row .anime-card {
-            width: 100% !important;
-            min-width: 0 !important;
-        }
-
-        @media (max-width: 900px) {
-            .profile-cards-row {
-                grid-auto-columns: calc(65% - 7.5px) !important;
-            }
-        }
-
-        /* Old profile cards row */
-        .old-profile-cards-row {
-                grid-auto-columns: calc(65% - 7.5px);
-            }
-        }
-        .progress-variant { position: relative; }
-        .progress-bar-container { width: 100%; height: 4px; background: rgba(255,255,255,0.1); position: absolute; bottom: 0; left: 0; z-index: 10; }
-        .progress-bar-fill { height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
 
     </style>
 
@@ -271,8 +171,11 @@
             <a href="catalog.html"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
             <a href="catalog.html?view=all#catalogResults"><span class="icon">🗂️</span> همه عناوین</a>
             <a href="index.html#schedule"><span class="icon">📅</span> تقویم پخش هفتگی</a>
-            <a href="profile.html"><span class="icon">🔖</span> لیست تماشای من</a>
-            <a href="#" class="coming-soon"><span class="icon">🎧</span> رادیو انیمه</a>
+            <a href="favorites.html"><span class="icon">★</span> علاقه‌مندی‌های من</a>
+            <a href="continue-watching.html"><span class="icon">▶</span> ادامه تماشا</a>
+            <a href="history.html"><span class="icon">⟲</span> تاریخچه تماشا</a>
+            <a href="completed.html"><span class="icon">✔</span> تکمیل‌شده‌ها</a>
+            <a href="profile.html"><span class="icon">👤</span> نمای کلی پروفایل</a>
         </div>
         
         <div class="side-menu-vip-promo" id="mobileVipBtn">
@@ -341,9 +244,12 @@
                             <a href="#" class="coming-soon">🎵 موسیقی انیمه (OST)</a>
                         </div>
                         <div class="dropdown-section">
-                            <h4>پروفایل من</h4>
-                            <a href="profile.html">👤 حساب کاربری</a>
-                            <a href="profile.html">🔖 لیست تماشای من</a>
+                            <h4>کتابخانه من</h4>
+                            <a href="profile.html">◈ نمای کلی</a>
+                            <a href="favorites.html">★ علاقه‌مندی‌های من</a>
+                            <a href="continue-watching.html">▶ ادامه تماشا</a>
+                            <a href="history.html">⟲ تاریخچه تماشا</a>
+                            <a href="completed.html">✔ تکمیل‌شده‌ها</a>
                         </div>
                         <div class="dropdown-section">
                             <h4>بیشتر</h4>
@@ -491,8 +397,10 @@
         <aside class="profile-sidebar">
             <ul class="sidebar-menu">
                 <li><a href="profile.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>داشبورد من</a></li>
-                <li><a href="#watchlistRow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>لیست تماشا</a></li>
-                <li><a href="#continueRow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>تاریخچه فعالیت</a></li>
+                <li><a href="favorites.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>علاقه‌مندی‌های من</a></li>
+                <li><a href="continue-watching.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>ادامه تماشا</a></li>
+                <li><a href="history.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg>تاریخچه تماشا</a></li>
+                <li><a href="completed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg>تکمیل‌شده‌ها</a></li>
                 <li><a href="#editProfileModal" id="settingsLink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>تنظیمات حساب</a></li>
                 <li style="margin-top: auto;"><a href="login.html" id="logoutLink" style="color: #ff4757;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>خروج از حساب</a></li>
             </ul>
@@ -518,23 +426,43 @@
                 </div>
             </div>
 
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>ادامه تماشا</h2>
-                    <button type="button" class="view-all" id="clearHistoryBtn" style="background:none; border:none; cursor:pointer; font: inherit;">پاک‌کردن تاریخچه</button>
-                </div>
-                <div class="cards-container profile-cards-row" id="continueRow"></div>
-                <p class="empty-state" id="continueEmpty" style="display:none; color: var(--text-muted); padding: 30px 0;">هنوز چیزی تماشا نکرده‌اید. از <a href="index.html" style="color: var(--accent);">صفحه‌ی اصلی</a> یک انیمه انتخاب کنید.</p>
-            </div>
+            <div class="lib-overview-stats" id="overviewStats"></div>
 
-            <div class="dashboard-section" style="margin-top: 60px;">
-                <div class="section-header">
-                    <h2>لیست تماشای من</h2>
-                    <span class="view-all" id="watchlistCount"></span>
+            <section class="lib-overview-section" aria-labelledby="overviewContinueHeading">
+                <div class="lib-overview-head">
+                    <h2 id="overviewContinueHeading">ادامه تماشا</h2>
+                    <a class="lib-overview-more" href="continue-watching.html">مشاهده همه <span aria-hidden="true">›</span></a>
                 </div>
-                <div class="cards-container profile-cards-row" id="watchlistRow"></div>
-                <p class="empty-state" id="watchlistEmpty" style="display:none; color: var(--text-muted); padding: 30px 0;">لیست شما خالی است. روی «+» کارت‌ها بزنید تا اینجا ذخیره شوند.</p>
-            </div>
+                <div class="lib-mini-grid" id="overviewContinue"></div>
+                <p class="lib-overview-empty" id="overviewContinueEmpty" hidden>چیزی برای ادامه دادن ندارید. یک انیمه از <a href="catalog.html">آرشیو</a> انتخاب کنید و پخش را شروع کنید.</p>
+            </section>
+
+            <section class="lib-overview-section" aria-labelledby="overviewFavoritesHeading">
+                <div class="lib-overview-head">
+                    <h2 id="overviewFavoritesHeading">علاقه‌مندی‌های من</h2>
+                    <a class="lib-overview-more" href="favorites.html">مشاهده همه <span aria-hidden="true">›</span></a>
+                </div>
+                <div class="lib-mini-grid" id="overviewFavorites"></div>
+                <p class="lib-overview-empty" id="overviewFavoritesEmpty" hidden>لیست شما خالی است. در صفحه‌ی هر انیمه روی «+ لیست من» بزنید.</p>
+            </section>
+
+            <section class="lib-overview-section" aria-labelledby="overviewHistoryHeading">
+                <div class="lib-overview-head">
+                    <h2 id="overviewHistoryHeading">آخرین تماشاها</h2>
+                    <a class="lib-overview-more" href="history.html">تاریخچه کامل <span aria-hidden="true">›</span></a>
+                </div>
+                <div class="lib-mini-grid" id="overviewHistory"></div>
+                <p class="lib-overview-empty" id="overviewHistoryEmpty" hidden>تاریخچه‌ای ثبت نشده است. بعد از شروع پخش هر قسمت، اینجا نمایش داده می‌شود.</p>
+            </section>
+
+            <section class="lib-overview-section" aria-labelledby="overviewCompletedHeading">
+                <div class="lib-overview-head">
+                    <h2 id="overviewCompletedHeading">تکمیل‌شده‌ها</h2>
+                    <a class="lib-overview-more" href="completed.html">مشاهده همه <span aria-hidden="true">›</span></a>
+                </div>
+                <div class="lib-mini-grid" id="overviewCompleted"></div>
+                <p class="lib-overview-empty" id="overviewCompletedEmpty" hidden>هنوز عنوانی را کامل نکرده‌اید؛ وقتی تمام قسمت‌های موجود یک انیمه دیده شود، اینجا ثبت می‌شود.</p>
+            </section>
         </section>
     </main>
 
@@ -602,6 +530,7 @@
     <script src="data/anime.js"></script>
     <script src="auth.js"></script>
     <script src="script.js"></script>
+    <script src="library.js"></script>
     <script>
         // Bind bottom nav buttons to existing modals
         document.addEventListener('DOMContentLoaded', () => {
@@ -692,109 +621,83 @@
             }
             renderHeader();
 
-            // ---------- Continue watching (from saved player progress) ----------
-            function readProgress() {
-                const items = [];
-                Object.keys(localStorage).forEach(k => {
-                    const m = k.match(/^neon_progress_(.+)_(\d+)$/);
-                    if (!m) return;
-                    const anime = DATA.byId[m[1]];
-                    if (!anime) return;
-                    const ep = anime.episodes.find(e => e.number === parseInt(m[2], 10));
-                    items.push({ anime, ep: ep || { number: parseInt(m[2], 10), season: anime.currentSeason, title: '' }, ratio: parseFloat(localStorage.getItem(k)) || 0 });
+            // ---------- Overview: library summary built on library.js ----------
+            const Lib = window.NeonLibrary;
+            const PREVIEW_LIMIT = 4;
+            if (Lib) Lib.initSharedChrome();
+
+            function renderMini(mountId, emptyId, items, specBuilder) {
+                const mount = document.getElementById(mountId);
+                const empty = document.getElementById(emptyId);
+                if (!mount) return 0;
+                mount.innerHTML = '';
+                let count = 0;
+                if (Lib && Lib.hasData()) {
+                    items.slice(0, PREVIEW_LIMIT).forEach(item => {
+                        const spec = specBuilder(item);
+                        if (!spec) return;
+                        mount.appendChild(Lib.buildCard(spec, {
+                            isSelected: () => false,
+                            setSelected: () => {},
+                            toggle: () => {},
+                            manageMode: () => false
+                        }));
+                        count++;
+                    });
+                }
+                mount.style.display = count ? '' : 'none';
+                if (empty) empty.style.display = count ? 'none' : '';
+                return count;
+            }
+
+            function renderStats() {
+                const mount = document.getElementById('overviewStats');
+                if (!mount || !Lib) return;
+                const stats = Lib.counts();
+                const defs = [
+                    { href: 'favorites.html', value: stats.favorites, label: 'علاقه‌مندی‌های من', hint: 'عنوان در لیست من' },
+                    { href: 'continue-watching.html', value: stats.continuing, label: 'در حال تماشا', hint: 'عنوان نیمه‌تمام' },
+                    { href: 'history.html', value: stats.history, label: 'تاریخچه تماشا', hint: 'رکورد قسمت' },
+                    { href: 'completed.html', value: stats.completed, label: 'تکمیل‌شده‌ها', hint: 'عنوان کامل‌شده' }
+                ];
+                mount.innerHTML = '';
+                defs.forEach(def => {
+                    const a = document.createElement('a');
+                    a.className = 'lib-overview-stat';
+                    a.href = def.href;
+                    const b = document.createElement('b');
+                    b.textContent = Lib.toFa(def.value);
+                    const span = document.createElement('span');
+                    span.textContent = def.label;
+                    const em = document.createElement('em');
+                    em.textContent = def.hint + ' • مشاهده همه ›';
+                    a.appendChild(b);
+                    a.appendChild(span);
+                    a.appendChild(em);
+                    mount.appendChild(a);
                 });
-                // most recent first if we know it
-                let last = null;
-                try { last = JSON.parse(localStorage.getItem('neon_last_watched') || 'null'); } catch (e) {}
-                items.sort((x, y) => {
-                    const lx = last && last.anime === x.anime.id && last.ep === x.ep.number ? 1 : 0;
-                    const ly = last && last.anime === y.anime.id && last.ep === y.ep.number ? 1 : 0;
-                    return ly - lx;
+            }
+
+            function renderOverview() {
+                if (!Lib) return;
+                try { Lib.migrateLegacyHistory(); } catch (e) {}
+                renderMini('overviewContinue', 'overviewContinueEmpty',
+                    Lib.sortItems(Lib.buildContinueItems(), 'recent'), Lib.specs.continueWatching);
+                renderMini('overviewFavorites', 'overviewFavoritesEmpty',
+                    Lib.sortItems(Lib.buildFavoriteItems(), 'recent'), Lib.specs.favorite);
+                renderMini('overviewHistory', 'overviewHistoryEmpty',
+                    Lib.sortItems(Lib.buildHistoryItems(), 'recent'), Lib.specs.history);
+                renderMini('overviewCompleted', 'overviewCompletedEmpty',
+                    Lib.sortItems(Lib.buildCompletedItems(), 'recent'), Lib.specs.completed);
+                renderStats();
+                Lib.takeWarnings().forEach(message => {
+                    if (window.showToast) window.showToast('⚠ ' + message);
                 });
-                return items;
             }
 
-            function progressCard(item) {
-                const a = document.createElement('a');
-                a.className = 'anime-card landscape progress-variant';
-                a.href = DATA.watchUrl(item.anime, item.ep.number);
-                a.style.cssText = 'display:block; text-decoration:none; color:inherit;';
-                a.innerHTML = `
-                    <img src="${item.anime.banner}" alt="${item.anime.title}" class="card-static-img" loading="lazy" decoding="async">
-                    <div class="card-overlay" style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);">
-                        <div class="card-actions" style="margin-bottom: auto; align-self: center; margin-top: 10%;">
-                            <span class="action-btn play-btn-small" style="width:50px; height:50px; font-size:1.5rem; background:var(--accent); border-color:var(--accent);">▶</span>
-                        </div>
-                        <div class="card-details-sleek" style="padding-bottom: 10px;">
-                            <h3 class="sleek-title" style="font-size:0.9rem;"></h3>
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;"></div>
-                        </div>
-                    </div>
-                    <div class="progress-bar-container"><div class="progress-bar-fill" style="width: ${Math.round(item.ratio * 100)}%;"></div></div>`;
-                a.querySelector('.sleek-title').textContent = item.anime.title;
-                a.querySelector('.card-details-sleek div').textContent = `فصل ${toFa(item.ep.season)} - قسمت ${toFa(item.ep.number)} • ${toFa(Math.round(item.ratio * 100))}٪`;
-                return a;
-            }
-
-            function listCard(anime) {
-                const a = document.createElement('a');
-                a.className = 'anime-card landscape';
-                a.href = DATA.detailUrl(anime);
-                a.style.cssText = 'display:block; text-decoration:none; color:inherit;';
-                a.innerHTML = `
-                    <img src="${anime.banner}" alt="${anime.title}" class="card-static-img" loading="lazy" decoding="async">
-                    <div class="card-overlay">
-                        <div class="card-actions" style="margin-bottom: 5px;">
-                            <span class="action-btn play-btn-small">▶</span>
-                            <button type="button" class="action-btn remove-from-list" title="حذف از لیست" aria-label="حذف از لیست">✕</button>
-                        </div>
-                        <div class="card-details-sleek">
-                            <h3 class="sleek-title"></h3>
-                        </div>
-                        <div class="sleek-rating"><span class="star">★</span> ${toFa(anime.rating.toFixed(1))}</div>
-                    </div>`;
-                a.querySelector('.sleek-title').textContent = anime.title;
-                a.querySelector('.remove-from-list').addEventListener('click', (e) => {
-                    e.preventDefault(); e.stopPropagation();
-                    const list = getWatchlist().filter(id => id !== anime.id);
-                    localStorage.setItem('neon_watchlist', JSON.stringify(list));
-                    renderWatchlist();
-                    if (window.showToast) showToast(`«${anime.title}» از لیست حذف شد.`);
-                });
-                return a;
-            }
-
-            function renderContinue() {
-                const row = document.getElementById('continueRow');
-                const empty = document.getElementById('continueEmpty');
-                const items = readProgress();
-                row.innerHTML = '';
-                items.forEach(it => row.appendChild(progressCard(it)));
-                row.style.display = items.length ? '' : 'none';
-                empty.style.display = items.length ? 'none' : '';
-                document.getElementById('clearHistoryBtn').style.display = items.length ? '' : 'none';
-            }
-
-            function getWatchlist() { try { return JSON.parse(localStorage.getItem('neon_watchlist') || '[]'); } catch (e) { return []; } }
-            function renderWatchlist() {
-                const row = document.getElementById('watchlistRow');
-                const empty = document.getElementById('watchlistEmpty');
-                const list = getWatchlist().map(id => DATA.byId[id]).filter(Boolean);
-                row.innerHTML = '';
-                list.forEach(a => row.appendChild(listCard(a)));
-                row.style.display = list.length ? '' : 'none';
-                empty.style.display = list.length ? 'none' : '';
-                document.getElementById('watchlistCount').textContent = list.length ? toFa(list.length) + ' عنوان' : '';
-            }
-
-            renderContinue();
-            renderWatchlist();
-
-            document.getElementById('clearHistoryBtn').addEventListener('click', (e) => {
-                e.preventDefault(); e.stopPropagation();
-                Object.keys(localStorage).forEach(k => { if (k.indexOf('neon_progress_') === 0 || k === 'neon_last_watched') localStorage.removeItem(k); });
-                renderContinue();
-                if (window.showToast) showToast('تاریخچه تماشا پاک شد.');
+            renderOverview();
+            window.addEventListener('storage', e => {
+                if (!e.key || e.key.indexOf('neon_') === 0) renderOverview();
             });
 
             // ---------- Logout ----------

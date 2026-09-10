@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
+# Private, per-device pages: never indexed.
 Disallow: /profile.html
 Disallow: /login.html
+Disallow: /favorites.html
+Disallow: /continue-watching.html
+Disallow: /history.html
+Disallow: /completed.html
 
 Sitemap: https://abolfzl29.github.io/animesodoxjzow9/sitemap.xml
