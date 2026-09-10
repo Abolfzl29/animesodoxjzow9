@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جزئیات انیمه | نئون انیمه</title>
-    <meta name="description" content="صفحه اختصاصی هر عنوان در نئون انیمه؛ داستان، قسمت‌ها، تریلر و ادامه تماشا.">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="جزئیات انیمه | نئون انیمه">
-    <meta property="og:description" content="صفحه اختصاصی هر عنوان در نئون انیمه؛ داستان، قسمت‌ها، تریلر و ادامه تماشا.">
+    <title>مجله نئون انیمه | اخبار، نقد و معرفی</title>
+    <meta name="description" content="مجله نئون انیمه؛ تازه‌ترین اخبار، نقدهای اختصاصی و معرفی انیمه‌ها با دسته‌بندی خبر، نقد و معرفی.">
+    <meta property="og:title" content="مجله نئون انیمه | اخبار، نقد و معرفی">
+    <meta property="og:description" content="اخبار، نقد و معرفی انیمه‌ها در مجله نئون انیمه؛ با فیلتر دسته، جستجو و تگ.">
     <meta name="theme-color" content="#0a0a0c">
-    <link rel="canonical" id="canonicalLink" href="anime.html">
+    <link rel="canonical" href="mag.html">
     <script>
-        // Apply the saved theme before paint and keep browser chrome in sync.
         (function () {
             var theme = 'dark';
             try {
@@ -30,19 +28,17 @@
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
     <link rel="manifest" href="manifest.webmanifest">
     <meta property="og:site_name" content="Neon Anime">
-    <meta property="og:type" content="video.tv_show">
+    <meta property="og:type" content="website">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:image" content="assets/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="catalog.css">
-    <link rel="stylesheet" href="anime.css">
     <link rel="stylesheet" href="mag.css">
 </head>
-<body class="catalog-page anime-page">
-    <a class="skip-link" href="#animeMain">پرش به محتوای اصلی</a>
-    <div id="toastContainer" aria-live="polite"></div>
+<body class="mag-page">
+    <a class="skip-link" href="#magMain">پرش به محتوای اصلی</a>
+    <div id="toastContainer" aria-live="polite" role="status"></div>
 
     <div class="mobile-backdrop" id="mobileBackdrop"></div>
     <aside class="side-menu" id="sideMenu" aria-label="منوی اصلی">
@@ -59,11 +55,14 @@
         <div class="side-menu-links">
             <a href="index.html"><span class="icon">🏠</span> خانه</a>
             <a href="catalog.html"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
-            <a href="catalog.html?genre=action#catalogResults"><span class="icon">⚔️</span> انیمه‌های اکشن</a>
-            <a href="catalog.html?genre=dark-fantasy#catalogResults"><span class="icon">🌑</span> فانتزی تاریک</a>
+            <a href="catalog.html?view=all#catalogResults"><span class="icon">🗂️</span> همه عناوین</a>
             <a href="schedule.html"><span class="icon">📅</span> تقویم پخش</a>
-            <a href="mag.html"><span class="icon">📰</span> مجله</a>
-            <a href="profile.html"><span class="icon">🔖</span> لیست تماشای من</a>
+            <a href="mag.html" class="active"><span class="icon">📰</span> مجله</a>
+            <a href="favorites.html"><span class="icon">★</span> علاقه‌مندی‌های من</a>
+            <a href="continue-watching.html"><span class="icon">▶</span> ادامه تماشا</a>
+            <a href="history.html"><span class="icon">⟲</span> تاریخچه تماشا</a>
+            <a href="completed.html"><span class="icon">✔</span> تکمیل‌شده‌ها</a>
+            <a href="profile.html"><span class="icon">👤</span> نمای کلی پروفایل</a>
         </div>
         <div class="side-menu-vip-promo" id="mobileVipBtn">
             <div class="promo-glow"></div>
@@ -73,9 +72,9 @@
         </div>
     </aside>
 
-    <div class="ambient-bg" aria-hidden="true">
-        <div class="glow-orb purple"></div>
-        <div class="glow-orb blue"></div>
+    <div class="ambient-bg" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden;">
+        <div style="position: absolute; top: -20%; left: -10%; width: 50%; height: 50%; background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, transparent 70%); filter: blur(60px);"></div>
+        <div style="position: absolute; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%); filter: blur(60px);"></div>
     </div>
 
     <nav class="main-nav catalog-nav" id="navbar" aria-label="ناوبری اصلی">
@@ -86,12 +85,10 @@
             <a class="logo" href="index.html" aria-label="نئون انیمه - صفحه اصلی">NEON<span class="accent">.</span>ANIME</a>
             <ul class="nav-links">
                 <li><a href="index.html">خانه</a></li>
-                <li><a href="catalog.html" class="active">آرشیو انیمه‌ها</a></li>
-                <li><a href="catalog.html?genre=action#catalogResults">اکشن</a></li>
-                <li><a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a></li>
+                <li><a href="catalog.html">آرشیو انیمه‌ها</a></li>
                 <li><a href="schedule.html">تقویم پخش</a></li>
-                <li><a href="mag.html">مجله</a></li>
-            
+                <li><a href="mag.html" class="active">مجله</a></li>
+                <li><a href="favorites.html">لیست من</a></li>
                 <li class="more-menu-container">
                     <button class="three-dots-btn" id="threeDotsBtn" type="button" title="منوی بیشتر" aria-label="منوی بیشتر" aria-haspopup="true">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
@@ -122,7 +119,7 @@
                 <span class="theme-icon-moon">🌙</span><span class="theme-icon-sun">☀️</span>
             </button>
             <button class="vip-nav-btn hide-mobile" id="vipOpenBtn" type="button">اشتراک VIP ✦</button>
-            <a href="profile.html" class="user-profile" title="ورود / ثبت‌نام">
+            <a href="login.html" class="user-profile" title="ورود / ثبت‌نام">
                 <img src="assets/img/avatar-1.webp" alt="پروفایل" width="42" height="42" loading="eager" decoding="async">
             </a>
         </div>
@@ -134,7 +131,7 @@
             <button class="vip-close-btn" id="vipCloseBtn" type="button" aria-label="بستن">✕</button>
             <div class="vip-header">
                 <h2 id="vipModalTitle">ارتقا به سطح <span class="accent">نئون پلاس</span></h2>
-                <p>قسمت‌های ویژه فقط با اشتراک فعال می‌شوند. در نسخه نمایشی، پلن را انتخاب کنید تا قفل باز شود.</p>
+                <p>قسمت‌های ویژه فقط با اشتراک فعال باز می‌شوند. در نسخه‌ی نمایشی، پلن را انتخاب کنید تا قفل باز شود.</p>
             </div>
             <div class="pricing-grid">
                 <div class="pricing-card">
@@ -173,137 +170,69 @@
         </div>
     </div>
 
-    <div class="trailer-modal" id="trailerModal" role="dialog" aria-modal="true" aria-labelledby="trailerTitle" hidden>
-        <div class="trailer-backdrop" id="trailerBackdrop"></div>
-        <div class="trailer-dialog">
-            <div class="trailer-toolbar">
-                <h2 id="trailerTitle">تریلر</h2>
-                <button class="vip-close-btn" id="trailerCloseBtn" type="button" aria-label="بستن تریلر">✕</button>
-            </div>
-            <div class="trailer-frame">
-                <video id="trailerVideo" controls playsinline preload="none" poster=""></video>
-            </div>
-        </div>
-    </div>
+    <main class="mag-main" id="magMain">
+        <header class="mag-head">
+            <p class="mag-kicker">مجله اختصاصی</p>
+            <h1>مجله <span class="accent">نئون</span></h1>
+            <p class="mag-lead">تازه‌ترین اخبار، نقدهای عمیق و معرفی‌های کاربردی دنیای انیمه؛ با فیلتر دسته، جستجو و تگ‌ها سریع‌تر به مطلب دلخواهت برس.</p>
+            <form class="mag-search-wrap" id="magSearchForm" role="search" action="mag.html" method="get">
+                <label for="magSearch" class="sch-sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">جستجو در مجله</label>
+                <input id="magSearch" name="q" type="search" autocomplete="off" placeholder="جستجو در عنوان، خلاصه یا تگ‌ها...">
+                <span class="mag-search-icon" aria-hidden="true">🔍</span>
+                <button class="mag-search-clear" id="magSearchClear" type="button" aria-label="پاک کردن جستجو">✕</button>
+            </form>
+        </header>
 
-    <main class="anime-main" id="animeMain">
-        <section id="animeNotFound" class="catalog-empty anime-empty" hidden>
-            <span aria-hidden="true">⌕</span>
-            <h1>این عنوان پیدا نشد</h1>
-            <p id="animeNotFoundCopy">شناسه واردشده در آرشیو وجود ندارد. به آرشیو برگرد و یکی از ۷ عنوان موجود را انتخاب کن.</p>
-            <div class="anime-empty-actions">
-                <a class="btn btn-play" href="catalog.html">مرور آرشیو</a>
-                <a class="btn btn-info" href="index.html">صفحه اصلی</a>
+        <nav class="mag-tabs" id="magTabs" aria-label="دسته‌های مجله"></nav>
+        <div id="magActiveFilter" aria-live="polite"></div>
+        <div id="magResultInfo" style="color:var(--text-muted);font-size:0.85rem;margin-bottom:10px;" aria-live="polite"></div>
+
+        <section id="magFeatured" class="mag-featured" aria-label="مطلب ویژه"></section>
+
+        <section aria-labelledby="magListHeading">
+            <h2 id="magListHeading" class="sch-sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">فهرست مطالب</h2>
+            <div class="mag-grid" id="magGrid"></div>
+            <div class="mag-empty" id="magEmpty" hidden>
+                <h3>مطلبی یافت نشد</h3>
+                <p>فیلتر دیگری انتخاب کن یا عبارت جستجو را تغییر بده.</p>
+                <a class="article-btn" href="mag.html" style="margin-top:12px;display:inline-flex;">پاک کردن فیلترها</a>
+            </div>
+            <div class="mag-more-wrap">
+                <button class="mag-more-btn" id="magMoreBtn" type="button" hidden>نمایش بیشتر</button>
             </div>
         </section>
-
-        <article id="animePage" hidden>
-            <header class="anime-hero" id="animeHero">
-                <div class="anime-hero-art" id="animeHeroArt" aria-hidden="true"></div>
-                <div class="anime-hero-inner">
-                    <nav class="catalog-breadcrumb" aria-label="مسیر صفحه">
-                        <a href="index.html">خانه</a><span>‹</span>
-                        <a href="catalog.html">آرشیو انیمه‌ها</a><span>‹</span>
-                        <span id="animeCrumb" aria-current="page">جزئیات</span>
-                    </nav>
-                    <div class="anime-hero-layout">
-                        <div class="anime-poster-wrap">
-                            <img id="animePoster" alt="" width="420" height="630" decoding="async">
-                            <span class="anime-poster-badge" id="animeStatusBadge"></span>
-                        </div>
-                        <div class="anime-hero-copy">
-                            <span class="catalog-kicker" id="animeStudio"></span>
-                            <h1 id="animeTitle"></h1>
-                            <p class="anime-title-en en-text" id="animeTitleEn"></p>
-                            <ul class="anime-meta" id="animeMeta" aria-label="اطلاعات عنوان"></ul>
-                            <div class="anime-genres" id="animeGenres"></div>
-                            <p class="anime-desc" id="animeDesc"></p>
-                            <div class="anime-continue" id="animeContinue" hidden>
-                                <div class="anime-continue-copy">
-                                    <strong id="animeContinueLabel">ادامه تماشا</strong>
-                                    <span id="animeContinueMeta"></span>
-                                </div>
-                                <div class="anime-continue-bar" aria-hidden="true"><i id="animeContinueFill"></i></div>
-                            </div>
-                            <div class="anime-actions">
-                                <a class="btn btn-play" id="animePlayBtn" href="watch.html">▶ پخش</a>
-                                <button class="btn btn-info" id="animeWatchlistBtn" type="button">+ لیست من</button>
-                                <button class="btn btn-info" id="animeTrailerBtn" type="button">🎞 تریلر</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <div class="anime-body">
-                <section class="anime-section" aria-labelledby="episodesHeading">
-                    <div class="catalog-page-heading">
-                        <div>
-                            <span class="catalog-eyebrow">قسمت‌ها</span>
-                            <h2 id="episodesHeading">لیست قسمت‌ها</h2>
-                            <p id="episodesDescription">یک قسمت را انتخاب کن تا وارد پلیر شوی. قسمت‌های ویژه برای کاربران VIP قفل‌اند.</p>
-                        </div>
-                        <span class="catalog-outline-btn" id="episodeCountLabel" aria-live="polite">۰ قسمت</span>
-                    </div>
-                    <div class="anime-episode-grid" id="episodeGrid"></div>
-                </section>
-
-                <section class="anime-section" id="castSection" aria-labelledby="castHeading" hidden>
-                    <div class="catalog-page-heading">
-                        <div>
-                            <span class="catalog-eyebrow">عوامل</span>
-                            <h2 id="castHeading">شخصیت‌ها</h2>
-                            <p>چهره‌های اصلی این عنوان.</p>
-                        </div>
-                    </div>
-                    <div class="anime-cast-row" id="castRow"></div>
-                </section>
-
-                <section class="anime-section" id="relatedSection" aria-labelledby="relatedHeading" hidden>
-                    <div class="catalog-page-heading">
-                        <div>
-                            <span class="catalog-eyebrow">پیشنهاد</span>
-                            <h2 id="relatedHeading">عنوان‌های مشابه</h2>
-                            <p>اگر این داستان را دوست داشتی، این‌ها را هم ببین.</p>
-                        </div>
-                        <a class="catalog-outline-btn" href="catalog.html">آرشیو کامل</a>
-                    </div>
-                    <div class="catalog-all-grid anime-related-grid" id="relatedGrid"></div>
-                </section>
-            </div>
-        </article>
     </main>
 
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
                 <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
-                <p>صفحه اختصاصی هر انیمه؛ از داستان و تریلر تا انتخاب قسمت و ادامه تماشا.</p>
+                <p>مجله نئون انیمه: اخبار و نقدهای اختصاصی با دسته‌بندی خبر، نقد و معرفی و جستجوی سریع.</p>
             </div>
             <div class="footer-col">
-                <h4>آرشیو</h4>
+                <h3>مجله</h3>
+                <a href="mag.html">همه مطالب</a>
+                <a href="mag.html?cat=news">اخبار</a>
+                <a href="mag.html?cat=review">نقدها</a>
+                <a href="mag.html?cat=intro">معرفی</a>
+            </div>
+            <div class="footer-col">
+                <h3>آرشیو</h3>
                 <a href="catalog.html?view=all#catalogResults">همه عناوین</a>
                 <a href="catalog.html?genre=action#catalogResults">اکشن</a>
                 <a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a>
                 <a href="catalog.html?genre=scifi#catalogResults">علمی‌تخیلی</a>
             </div>
             <div class="footer-col">
-                <h4>دسترسی سریع</h4>
-                <a href="index.html">خانه</a>
-                <a href="schedule.html">تقویم پخش</a>
-                <a href="index.html#top10">۱۰ انیمه برتر</a>
-                <a href="profile.html">لیست تماشای من</a>
-            </div>
-            <div class="footer-col">
-                <h4>حساب کاربری</h4>
+                <h3>حساب کاربری</h3>
+                <a href="profile.html">نمای کلی</a>
                 <a href="login.html">ورود</a>
                 <a href="login.html?mode=signup">ثبت‌نام</a>
-                <a href="profile.html">پنل کاربری</a>
             </div>
         </div>
         <div class="footer-bottom">
             <span>© <span id="footerYear">۱۴۰۵</span> نئون انیمه</span>
-            <span class="en-text">DETAIL · v0.4</span>
+            <span class="en-text">MAG · v0.1</span>
         </div>
     </footer>
 
@@ -311,11 +240,11 @@
         <a href="index.html" class="bottom-nav-item">
             <span aria-hidden="true">⌂</span><span>خانه</span>
         </a>
-        <a href="catalog.html" class="bottom-nav-item active">
+        <a href="catalog.html" class="bottom-nav-item">
             <span aria-hidden="true">▦</span><span>آرشیو</span>
         </a>
-        <a href="catalog.html" class="bottom-nav-item">
-            <span aria-hidden="true">⌕</span><span>جستجو</span>
+        <a href="mag.html" class="bottom-nav-item active">
+            <span aria-hidden="true">📰</span><span>مجله</span>
         </a>
         <a href="profile.html" class="bottom-nav-item">
             <span aria-hidden="true">♙</span><span>پروفایل</span>
@@ -325,7 +254,8 @@
     <script src="data/anime.js"></script>
     <script src="data/articles.js"></script>
     <script src="auth.js"></script>
-    <script src="anime.js"></script>
+    <script src="script.js"></script>
+    <script src="library.js"></script>
     <script src="mag.js"></script>
 </body>
 </html>
