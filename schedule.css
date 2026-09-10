@@ -1,0 +1,312 @@
+/* ==========================================================================
+ * schedule.css — «تقویم پخش هفتگی» (schedule.html)
+ * Builds on the shared variables/components from style.css and keeps the
+ * look of the homepage schedule section (.schedule-*), extended with the
+ * today panel, dub/sub filter chips and reminder UI.
+ * ========================================================================== */
+
+.schedule-page .sch-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 140px 5% 60px;
+}
+
+/* ---- Page head --------------------------------------------------------- */
+.sch-head { margin-bottom: 35px; }
+.sch-kicker {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+.sch-head h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 900; margin-bottom: 10px; }
+.sch-lead { color: var(--text-muted); max-width: 640px; line-height: 1.9; }
+
+.sch-section { margin-bottom: 45px; }
+.sch-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+.sch-section-head h2 { font-size: 1.45rem; font-weight: 900; }
+.sch-today-date { color: var(--text-muted); font-weight: 500; }
+.sch-sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---- Today grid -------------------------------------------------------- */
+.sch-today-grid,
+.sch-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    min-height: 120px;
+}
+.sch-today-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    border: 1px dashed var(--glass-border);
+    border-radius: 12px;
+    padding: 30px 20px;
+}
+
+/* ---- Episode card ------------------------------------------------------ */
+.sch-card {
+    display: flex;
+    gap: 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 14px;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    animation: fadeIn 0.5s ease;
+}
+.sch-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.sch-card__link { flex: 0 0 auto; }
+.sch-card__link img {
+    width: 64px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+.sch-card__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.sch-card__title {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sch-card__title:hover { color: var(--accent); }
+.sch-card__ep {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sch-card__meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sch-card__status { font-size: 0.85rem; font-weight: 700; }
+.sch-card__status.is-upcoming { color: var(--neon-blue); }
+.sch-card__status.is-live { color: var(--accent); }
+.sch-card__status.is-done { color: var(--text-muted); }
+.sch-card__actions { display: flex; gap: 8px; margin-top: auto; padding-top: 4px; }
+
+/* ---- Time chip / badges ------------------------------------------------ */
+.sch-time {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(255, 0, 60, 0.08);
+    border: 1px solid rgba(255, 0, 60, 0.25);
+    border-radius: 6px;
+    padding: 3px 8px;
+    white-space: nowrap;
+}
+.sch-badges { position: static; display: inline-flex; gap: 5px; }
+.sch-badges .lang-badge { position: static; font-size: 0.68rem; padding: 3px 8px; }
+.sch-vip {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #ffd166;
+    border: 1px solid rgba(255, 209, 102, 0.4);
+    background: rgba(255, 209, 102, 0.08);
+    border-radius: 6px;
+    padding: 3px 8px;
+}
+
+/* ---- Buttons ----------------------------------------------------------- */
+.sch-btn {
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 7px 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-light);
+}
+.sch-btn--watch:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.sch-btn--remind.is-on {
+    background: rgba(0, 240, 255, 0.12);
+    border-color: rgba(0, 240, 255, 0.45);
+    color: var(--neon-blue);
+}
+.sch-btn--remind:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+
+/* ---- Day tabs + filter toolbar ----------------------------------------- */
+.sch-toolbar {
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    margin-bottom: 22px;
+}
+.sch-days {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.35);
+}
+.sch-day {
+    flex: 1;
+    min-width: 110px;
+    text-align: center;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+.sch-day:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-light); }
+.sch-day.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: rgba(255, 0, 60, 0.05);
+}
+.sch-day.is-today { color: var(--neon-blue); }
+.sch-day.is-today.active { color: var(--accent); }
+.sch-day__today { font-size: 0.75rem; opacity: 0.9; }
+.sch-day__count {
+    display: inline-block;
+    margin-inline-start: 6px;
+    font-size: 0.7rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 1px 8px;
+    vertical-align: middle;
+}
+
+.sch-filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    flex-wrap: wrap;
+}
+.sch-chip {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: 0.25s;
+    display: inline-flex;
+    align-items: center;
+}
+.sch-chip:hover { color: var(--text-light); border-color: rgba(255, 255, 255, 0.25); }
+.sch-chip.is-active {
+    color: var(--text-light);
+    border-color: var(--accent);
+    background: rgba(255, 0, 60, 0.12);
+}
+.sch-chip .lang-badge { font-size: 0.72rem; padding: 2px 8px; }
+
+/* ---- Empty state ------------------------------------------------------- */
+.sch-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    background: var(--bg-surface);
+    border: 1px dashed var(--glass-border);
+    border-radius: 14px;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+.sch-empty__icon { font-size: 2.2rem; display: block; margin-bottom: 10px; }
+.sch-empty h3 { color: var(--text-light); margin-bottom: 6px; }
+
+/* ---- Reminders panel --------------------------------------------------- */
+.sch-reminders-hint { color: var(--text-muted); font-size: 0.88rem; max-width: 560px; line-height: 1.8; }
+.sch-reminders {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.sch-reminders-empty {
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    border: 1px dashed var(--glass-border);
+    border-radius: 12px;
+    padding: 26px 20px;
+    text-align: center;
+}
+.sch-reminder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+}
+.sch-reminder__info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sch-reminder__info strong { font-size: 0.98rem; }
+.sch-reminder__info span { color: var(--text-muted); font-size: 0.83rem; }
+
+/* ---- Responsive --------------------------------------------------------- */
+@media (max-width: 768px) {
+    .schedule-page .sch-main { padding: 110px 4% 120px; }
+    .sch-today-grid,
+    .sch-content { grid-template-columns: 1fr; }
+    .sch-day { min-width: 96px; padding: 12px 10px; font-size: 0.88rem; }
+    .sch-reminder { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---- Light theme --------------------------------------------------------- */
+:root[data-theme="light"] .sch-days { background: linear-gradient(90deg, #f3edf9, #fbeef5); }
+:root[data-theme="light"] .sch-card,
+:root[data-theme="light"] .sch-toolbar,
+:root[data-theme="light"] .sch-reminder,
+:root[data-theme="light"] .sch-empty,
+:root[data-theme="light"] .sch-reminders-empty,
+:root[data-theme="light"] .sch-today-empty {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 18px rgba(20, 10, 40, 0.06);
+}
+:root[data-theme="light"] .sch-card:hover { box-shadow: 0 12px 28px rgba(20, 10, 40, 0.12); }
+:root[data-theme="light"] .sch-btn { background: #f3f0f8; border-color: rgba(0, 0, 0, 0.08); }
+:root[data-theme="light"] .sch-chip { background: #f5f2fa; border-color: rgba(0, 0, 0, 0.08); }
+:root[data-theme="light"] .sch-chip.is-active { background: rgba(230, 0, 51, 0.08); }
+:root[data-theme="light"] .sch-day:hover { background: rgba(0, 0, 0, 0.04); }
+:root[data-theme="light"] .sch-time { background: rgba(230, 0, 51, 0.06); }
+:root[data-theme="light"] .sch-btn--remind.is-on { background: rgba(0, 145, 167, 0.08); }
+:root[data-theme="light"] .sch-vip { background: rgba(255, 209, 102, 0.15); color: #9a6b00; border-color: rgba(154, 107, 0, 0.35); }
