@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
             if (auth.currentUser().vip) { showToast('اشتراک ویژه شما هم‌اکنون فعال است.'); closeVipModal(); return; }
-            auth.setVip(true);
+            auth.setVip(true, plan);
             if (typeof auth.applyToChrome === 'function') auth.applyToChrome();
             showToast(`اشتراک ${plan} (نسخه نمایشی) فعال شد؛ درگاه پرداخت هنوز متصل نیست.`);
             closeVipModal();

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اشتراک نئون پلاس | نئون انیمه</title>
+    <meta name="description" content="خرید اشتراک ویژه نئون پلاس: تماشای بدون تبلیغات، کیفیت ۴کی و دانلود آفلاین.">
+    <meta name="theme-color" content="#0a0a0c">
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                if (localStorage.getItem('neon_theme') === 'light') {
+                    theme = 'light';
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) {}
+            document.querySelector('meta[name="theme-color"]').setAttribute(
+                'content', theme === 'light' ? '#f4f1f9' : '#0a0a0c'
+            );
+        })();
+    </script>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="subscribe-page">
+    <div id="toastContainer" aria-live="polite" role="status"></div>
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <aside class="side-menu" id="sideMenu" aria-label="منوی اصلی">
+        <div class="side-menu-header">
+            <a href="login.html" id="loginTriggerBtn2" class="auth-trigger" title="ورود / ثبت‌نام">
+                <img src="assets/img/avatar-1.webp" alt="تصویر کاربر" width="48" height="48">
+                <div>
+                    <h4>کاربر مهمان</h4>
+                    <span class="status-badge">ورود / عضویت</span>
+                </div>
+            </a>
+            <button class="close-side-btn" id="closeSideBtn" type="button" aria-label="بستن منو">✕</button>
+        </div>
+        <div class="side-menu-links">
+            <a href="index.html"><span class="icon">🏠</span> خانه</a>
+            <a href="catalog.html"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
+            <a href="subscribe.html" class="active"><span class="icon">✦</span> اشتراک ویژه</a>
+            <a href="profile.html"><span class="icon">👤</span> پروفایل</a>
+        </div>
+        <div class="side-menu-vip-promo" id="mobileVipBtn">
+            <div class="promo-glow"></div>
+            <h4>نئون پلاس ✦</h4>
+            <p>تماشای بدون محدودیت و تبلیغات</p>
+            <button type="button">ارتقا حساب کاربری</button>
+        </div>
+    </aside>
+
+    <nav class="main-nav catalog-nav" id="navbar">
+        <div class="nav-left">
+            <button class="hamburger-btn" id="hamburgerBtn" type="button" aria-label="منو" aria-controls="sideMenu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
+            <ul class="nav-links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="catalog.html">آرشیو</a></li>
+                <li><a href="subscribe.html" class="active">اشتراک</a></li>
+                <li><a href="mag.html">مجله</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn theme-toggle-btn" id="themeToggleBtn" type="button" title="حالت روز / شب">
+                <span class="theme-icon-moon">🌙</span><span class="theme-icon-sun">☀️</span>
+            </button>
+            <button class="vip-nav-btn hide-mobile" id="vipOpenBtn" type="button">اشتراک VIP ✦</button>
+            <a href="login.html" class="user-profile" title="ورود / ثبت‌نام">
+                <img src="assets/img/avatar-1.webp" alt="پروفایل" width="42" height="42">
+            </a>
+        </div>
+    </nav>
+
+    <div class="vip-modal" id="vipModal" hidden>
+        <div class="vip-backdrop" id="vipCloseBackdrop"></div>
+        <div class="vip-modal-content">
+            <button class="vip-close-btn" id="vipCloseBtn" type="button" aria-label="بستن">✕</button>
+            <div class="vip-header">
+                <h2>ارتقا به سطح <span class="accent">نئون پلاس</span></h2>
+                <p>پلن را انتخاب کنید تا قفل قسمت‌های ویژه باز شود (نسخه نمایشی).</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>یک ماهه</h3>
+                    <div class="price">۹۹,۰۰۰ <span>تومان</span></div>
+                    <button class="btn btn-info w-100 plan-select-btn" type="button" data-plan="یک ماهه">انتخاب پلن</button>
+                </div>
+                <div class="pricing-card premium animated-border">
+                    <div class="popular-badge">محبوب‌ترین</div>
+                    <h3>سه ماهه</h3>
+                    <div class="price">۲۵۰,۰۰۰ <span>تومان</span></div>
+                    <button class="btn btn-play w-100 plan-select-btn" type="button" data-plan="سه ماهه">خرید اشتراک ویژه</button>
+                </div>
+                <div class="pricing-card">
+                    <h3>یک ساله</h3>
+                    <div class="price">۸۵۰,۰۰۰ <span>تومان</span></div>
+                    <button class="btn btn-info w-100 plan-select-btn" type="button" data-plan="یک ساله">انتخاب پلن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="subscribe-hero">
+        <h1>اشتراک <span class="accent">نئون پلاس</span></h1>
+        <p>بدون تبلیغات، کیفیت ۴کی و دانلود آفلاین. در نسخه نمایشی با یک کلیک قفل قسمت‌های VIP باز می‌شود؛ درگاه پرداخت هنوز متصل نیست.</p>
+    </header>
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <h3>یک ماهه</h3>
+            <div class="price">۹۹,۰۰۰ <span>تومان</span></div>
+            <ul class="features">
+                <li>✔️ کیفیت 1080p</li>
+                <li>✔️ بدون تبلیغات</li>
+                <li style="color:var(--text-muted)">❌ دانلود آفلاین</li>
+            </ul>
+            <button class="btn btn-info w-100 plan-select-btn" type="button" data-plan="یک ماهه">انتخاب پلن</button>
+        </div>
+        <div class="pricing-card premium animated-border">
+            <div class="popular-badge">محبوب‌ترین</div>
+            <h3>سه ماهه</h3>
+            <div class="price">۲۵۰,۰۰۰ <span>تومان</span></div>
+            <ul class="features">
+                <li>✔️ کیفیت 4K HDR</li>
+                <li>✔️ بدون تبلیغات</li>
+                <li>✔️ دانلود آفلاین</li>
+                <li>✔️ پخش همزمان ۲ دستگاه</li>
+            </ul>
+            <button class="btn btn-play w-100 plan-select-btn" type="button" data-plan="سه ماهه">خرید اشتراک ویژه</button>
+        </div>
+        <div class="pricing-card">
+            <h3>یک ساله</h3>
+            <div class="price">۸۵۰,۰۰۰ <span>تومان</span></div>
+            <ul class="features">
+                <li>✔️ کیفیت 4K HDR</li>
+                <li>✔️ بدون تبلیغات</li>
+                <li>✔️ دانلود آفلاین</li>
+            </ul>
+            <button class="btn btn-info w-100 plan-select-btn" type="button" data-plan="یک ساله">انتخاب پلن</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
+                <p>پلن‌های نمایشی برای باز کردن قفل قسمت‌های ویژه تا اتصال درگاه واقعی.</p>
+            </div>
+            <div class="footer-col">
+                <h4>دسترسی</h4>
+                <a href="index.html">خانه</a>
+                <a href="catalog.html">آرشیو</a>
+                <a href="watch.html?anime=attack-on-titan&amp;ep=21">پخش نمونه</a>
+            </div>
+            <div class="footer-col">
+                <h4>حساب</h4>
+                <a href="login.html">ورود</a>
+                <a href="profile.html">پروفایل</a>
+                <a href="subscribe.html">اشتراک ویژه</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span id="footerYear">۱۴۰۵</span> نئون انیمه</span>
+            <span class="en-text">PLUS · demo</span>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
