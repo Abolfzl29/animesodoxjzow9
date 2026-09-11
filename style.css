@@ -55,6 +55,10 @@ body,
 html { scroll-behavior: smooth; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background-color: var(--bg-main); color: var(--text-light); font-family: 'Vazirmatn', sans-serif; overflow-x: hidden; opacity: 0; animation: fadeIn 1s forwards; }
+/* Form controls don't inherit the page font by default — without this,
+   Persian words inside buttons/inputs/selects/textareas (e.g. «جستجو»,
+   «ارسال نظر», placeholder texts) render in the system font. */
+button, input, select, textarea { font-family: inherit; }
 @keyframes fadeIn { to { opacity: 1; } }
 .en-text { font-family: 'Orbitron', 'Vazirmatn', sans-serif; }
 .accent { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
