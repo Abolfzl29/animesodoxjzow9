@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کنسول عملیات | Neon Anime</title>
+    <meta name="description" content="کنسول امن مدیریت زیرساخت نئون انیمه؛ مشاهده وضعیت سرویس، اتصال به بک‌اند و ساخت فایل‌های تنظیمات بدون افشای کلیدها.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#080a10">
+    <script>
+        (function () {
+            var theme = 'dark';
+            try {
+                if (localStorage.getItem('neon_theme') === 'light') {
+                    theme = 'light';
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) {}
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', theme === 'light' ? '#f4f6fa' : '#080a10');
+        })();
+    </script>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/icon-192.png" sizes="192x192" type="image/png">
+    <link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/Orbitron-Variable.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <link rel="stylesheet" href="control-center.css">
+</head>
+<body>
+    <div class="ops-app">
+        <aside class="ops-sidebar" id="opsSidebar" aria-label="ناوبری کنسول عملیات">
+            <div class="sidebar-top">
+                <a class="ops-brand" href="index.html" aria-label="بازگشت به نئون انیمه">
+                    <span class="brand-word">NEON<span class="brand-dot">.</span>ANIME</span>
+                    <span class="brand-product">OPS</span>
+                </a>
+                <div class="sidebar-label">کنترل زیرساخت</div>
+            </div>
+
+            <nav class="ops-nav">
+                <a class="ops-nav-link active" href="#overview" data-section-link="overview">
+                    <span class="nav-icon">⌂</span>
+                    <span class="nav-link-copy">نمای کلی <small>داشبورد</small></span>
+                    <span class="nav-index">01</span>
+                </a>
+                <a class="ops-nav-link" href="#server" data-section-link="server">
+                    <span class="nav-icon">⌁</span>
+                    <span class="nav-link-copy">سرور و سرویس <small>اتصال</small></span>
+                    <span class="nav-index">02</span>
+                </a>
+                <a class="ops-nav-link" href="#secrets" data-section-link="secrets">
+                    <span class="nav-icon">◇</span>
+                    <span class="nav-link-copy">محافظ کلیدها <small>Secret vault</small></span>
+                    <span class="nav-index">03</span>
+                </a>
+                <a class="ops-nav-link" href="#activity" data-section-link="activity">
+                    <span class="nav-icon">◷</span>
+                    <span class="nav-link-copy">گزارش فعالیت <small>رویدادها</small></span>
+                    <span class="nav-index">04</span>
+                </a>
+                <a class="ops-nav-link" href="#exports" data-section-link="exports">
+                    <span class="nav-icon">⇩</span>
+                    <span class="nav-link-copy">خروجی امن <small>فایل‌های قابل انتشار</small></span>
+                    <span class="nav-index">05</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-security">
+                    <span class="security-icon">◈</span>
+                    <div>
+                        <strong>حالت امن فعال</strong>
+                        <span>کلیدها در مرورگر ذخیره نمی‌شوند</span>
+                    </div>
+                </div>
+                <a class="back-to-site" href="index.html"><span>←</span> بازگشت به سایت</a>
+            </div>
+        </aside>
+
+        <section class="ops-page">
+            <header class="ops-topbar">
+                <div class="topbar-start">
+                    <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="باز کردن منو" aria-controls="opsSidebar" aria-expanded="false">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <div class="breadcrumbs" aria-label="موقعیت فعلی">
+                        <span>NEON.ANIME</span>
+                        <b>/</b>
+                        <strong>کنسول عملیات</strong>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <span class="environment-pill"><i></i><span>پیش‌نمایش امن</span></span>
+                    <button class="topbar-icon theme-button" id="themeButton" type="button" aria-label="تغییر حالت نمایش" aria-pressed="false"><span class="theme-moon">☾</span><span class="theme-sun">☀</span></button>
+                    <a class="topbar-user" href="profile.html" title="بازگشت به پروفایل">
+                        <span class="user-avatar">A</span>
+                        <span><strong>ادمین</strong><small>workspace owner</small></span>
+                    </a>
+                </div>
+            </header>
+
+            <main class="ops-content">
+                <section class="ops-section overview-section" id="overview" data-section="overview">
+                    <div class="intro-row">
+                        <div class="intro-copy">
+                            <div class="eyebrow"><span class="eyebrow-line"></span> CONTROL CENTER / 2026</div>
+                            <h1>مرکز کنترل <em>زیرساخت</em></h1>
+                            <p>وضعیت سرویس، اتصال به سرور و خروجی تنظیمات را از یک نقطه مدیریت کن؛ بدون اینکه کلید خصوصی وارد این صفحه شود.</p>
+                        </div>
+                        <div class="intro-actions">
+                            <button class="button button-primary" id="connectServerButton" type="button"><span class="button-symbol">＋</span> اتصال به سرور</button>
+                            <button class="button button-ghost" id="refreshButton" type="button"><span class="refresh-symbol">↻</span> بروزرسانی</button>
+                        </div>
+                    </div>
+
+                    <div class="security-banner" id="securityBanner" role="note">
+                        <div class="banner-icon">!</div>
+                        <div class="banner-copy">
+                            <strong>کلید API هیچ‌وقت در صفحه، فایل دانلودی یا GitHub قرار نمی‌گیرد.</strong>
+                            <span>این کنسول فقط وضعیت و قالب امن تنظیمات را نشان می‌دهد. مقدار واقعی باید در Secret Manager یا متغیر محیطی سمت سرور بماند.</span>
+                        </div>
+                        <button class="banner-close" id="dismissBanner" type="button" aria-label="بستن پیام امنیتی">×</button>
+                    </div>
+
+                    <div class="metric-grid" aria-label="شاخص‌های سرویس">
+                        <article class="metric-card metric-accent">
+                            <div class="metric-heading"><span>دسترس‌پذیری</span><span class="metric-spark">↗</span></div>
+                            <strong class="metric-value">99.98<span>%</span></strong>
+                            <div class="metric-footer"><span class="metric-status good"><i></i> پایدار</span><small>۳۰ روز گذشته · نمونه</small></div>
+                        </article>
+                        <article class="metric-card">
+                            <div class="metric-heading"><span>درخواست‌های امروز</span><span class="metric-spark cyan">↗</span></div>
+                            <strong class="metric-value">24.8<span>k</span></strong>
+                            <div class="metric-footer"><span class="metric-status cyan"><i></i> +۱۲.۴٪</span><small>مقایسه با دیروز</small></div>
+                        </article>
+                        <article class="metric-card">
+                            <div class="metric-heading"><span>آخرین استقرار</span><span class="metric-spark purple">◆</span></div>
+                            <strong class="metric-value metric-text">v2.8.4</strong>
+                            <div class="metric-footer"><span class="metric-status good"><i></i> موفق</span><small>امروز، ۱۰:۲۴</small></div>
+                        </article>
+                        <article class="metric-card">
+                            <div class="metric-heading"><span>مصرف فضای دیسک</span><span class="metric-spark yellow">◒</span></div>
+                            <strong class="metric-value">42<span>%</span></strong>
+                            <div class="metric-progress"><span style="width:42%"></span></div>
+                            <div class="metric-footer"><small>۸۴ از ۲۰۰ گیگابایت</small><span class="metric-status neutral">نرمال</span></div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="ops-section content-section" id="server" data-section="server">
+                    <div class="section-heading">
+                        <div>
+                            <div class="section-kicker">01 / SERVER LINK</div>
+                            <h2>سرور و سرویس</h2>
+                        </div>
+                        <span class="section-note">اتصال فقط با API مجاز و احراز هویت سمت سرور</span>
+                    </div>
+
+                    <div class="server-layout">
+                        <article class="panel server-panel">
+                            <div class="panel-topline">
+                                <span class="panel-label">سرور اصلی</span>
+                                <span class="status-chip status-demo" id="serverStatus"><i></i> آماده اتصال</span>
+                            </div>
+                            <div class="server-identity">
+                                <div class="server-orb"><span></span></div>
+                                <div>
+                                    <h3 id="serverName">neon-prod-01</h3>
+                                    <p id="serverEndpoint">api.neon-anime.example <span>·</span> HTTPS</p>
+                                </div>
+                            </div>
+                            <div class="server-stats">
+                                <div><span>منطقه</span><strong id="serverRegion">EU / Frankfurt</strong></div>
+                                <div><span>نسخه runtime</span><strong>Node 20 LTS</strong></div>
+                                <div><span>آخرین بررسی</span><strong id="lastChecked">هنوز بررسی نشده</strong></div>
+                            </div>
+                            <div class="server-health-line">
+                                <div class="health-label"><span>سلامت سرویس</span><strong id="healthLabel">داده نمایشی</strong></div>
+                                <div class="health-track"><span id="healthBar" style="width:78%"></span></div>
+                            </div>
+                            <div class="panel-actions">
+                                <button class="button button-primary button-small" id="checkHealthButton" type="button">بررسی سلامت <span>↗</span></button>
+                                <button class="button button-outline button-small" id="editConnectionButton" type="button">تنظیم اتصال</button>
+                            </div>
+                        </article>
+
+                        <article class="panel endpoint-panel">
+                            <div class="panel-topline">
+                                <span class="panel-label">قرارداد API عملیات</span>
+                                <span class="method-badge">ALLOWLISTED</span>
+                            </div>
+                            <div class="endpoint-code"><span class="code-method">GET</span><code>/api/ops/health</code><span class="code-dot"></span></div>
+                            <p class="endpoint-copy">برای اتصال واقعی، بک‌اند محافظت‌شده باید این endpoint را روی همان دامنه پاسخ دهد. مرورگر هرگز مستقیم به SSH یا کلید خصوصی وصل نمی‌شود.</p>
+                            <div class="endpoint-list">
+                                <div><span class="endpoint-check">✓</span> احراز هویت با کوکی امن یا توکن کوتاه‌عمر</div>
+                                <div><span class="endpoint-check">✓</span> عملیات محدود و قابل ثبت در لاگ</div>
+                                <div><span class="endpoint-check">✓</span> بدون اجرای دستور shell آزاد</div>
+                            </div>
+                            <button class="text-button" id="copyEndpointButton" type="button">کپی endpoint <span>⧉</span></button>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="ops-section content-section" id="secrets" data-section="secrets">
+                    <div class="section-heading">
+                        <div>
+                            <div class="section-kicker">02 / SECRET VAULT</div>
+                            <h2>محافظ کلیدها</h2>
+                        </div>
+                        <span class="section-note secure-note"><span>◈</span> مقدار secret قابل مشاهده نیست</span>
+                    </div>
+
+                    <div class="vault-layout">
+                        <article class="panel vault-panel">
+                            <div class="vault-header">
+                                <div class="vault-icon">◇</div>
+                                <div><h3>کلید تولید API</h3><p>NEON_API_KEY <span>·</span> Production</p></div>
+                                <span class="vault-lock">قفل‌شده</span>
+                            </div>
+                            <div class="secret-field" aria-label="کلید API مخفی است">
+                                <code>•••• •••• •••• •••• •••• ••••</code>
+                                <span>Vault managed</span>
+                            </div>
+                            <div class="vault-meta"><span>آخرین چرخش: ۱۲ روز پیش</span><span>دسترسی: API فقط</span></div>
+                            <div class="vault-actions">
+                                <button class="button button-danger-outline button-small" id="rotateKeyButton" type="button">چرخش امن کلید <span>↻</span></button>
+                                <span class="vault-helper">کلید جدید فقط در Secret Manager تولید می‌شود.</span>
+                            </div>
+                        </article>
+
+                        <article class="panel scopes-panel">
+                            <div class="panel-topline"><span class="panel-label">سطح دسترسی فعال</span><span class="scope-count">۳ scope</span></div>
+                            <div class="scope-list">
+                                <div class="scope-row"><span class="scope-icon read">R</span><div><strong>content:read</strong><small>خواندن کاتالوگ و وضعیت محتوا</small></div><span class="scope-state">فعال</span></div>
+                                <div class="scope-row"><span class="scope-icon deploy">D</span><div><strong>deploy:write</strong><small>استقرار نسخه تأییدشده</small></div><span class="scope-state">فعال</span></div>
+                                <div class="scope-row"><span class="scope-icon health">H</span><div><strong>health:read</strong><small>مشاهده سلامت سرویس</small></div><span class="scope-state">فعال</span></div>
+                            </div>
+                            <p class="least-privilege"><span>✦</span> اصل کمترین دسترسی روی این کلید اعمال شده است.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="ops-section content-section" id="activity" data-section="activity">
+                    <div class="section-heading">
+                        <div>
+                            <div class="section-kicker">03 / LIVE SIGNALS</div>
+                            <h2>سلامت و فعالیت</h2>
+                        </div>
+                        <span class="live-indicator"><i></i> رویدادهای زنده</span>
+                    </div>
+
+                    <div class="activity-layout">
+                        <article class="panel chart-panel">
+                            <div class="panel-topline"><div><span class="panel-label">پاسخ‌گویی API</span><strong class="chart-value">184 <small>ms میانگین</small></strong></div><span class="chart-period">۷ روز اخیر⌄</span></div>
+                            <div class="chart-wrap" aria-label="نمودار نمونه پاسخ‌گویی API">
+                                <div class="chart-y-axis"><span>300</span><span>200</span><span>100</span><span>0</span></div>
+                                <div class="chart-bars">
+                                    <span style="height:48%" data-day="شنبه"></span><span style="height:62%" data-day="یکشنبه"></span><span style="height:54%" data-day="دوشنبه"></span><span style="height:75%" data-day="سه‌شنبه"></span><span style="height:44%" data-day="چهارشنبه"></span><span style="height:58%" data-day="پنجشنبه"></span><span style="height:36%" data-day="جمعه"></span>
+                                </div>
+                            </div>
+                            <div class="chart-legend"><span><i class="legend-dot pink"></i> پاسخ‌گویی موفق</span><span>داده نمایشی تا اتصال بک‌اند</span></div>
+                        </article>
+
+                        <article class="panel activity-panel">
+                            <div class="panel-topline"><span class="panel-label">آخرین رویدادها</span><button class="text-button" id="clearActivityButton" type="button">پاک‌سازی نمایش</button></div>
+                            <div class="activity-list" id="activityList">
+                                <div class="activity-item"><span class="activity-icon success">✓</span><div><strong>استقرار نسخه v2.8.4</strong><small>امروز · ۱۰:۲۴ · داده نمایشی</small></div><span class="activity-state success-text">موفق</span></div>
+                                <div class="activity-item"><span class="activity-icon info">↻</span><div><strong>چرخش برنامه‌ریزی‌شده کلید</strong><small>دیروز · ۰۸:۰۰ · Secret Manager</small></div><span class="activity-state info-text">ثبت شد</span></div>
+                                <div class="activity-item"><span class="activity-icon warning">!</span><div><strong>بررسی سلامت انجام نشده</strong><small>اکنون · منتظر اتصال بک‌اند</small></div><span class="activity-state warning-text">در انتظار</span></div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="ops-section content-section actions-section" id="actions" data-section="actions">
+                    <div class="section-heading">
+                        <div>
+                            <div class="section-kicker">04 / ALLOWED ACTIONS</div>
+                            <h2>عملیات مجاز</h2>
+                        </div>
+                        <span class="section-note">بدون ترمینال آزاد؛ هر عملیات لاگ می‌شود</span>
+                    </div>
+                    <div class="quick-actions-grid">
+                        <button class="quick-action" type="button" data-operation="health" data-label="بررسی سلامت"><span class="quick-icon cyan">◌</span><span><strong>بررسی سلامت</strong><small>Health check سرویس</small></span><b>↗</b></button>
+                        <button class="quick-action" type="button" data-operation="deploy" data-label="استقرار نسخه"><span class="quick-icon purple">▲</span><span><strong>استقرار نسخه</strong><small>Deploy نسخه تأییدشده</small></span><b>↗</b></button>
+                        <button class="quick-action" type="button" data-operation="cache" data-label="پاک‌سازی کش"><span class="quick-icon yellow">◒</span><span><strong>پاک‌سازی کش</strong><small>Invalidate CDN cache</small></span><b>↗</b></button>
+                        <button class="quick-action" type="button" data-operation="restart" data-label="راه‌اندازی مجدد"><span class="quick-icon pink">↻</span><span><strong>راه‌اندازی مجدد</strong><small>Restart سرویس اصلی</small></span><b>↗</b></button>
+                    </div>
+                </section>
+
+                <section class="ops-section content-section exports-section" id="exports" data-section="exports">
+                    <div class="section-heading">
+                        <div>
+                            <div class="section-kicker">05 / SAFE EXPORTS</div>
+                            <h2>خروجی امن برای انتشار</h2>
+                        </div>
+                        <span class="section-note">قابل دانلود و مناسب GitHub</span>
+                    </div>
+                    <div class="export-panel panel">
+                        <div class="export-copy">
+                            <div class="export-icon">⇩</div>
+                            <div><h3>فقط قالب و metadata، نه secret</h3><p>فایل‌های زیر برای انتقال تنظیمات به سرور یا قرار دادن در GitHub آماده‌اند. مقدار واقعی <code>NEON_API_KEY</code> عمداً در آن‌ها وجود ندارد.</p></div>
+                        </div>
+                        <div class="export-files">
+                            <div class="export-file"><span class="file-icon">{ }</span><div><strong>neon-ops-config.json</strong><small>اطلاعات غیرحساس محیط</small></div><button class="file-download" id="downloadManifestButton" type="button" aria-label="دانلود فایل تنظیمات امن">⇩</button></div>
+                            <div class="export-file"><span class="file-icon env">ENV</span><div><strong>.env.example</strong><small>قالب متغیرهای محیطی</small></div><button class="file-download" id="downloadEnvButton" type="button" aria-label="دانلود env example">⇩</button></div>
+                            <div class="export-file"><span class="file-icon md">MD</span><div><strong>GITHUB-SETUP.md</strong><small>راهنمای انتشار بدون secret</small></div><button class="file-download" id="downloadGuideButton" type="button" aria-label="دانلود راهنمای گیت‌هاب">⇩</button></div>
+                        </div>
+                    </div>
+                    <div class="github-warning"><span>◈</span><p><strong>یادآوری GitHub:</strong> فقط فایل‌های example و راهنما را commit کن. اگر کلید واقعی لو رفت، قبل از هر کاری آن را rotate و revoke کن.</p></div>
+                </section>
+
+                <footer class="ops-footer"><span>NEON<span class="brand-dot">.</span>ANIME OPS</span><span>ساخته‌شده برای مدیریت امن · <a href="README.md">مستندات اتصال</a></span></footer>
+            </main>
+        </section>
+    </div>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="modal-backdrop" id="connectionModal" hidden>
+        <section class="ops-modal" role="dialog" aria-modal="true" aria-labelledby="connectionModalTitle">
+            <button class="modal-close" data-close-modal="connectionModal" type="button" aria-label="بستن">×</button>
+            <div class="modal-eyebrow">SERVER LINK / CONFIG</div>
+            <h2 id="connectionModalTitle">تنظیم اتصال به سرور</h2>
+            <p class="modal-lead">فقط آدرس عمومی API را وارد کن. رمز، کلید SSH و API key باید خارج از مرورگر و در Secret Manager تنظیم شوند.</p>
+            <form id="connectionForm" class="ops-form">
+                <label>نام سرویس <input id="connectionName" name="name" type="text" value="neon-prod-01" autocomplete="off" required></label>
+                <div class="form-row"><label>آدرس API <input id="connectionHost" name="host" type="text" value="api.neon-anime.example" placeholder="api.example.com" autocomplete="url" required></label><label>پورت <input id="connectionPort" name="port" type="number" value="443" min="1" max="65535" required></label></div>
+                <label>مسیر API عملیات <input id="connectionPath" name="path" type="text" value="/api/ops" placeholder="/api/ops" required></label>
+                <div class="form-security-note"><span>◈</span> این فرم هیچ فیلدی برای secret ندارد و چیزی حساس در localStorage ذخیره نمی‌کند.</div>
+                <div class="modal-actions"><button class="button button-ghost" data-close-modal="connectionModal" type="button">انصراف</button><button class="button button-primary" type="submit">ذخیره و بررسی اتصال <span>↗</span></button></div>
+            </form>
+        </section>
+    </div>
+
+    <div class="modal-backdrop" id="actionModal" hidden>
+        <section class="ops-modal compact-modal" role="dialog" aria-modal="true" aria-labelledby="actionModalTitle">
+            <button class="modal-close" data-close-modal="actionModal" type="button" aria-label="بستن">×</button>
+            <div class="modal-eyebrow">PROTECTED ACTION</div>
+            <h2 id="actionModalTitle">تأیید عملیات</h2>
+            <p class="modal-lead" id="actionModalCopy">این عملیات بعد از اتصال بک‌اند اجرا می‌شود و در گزارش فعالیت ثبت خواهد شد.</p>
+            <div class="action-safety"><span>!</span><span>در حالت پیش‌نمایش هیچ تغییری روی سرور ایجاد نمی‌شود.</span></div>
+            <div class="modal-actions"><button class="button button-ghost" data-close-modal="actionModal" type="button">انصراف</button><button class="button button-primary" id="confirmActionButton" type="button">تأیید و اجرا <span>↗</span></button></div>
+        </section>
+    </div>
+
+    <script src="control-center.js"></script>
+</body>
+</html>
