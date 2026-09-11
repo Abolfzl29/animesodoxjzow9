@@ -23,11 +23,13 @@
         })();
     </script>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/Orbitron-Variable.ttf" as="font" type="font/ttf" crossorigin>
+    <link href="assets/fonts/fonts.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         .nf-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; position: relative; z-index: 2; }
-        .nf-code { font-family: 'Orbitron', sans-serif; font-size: clamp(5rem, 20vw, 11rem); font-weight: 900; line-height: 1; color: var(--accent); text-shadow: 0 0 40px var(--accent-glow); }
+        .nf-code { font-family: 'Orbitron', 'Vazirmatn', sans-serif; font-size: clamp(5rem, 20vw, 11rem); font-weight: 900; line-height: 1; color: var(--accent); text-shadow: 0 0 40px var(--accent-glow); }
         .nf-wrap h1 { font-size: 1.8rem; margin: 10px 0; }
         .nf-wrap p { color: var(--text-muted); max-width: 460px; line-height: 1.9; margin-bottom: 30px; }
         .nf-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
