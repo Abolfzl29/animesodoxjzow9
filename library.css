@@ -206,7 +206,7 @@
 
 .lib-nav__count {
     flex: 0 0 auto;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron', 'Vazirmatn', sans-serif;
     font-size: 0.75rem;
     background: var(--lib-chip-bg);
     border-radius: 999px;
@@ -233,7 +233,7 @@
 
 .lib-stat b {
     display: block;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron', 'Vazirmatn', sans-serif;
     font-size: 1.15rem;
     color: var(--text-light);
 }
@@ -583,7 +583,7 @@
 }
 
 .lib-card__title-en {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron', 'Vazirmatn', sans-serif;
     font-size: 0.72rem;
     letter-spacing: 0.05em;
     color: var(--text-muted);
@@ -1005,7 +1005,7 @@
 
 .lib-overview-stat b {
     display: block;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron', 'Vazirmatn', sans-serif;
     font-size: 1.6rem;
     color: var(--text-light);
 }
