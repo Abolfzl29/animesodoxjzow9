@@ -10,12 +10,14 @@ const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8080);
 const DATA_DIR = path.resolve(process.env.DATA_DIR || path.join(ROOT, 'server-data'));
 const STATE_FILE = path.join(DATA_DIR, 'state.json');
+const AUTH_FILE = path.join(DATA_DIR, 'auth.json');
 const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const MAX_BODY_BYTES = 2 * 1024 * 1024;
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const SESSION_SECRET = process.env.SESSION_SECRET || (process.env.NODE_ENV === 'production' ? '' : crypto.randomBytes(32).toString('hex'));
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '';
+let ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+let SESSION_SECRET = process.env.SESSION_SECRET || '';
+let ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+let bootstrapToken = '';
 const PUBLIC_ROOT = path.resolve(ROOT);
 const sessions = new Map();
 const loginAttempts = new Map();
@@ -139,6 +141,50 @@ async function persistState(nextState) {
     return writeQueue;
 }
 
+async function persistAuthConfig() {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    const temp = `${AUTH_FILE}.tmp`;
+    await fs.writeFile(temp, JSON.stringify({
+        username: ADMIN_USERNAME,
+        sessionSecret: SESSION_SECRET,
+        passwordHash: ADMIN_PASSWORD_HASH,
+        bootstrapToken: bootstrapToken || null,
+        updatedAt: nowIso()
+    }, null, 2) + '\n', 'utf8');
+    await fs.rename(temp, AUTH_FILE);
+}
+
+async function loadAuthConfig() {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    let saved = {};
+    try { saved = JSON.parse(await fs.readFile(AUTH_FILE, 'utf8')); } catch (error) {}
+
+    ADMIN_USERNAME = process.env.ADMIN_USERNAME || text(saved.username, 'admin', 80);
+    SESSION_SECRET = process.env.SESSION_SECRET || text(saved.sessionSecret, '', 300);
+    ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || text(saved.passwordHash, '', 300);
+    bootstrapToken = text(saved.bootstrapToken, '', 300);
+
+    if (!SESSION_SECRET) SESSION_SECRET = crypto.randomBytes(32).toString('hex');
+    const localPasswordReady = process.env.NODE_ENV !== 'production' && ADMIN_PASSWORD;
+    if (!ADMIN_PASSWORD_HASH && !localPasswordReady && !bootstrapToken) bootstrapToken = crypto.randomBytes(32).toString('hex');
+    if (!process.env.ADMIN_PASSWORD_HASH || !process.env.SESSION_SECRET || !process.env.ADMIN_USERNAME) await persistAuthConfig();
+
+    if (!ADMIN_PASSWORD_HASH && !localPasswordReady) {
+        console.warn('Admin setup required. One-time setup token (keep private):');
+        console.warn(`ADMIN_BOOTSTRAP_TOKEN=${bootstrapToken}`);
+    }
+}
+
+function setupRequired() {
+    return !ADMIN_PASSWORD_HASH && !(process.env.NODE_ENV !== 'production' && ADMIN_PASSWORD);
+}
+
+function safeSecretEqual(actualValue, expectedValue) {
+    const actual = Buffer.from(String(actualValue || ''));
+    const expected = Buffer.from(String(expectedValue || ''));
+    return actual.length > 0 && actual.length === expected.length && crypto.timingSafeEqual(actual, expected);
+}
+
 function addAudit(state, action, target, actor = 'admin', status = 'success') {
     state.audit.unshift({ id: crypto.randomUUID(), action, target: text(target, 'workspace', 160), actor, at: nowIso(), status });
     state.audit = state.audit.slice(0, 80);
@@ -174,6 +220,11 @@ function validSessionId(id) {
     const actual = Buffer.from(signature, 'hex');
     const wanted = Buffer.from(expected, 'hex');
     return actual.length === wanted.length && crypto.timingSafeEqual(actual, wanted);
+}
+
+function createPasswordHash(password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    return `scrypt$${salt}$${hashWithSalt(password, salt)}`;
 }
 
 function hashWithSalt(password, salt) {
@@ -262,6 +313,10 @@ function sameOrigin(request) {
 }
 
 function authenticate(request, response) {
+    if (!authReady()) {
+        fail(response, 503, 'auth_not_configured', 'احراز هویت مدیر هنوز راه‌اندازی نشده است.');
+        return null;
+    }
     const session = sessionFrom(request);
     if (!session) {
         fail(response, 401, 'auth_required', 'ورود مدیر لازم است.');
@@ -354,6 +409,25 @@ async function serveStatic(request, response, pathname, state) {
 async function handleApi(request, response, urlObject, state) {
     const pathname = urlObject.pathname;
     if (pathname === '/api/health' && request.method === 'GET') return sendJson(response, 200, { ok: true, service: 'neon-anime', version: '1.0.0', time: nowIso() });
+    if (pathname === '/api/setup/status' && request.method === 'GET') return sendJson(response, 200, { ok: true, setupRequired: setupRequired(), username: ADMIN_USERNAME });
+    if (pathname === '/api/setup/admin' && request.method === 'POST') {
+        if (!setupRequired()) return fail(response, 409, 'setup_complete', 'راه‌اندازی مدیر قبلاً انجام شده است.');
+        if (!sameOrigin(request)) return fail(response, 403, 'origin_rejected', 'مبدأ درخواست مجاز نیست.');
+        try {
+            const body = await readJson(request);
+            const token = request.headers['x-setup-token'] || body.token;
+            const username = text(body.username, ADMIN_USERNAME, 80);
+            const password = String(body.password || '');
+            if (!safeSecretEqual(token, bootstrapToken)) return fail(response, 403, 'invalid_setup_token', 'توکن راه‌اندازی نامعتبر است.');
+            if (!/^[a-zA-Z0-9_.-]{3,40}$/.test(username)) return fail(response, 422, 'invalid_username', 'نام کاربری باید ۳ تا ۴۰ کاراکتر باشد.');
+            if (password.length < 12) return fail(response, 422, 'weak_password', 'رمز مدیر باید حداقل ۱۲ کاراکتر باشد.');
+            ADMIN_USERNAME = username;
+            ADMIN_PASSWORD_HASH = createPasswordHash(password);
+            bootstrapToken = '';
+            await persistAuthConfig();
+            return sendJson(response, 201, { ok: true, message: 'حساب مدیر ساخته شد؛ حالا وارد شو.' });
+        } catch (error) { return fail(response, error.statusCode || 400, 'setup_failed', error.message); }
+    }
     if (pathname === '/api/auth/me' && request.method === 'GET') {
         const session = sessionFrom(request);
         return session ? sendJson(response, 200, { ok: true, user: publicUser(session) }) : fail(response, 401, 'auth_required', 'ورود مدیر لازم است.');
@@ -438,6 +512,7 @@ async function handleApi(request, response, urlObject, state) {
 }
 
 async function main() {
+    await loadAuthConfig();
     const state = await loadState();
     const server = http.createServer(async (request, response) => {
         try {
@@ -457,7 +532,7 @@ async function main() {
     });
     server.listen(PORT, '0.0.0.0', () => {
         console.log(`Neon Anime server listening on 0.0.0.0:${PORT}`);
-        if (!authReady()) console.warn('Admin auth is not configured. Set ADMIN_PASSWORD_HASH and SESSION_SECRET before production.');
+        if (!authReady()) console.warn('Admin auth is not configured. Open /admin.html and use the one-time setup token, or provide ADMIN_PASSWORD_HASH and SESSION_SECRET.');
     });
     const cleanup = () => { server.close(() => process.exit(0)); };
     process.on('SIGTERM', cleanup); process.on('SIGINT', cleanup);

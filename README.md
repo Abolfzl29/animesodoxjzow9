@@ -58,24 +58,29 @@ npm start
 
 1. در Railway گزینه‌ی **Deploy from GitHub repo** را بزن و این ریپو را انتخاب کن.
 2. از **Settings → Networking** یک دامنه بساز.
-3. در **Variables** این متغیرها را تنظیم کن:
+3. برای حالت ساده لازم نیست هیچ Variable امنیتی بسازی؛ `Dockerfile` به‌صورت خودکار `DATA_DIR=/data` را تنظیم می‌کند و سرور در اولین اجرا secret داخلی و توکن یک‌بارمصرف می‌سازد.
+4. یک **persistent volume** روی `/data` بساز؛ بدون آن secret و تغییرات بعد از restart از بین می‌روند.
+5. در لاگ Deploy دنبال این خط بگرد:
+
+```text
+ADMIN_BOOTSTRAP_TOKEN=...
+```
+
+6. آدرس `https://دامنه-تو/admin.html` را باز کن، توکن را در فرم «راه‌اندازی مدیر سایت» وارد کن و رمز جدید حداقل ۱۲ کاراکتری بساز. توکن بعد از ساخت حساب باطل می‌شود.
+
+برای محیط‌های حساس می‌توانی به‌جای setup خودکار، این متغیرها را از ابتدا در Railway بگذاری:
 
 ```env
-NODE_ENV=production
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD_HASH=scrypt$...$...
 SESSION_SECRET=یک-مقدار-تصادفی-طولانی
-DATA_DIR=/data
 ```
 
-4. برای رمز مدیر، روی سیستم امن خودت اجرا کن و خروجی را فقط در Variables قرار بده:
+برای ساخت hash دستی:
 
 ```bash
 npm run hash-password
 ```
-
-5. اگر از `DATA_DIR=/data` استفاده می‌کنی، برای سرویس یک **persistent volume** روی `/data` بساز تا تغییرات کاتالوگ بعد از deploy از بین نروند.
-6. بعد از deploy، آدرس `https://دامنه-تو/admin.html` را باز کن و وارد شو.
 
 Health check سرویس روی `GET /api/health` است. تست Docker:
 
@@ -101,6 +106,7 @@ gradle -p android assembleDebug
 
 Endpointهای مدیریتی اصلی:
 
+- `GET /api/setup/status` و `POST /api/setup/admin` برای راه‌اندازی یک‌باره بدون Variable
 - `POST /api/auth/login`، `GET /api/auth/me`، `POST /api/auth/logout`
 - `GET/POST /api/v1/catalog` و `PATCH/DELETE /api/v1/catalog/:id`
 - `GET/POST /api/v1/articles` و `PATCH /api/v1/articles/:slug`

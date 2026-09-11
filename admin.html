@@ -127,6 +127,22 @@
     <div class="admin-backdrop" id="adminBackdrop"></div>
     <div class="admin-toast-region" id="adminToast" aria-live="polite"></div>
 
+    <div class="admin-modal-backdrop" id="setupModal" hidden>
+        <section class="admin-modal setup-modal" role="dialog" aria-modal="true" aria-labelledby="setupModalTitle">
+            <div class="eyebrow">FIRST RUN / SECURE SETUP</div>
+            <h2 id="setupModalTitle">راه‌اندازی مدیر سایت</h2>
+            <p class="modal-description">متغیرهای محیطی لازم نیستند. توکن یک‌بارمصرف را از لاگ Railway بردار و یک رمز مدیر جدید بساز.</p>
+            <form id="adminSetupForm" class="admin-form">
+                <label>توکن یک‌بارمصرف<input id="setupToken" type="password" autocomplete="off" required></label>
+                <label>نام کاربری مدیر<input id="setupUsername" type="text" autocomplete="username" value="admin" required></label>
+                <label>رمز جدید مدیر<input id="setupPassword" type="password" autocomplete="new-password" minlength="12" required></label>
+                <p class="login-error" id="setupError" role="alert"></p>
+                <div class="modal-safe-note">◈ بعد از ساخت حساب، توکن حذف می‌شود و فقط hash رمز روی Volume سرور می‌ماند.</div>
+                <div class="modal-actions"><button class="admin-button primary" type="submit">ساخت حساب امن <span>✓</span></button></div>
+            </form>
+        </section>
+    </div>
+
     <div class="admin-modal-backdrop" id="loginModal" hidden>
         <section class="admin-modal login-modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
             <div class="eyebrow">SECURE ADMIN ACCESS</div>

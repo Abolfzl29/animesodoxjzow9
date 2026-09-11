@@ -156,6 +156,13 @@
         openModal('loginModal');
     }
 
+    function showSetup() {
+        if (location.protocol === 'file:') return;
+        const error = $('#setupError');
+        if (error) error.textContent = '';
+        openModal('setupModal');
+    }
+
     async function loadLiveData() {
         const [catalog, articles, users, moderation, settings] = await Promise.all([
             apiFetch('/v1/catalog'), apiFetch('/v1/articles'), apiFetch('/v1/users'), apiFetch('/v1/moderation'), apiFetch('/v1/settings')
@@ -178,7 +185,30 @@
         } catch (error) {
             setMode(false);
             if (error.status === 401) showLogin();
-            else if (error.status !== 404 && error.status !== 503) toast('اتصال به API مدیریت برقرار نشد؛ حالت پیش‌نمایش فعال است.', 'warning');
+            else if (error.status === 503 && error.code === 'auth_not_configured') showSetup();
+            else if (error.status !== 404) toast('اتصال به API مدیریت برقرار نشد؛ حالت پیش‌نمایش فعال است.', 'warning');
+        }
+    }
+
+    async function handleSetup(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const button = form.querySelector('button[type="submit"]');
+        const errorBox = $('#setupError');
+        const original = button.innerHTML;
+        button.disabled = true;
+        button.textContent = 'در حال ساخت...';
+        if (errorBox) errorBox.textContent = '';
+        try {
+            await apiFetch('/setup/admin', { method: 'POST', headers: { 'X-Setup-Token': $('#setupToken').value.trim() }, body: JSON.stringify({ username: $('#setupUsername').value.trim(), password: $('#setupPassword').value }) });
+            closeModal('setupModal');
+            toast('حساب مدیر ساخته شد؛ حالا وارد شو.', 'success');
+            showLogin();
+        } catch (error) {
+            if (errorBox) errorBox.textContent = error.message || 'راه‌اندازی ناموفق بود.';
+        } finally {
+            button.disabled = false;
+            button.innerHTML = original;
         }
     }
 
@@ -444,6 +474,7 @@
         $('#contentForm')?.addEventListener('submit', saveTitle);
         $('#articleForm')?.addEventListener('submit', saveArticle);
         $('#adminLoginForm')?.addEventListener('submit', handleLogin);
+        $('#adminSetupForm')?.addEventListener('submit', handleSetup);
         $('#quickAddButton')?.addEventListener('click', () => openEditor());
         $('#addTitleButton')?.addEventListener('click', () => openEditor());
         $('#newArticleButton')?.addEventListener('click', () => openArticleEditor());
