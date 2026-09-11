@@ -383,10 +383,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroSlider = document.getElementById('heroSlider');
     const slides = document.querySelectorAll('.hero-slider .slide');
     const dots = document.querySelectorAll('.slider-controls .dot');
+    const heroDownloadBtn = document.getElementById('heroDownloadBtn');
     let currentSlide = 0;
     let sliderInterval;
 
     if (slides.length > 0) {
+        function updateHeroDownload(index) {
+            if (!heroDownloadBtn || !slides[index]) return;
+            const animeId = slides[index].dataset.anime;
+            const href = DATA && typeof DATA.downloadUrl === 'function'
+                ? DATA.downloadUrl(animeId)
+                : 'download.html?anime=' + encodeURIComponent(animeId);
+            heroDownloadBtn.href = href;
+            heroDownloadBtn.setAttribute('aria-label', 'دانلود ' + (DATA && DATA.byId && DATA.byId[animeId]
+                ? DATA.byId[animeId].title
+                : 'این انیمه'));
+        }
+
         function goToSlide(index) {
             slides.forEach(s => s.classList.remove('active'));
             dots.forEach(d => d.classList.remove('active'));
@@ -406,6 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             currentSlide = index;
+            updateHeroDownload(index);
         }
 
         function nextSlide() {

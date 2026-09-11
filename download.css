@@ -6,6 +6,17 @@
 .slide-buttons,
 .details-actions { flex-wrap: wrap; }
 
+/* The homepage has exactly one download entry point. It follows the active
+   hero slide and sends the visitor to the dedicated graphic download page. */
+.hero-download-entry {
+    position: absolute;
+    left: 5%;
+    bottom: 32px;
+    z-index: 10;
+    min-width: 156px;
+    text-align: center;
+}
+
 /* ============ Shared big download button ============ */
 .btn-download {
     background: linear-gradient(135deg, #ff003c 0%, #ff5e3a 60%, #ffaa00 130%);
