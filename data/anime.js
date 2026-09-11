@@ -318,6 +318,11 @@
         return 'anime.html?id=' + encodeURIComponent(id);
     }
 
+    function downloadUrl(anime, episodeNumber) {
+        const id = typeof anime === 'string' ? anime : anime.id;
+        return 'download.html?anime=' + encodeURIComponent(id) + (episodeNumber ? '&ep=' + episodeNumber : '');
+    }
+
     function progressKey(anime, episodeNumber) {
         const id = typeof anime === 'string' ? anime : anime.id;
         return 'neon_progress_' + id + '_' + episodeNumber;
@@ -332,6 +337,7 @@
         toFa,
         watchUrl,
         detailUrl,
+        downloadUrl,
         progressKey,
         normalize
     };

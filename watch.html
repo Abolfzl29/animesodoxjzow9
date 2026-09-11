@@ -35,6 +35,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="download.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
@@ -345,12 +346,13 @@
                 </div>
             </div>
 
-            <section class="download-panel" id="downloadPanel" aria-labelledby="downloadHeading">
-                <div class="download-head">
-                    <h2 id="downloadHeading">دانلود این قسمت</h2>
-                    <p id="downloadSub">کیفیت دلخواه را انتخاب کنید. فایل‌ها نسخهٔ نمایشی هستند.</p>
+            <section class="dl-cta" id="downloadCta" aria-labelledby="downloadCtaTitle">
+                <div class="dl-cta-icon" aria-hidden="true">⬇</div>
+                <div class="dl-cta-copy">
+                    <h2 id="downloadCtaTitle">دانلود این قسمت</h2>
+                    <p id="downloadCtaSub">۴ کیفیت · زیرنویس فارسی · دوبله اختصاصی</p>
                 </div>
-                <div class="download-rows" id="downloadRows"></div>
+                <a class="btn btn-download btn-download-lg" id="watchDownloadBtn" href="download.html">⬇ دانلود</a>
             </section>
 
             <!-- Anime Info Section -->
@@ -617,24 +619,14 @@
             }
 
             function renderDownloads() {
-                const rows = document.getElementById('downloadRows');
-                if (!rows || !anime || !episode) return;
-                const qualities = [
-                    { q: '480p', size: '۱۸۰ مگابایت', vip: false },
-                    { q: '720p', size: '۴۲۰ مگابایت', vip: false },
-                    { q: '1080p', size: '۹۵۰ مگابایت', vip: true },
-                    { q: '4K HDR', size: '۲.۴ گیگابایت', vip: true }
-                ];
-                rows.innerHTML = qualities.map(item => {
-                    const locked = item.vip && !isVip;
-                    return `<div class="download-row${locked ? ' is-locked' : ''}">
-                        <div class="dl-meta">
-                            <strong>${item.q}</strong>
-                            <span>${item.size}${item.vip ? ' · ویژه' : ''}</span>
-                        </div>
-                        <button type="button" class="dl-btn" data-q="${item.q}" ${locked ? 'data-locked="1"' : ''}>${locked ? 'قفل · VIP' : 'دانلود'}</button>
-                    </div>`;
-                }).join('');
+                const ctaBtn = document.getElementById('watchDownloadBtn');
+                const ctaSub = document.getElementById('downloadCtaSub');
+                if (!ctaBtn || !anime || !episode) return;
+                ctaBtn.href = DATA.downloadUrl(anime, episode.number);
+                ctaBtn.setAttribute('aria-label', `دانلود قسمت ${toFa(episode.number)} ${anime.title}`);
+                if (ctaSub) {
+                    ctaSub.textContent = `قسمت ${toFa(episode.number)}${episode.title ? ' — ' + episode.title : ''} · ۴ کیفیت · زیرنویس فارسی`;
+                }
             }
 
             function renderEpisodes() {

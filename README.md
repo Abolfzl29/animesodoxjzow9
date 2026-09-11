@@ -13,7 +13,8 @@
 | `index.html` | صفحه‌ی اصلی: هیرو اسلایدر، ردیف‌های کارت، تقویم پخش، Top10، FAQ، خبرنامه؛ کلیک روی کارت به صفحه جزئیات می‌رود |
 | `catalog.html` | آرشیو ژانری؛ کارت‌ها به `anime.html?id=<id>` می‌روند |
 | `anime.html` / `anime.css` / `anime.js` | صفحه اختصاصی هر عنوان (`anime.html?id=<id>`): داستان، تریلر، لیست قسمت، Watchlist، ادامه تماشا، قفل VIP |
-| `watch.html` | پلیر: از URL می‌خواند (`watch.html?anime=<id>&ep=<n>`)، لیست قسمت‌ها، قفل VIP، ادامه‌ی تماشا، پخش خودکار قسمت بعد، میانبرهای کیبورد |
+| `watch.html` | پلیر: از URL می‌خواند (`watch.html?anime=<id>&ep=<n>`)، لیست قسمت‌ها، قفل VIP، ادامه‌ی تماشا، پخش خودکار قسمت بعد، میانبرهای کیبورد، بنر دانلود |
+| `download.html` / `download.css` / `download.js` | صفحه دانلود (`download.html?anime=<id>&ep=<n>`): انتخاب قسمت، ۴ کیفیت (480p تا 4K با قفل VIP)، راهنما |
 | `schedule.html` / `schedule.css` / `schedule.js` | «تقویم پخش هفتگی» مستقل: ۷ روز هفته (شنبه تا جمعه)، «پخش امروز» با شمارش معکوس زنده، ساعت انتشار هر قسمت، فیلتر دوبله/زیرنویس و یادآوری انتشار (`neon_schedule_reminders` + Notification API) |
 | `login.html` | ورود / ثبت‌نام با اعتبارسنجی + ریدایرکت `?next=` |
 | `profile.html` | **نمای کلی (Overview)** کتابخانه: آمار چهار بخش + چند کارت اخیر هر بخش + «مشاهده همه»، ویرایش پروفایل، خروج |
@@ -36,6 +37,19 @@
 ```bash
 python3 -m http.server 8080   # سپس http://localhost:8080
 ```
+
+## 🚂 دیپلوی روی Railway
+ریپو آماده‌ی دیپلوی مستقیم روی Railway است (یک سرویس، `Dockerfile` + `nginx` + `railway.json`):
+
+1. در [Railway](https://railway.app) روی **New Project** → **Deploy from GitHub repo** بزن و ریپوی `animesodoxjzow9` را انتخاب کن.
+2. Railway خودش `Dockerfile` را تشخیص می‌دهد و بیلد می‌گیرد (چیز دیگری لازم نیست تنظیم کنی).
+3. بعد از دیپلوی، از تب **Settings** → بخش **Networking** روی **Generate Domain** بزن تا آدرس عمومی بگیری (مثل `xxx.up.railway.app`).
+4. هر پوش جدید به برنچی که به سرویس وصل است، به‌صورت خودکار ریدپلوی می‌شود.
+
+نکته‌ها:
+- پورت را Railway خودش با متغیر `PORT` می‌دهد؛ `Dockerfile` به‌صورت خودکار nginx را روی همان پورت بالا می‌آورد.
+- صفحه‌ی ۴۰۴ اختصاصی (`404.html`) و کش استاتیک در `nginx.conf` تنظیم شده است.
+- تست محلی با داکر: `docker build -t neon-anime . && docker run -p 8080:8080 neon-anime`
 
 ## 🧠 شبیه‌سازی بک‌اند (موقت)
 کلیدهای `localStorage` با پیشوند `neon_` (ورود، نام، آواتار، VIP، لیست تماشا، پیشرفت تماشا، تاریخچه، نظرات). **این‌ها امنیتی نیستند** — قفل VIP و لینک ویدیو باید سمت سرور اعمال شود.
