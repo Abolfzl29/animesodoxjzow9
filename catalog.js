@@ -311,11 +311,17 @@
             const themeButton = document.getElementById('themeToggleBtn');
 
             function setMenu(open) {
+                if (!menu || !backdrop || !hamburger) return;
+                const closeBtn = document.getElementById('closeSideBtn');
                 menu.classList.toggle('active', open);
                 backdrop.classList.toggle('active', open);
                 hamburger.classList.toggle('active', open);
                 hamburger.setAttribute('aria-expanded', String(open));
-                document.body.style.overflow = open ? 'hidden' : '';
+                const vipModal = document.getElementById('vipModal');
+                const vipOpen = vipModal && vipModal.classList.contains('active');
+                document.body.style.overflow = open || vipOpen ? 'hidden' : '';
+                if (open && closeBtn) setTimeout(() => closeBtn.focus(), 100);
+                else if (!open && hamburger && document.activeElement === closeBtn) hamburger.focus();
             }
             hamburger.addEventListener('click', () => setMenu(!menu.classList.contains('active')));
             closeButton.addEventListener('click', () => setMenu(false));

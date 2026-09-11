@@ -80,11 +80,17 @@
             const menu = document.getElementById('sideMenu');
             const backdrop = document.getElementById('mobileBackdrop');
             const hamburger = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeSideBtn');
+            if (!menu || !backdrop || !hamburger) return;
             menu.classList.toggle('active', open);
             backdrop.classList.toggle('active', open);
             hamburger.classList.toggle('active', open);
             hamburger.setAttribute('aria-expanded', String(open));
-            document.body.style.overflow = open || vipModal.classList.contains('active') || !trailerModal.hidden ? 'hidden' : '';
+            const vipOpen = vipModal && vipModal.classList.contains('active');
+            const trailerOpen = trailerModal && !trailerModal.hidden;
+            document.body.style.overflow = open || vipOpen || trailerOpen ? 'hidden' : '';
+            if (open && closeBtn) setTimeout(() => closeBtn.focus(), 100);
+            else if (!open && hamburger && document.activeElement === closeBtn) hamburger.focus();
         }
 
         function applyTheme(theme) {

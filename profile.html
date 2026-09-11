@@ -154,24 +154,23 @@
     <div id="toastContainer"></div>
 
     <!-- NEW: ULTRA-GRAPHIC SIDE DRAWER MENU (Replaces Full-Screen Menu) -->
-    <div class="mobile-backdrop" id="mobileBackdrop"></div>
-    <div class="side-menu" id="sideMenu">
+        <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <aside class="side-menu" id="sideMenu" aria-label="منوی اصلی">
         <div class="side-menu-header">
-            <a href="login.html" id="loginTriggerBtn2" style="display:flex; align-items:center; gap:15px; cursor:pointer; text-decoration: none;" title="ورود / ثبت‌نام">
-                <img src="assets/img/avatar-1.webp" alt="User" loading="eager" decoding="async">
+            <a href="login.html" id="loginTriggerBtn2" class="auth-trigger" title="ورود / ثبت‌نام">
+                <img src="assets/img/avatar-1.webp" alt="تصویر کاربر" width="48" height="48" loading="eager" decoding="async">
                 <div>
                     <h4>کاربر مهمان</h4>
-                    <span class="status-badge" style="background: var(--accent); color: white;">ورود / عضویت</span>
+                    <span class="status-badge">ورود / عضویت</span>
                 </div>
             </a>
-            <button class="close-side-btn" id="closeSideBtn" aria-label="بستن منو">✕</button>
+            <button class="close-side-btn" id="closeSideBtn" type="button" aria-label="بستن منو">✕</button>
         </div>
-        
         <div class="side-menu-links">
             <a href="index.html"><span class="icon">🏠</span> خانه</a>
             <a href="catalog.html"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
             <a href="catalog.html?view=all#catalogResults"><span class="icon">🗂️</span> همه عناوین</a>
-            <a href="schedule.html"><span class="icon">📅</span> تقویم پخش هفتگی</a>
+            <a href="schedule.html"><span class="icon">📅</span> تقویم پخش</a>
             <a href="mag.html"><span class="icon">📰</span> مجله</a>
             <a href="favorites.html"><span class="icon">★</span> علاقه‌مندی‌های من</a>
             <a href="continue-watching.html"><span class="icon">▶</span> ادامه تماشا</a>
@@ -179,14 +178,13 @@
             <a href="completed.html"><span class="icon">✔</span> تکمیل‌شده‌ها</a>
             <a href="profile.html"><span class="icon">👤</span> نمای کلی پروفایل</a>
         </div>
-        
-        <div class="side-menu-vip-promo" id="mobileVipBtn">
+        <div class="side-menu-vip-promo" id="mobileVipBtn" role="button" tabindex="0" aria-label="ارتقا به نئون پلاس">
             <div class="promo-glow"></div>
             <h4>نئون پلاس ✦</h4>
             <p>تماشای بدون محدودیت و تبلیغات</p>
-            <button>ارتقا حساب کاربری</button>
+            <button type="button">ارتقا حساب کاربری</button>
         </div>
-    </div>
+    </aside>
 
     <!-- Ambient Background Glows -->
     <div class="ambient-bg">
