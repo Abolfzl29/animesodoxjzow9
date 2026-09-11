@@ -370,7 +370,7 @@
         a.innerHTML = '<span class="icon">🎲</span> انیمه شانسی <span class="gami-side-plus">' + toFa('+۵') + ' XP</span>';
         a.addEventListener('click', function (e) {
             e.preventDefault();
-            // close the drawer the same way script.js does
+            // close the drawer — unified with the fixed side-menu logic
             if (a.closest && a.closest('#sideMenu')) {
                 var menu = document.getElementById('sideMenu');
                 var backdrop = document.getElementById('mobileBackdrop');
@@ -378,7 +378,11 @@
                 if (menu) menu.classList.remove('active');
                 if (backdrop) backdrop.classList.remove('active');
                 if (burger) { burger.classList.remove('active'); burger.setAttribute('aria-expanded', 'false'); }
-                document.body.style.overflow = '';
+                var vipModal = document.getElementById('vipModal');
+                var searchModal = document.getElementById('searchModal');
+                var anyOpen = (vipModal && vipModal.classList.contains('active')) ||
+                              (searchModal && searchModal.classList.contains('active'));
+                document.body.style.overflow = anyOpen ? 'hidden' : '';
             }
             openRoulette();
         });

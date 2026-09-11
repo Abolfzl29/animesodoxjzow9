@@ -1132,6 +1132,52 @@
     function initSharedChrome() {
         toastContainer();
         markActiveLinks();
+        // Side-menu fix for library pages (favorites, history, etc.)
+        (function () {
+            var menu = document.getElementById('sideMenu');
+            var backdrop = document.getElementById('mobileBackdrop');
+            var hamburger = document.getElementById('hamburgerBtn');
+            var closeBtn = document.getElementById('closeSideBtn');
+            var vipBtn = document.getElementById('mobileVipBtn');
+            if (!menu || !backdrop || !hamburger) return;
+            function setMenu(open) {
+                menu.classList.toggle('active', open);
+                backdrop.classList.toggle('active', open);
+                hamburger.classList.toggle('active', open);
+                hamburger.setAttribute('aria-expanded', String(open));
+                var vipModal = document.getElementById('vipModal');
+                var vipOpen = vipModal && vipModal.classList.contains('active');
+                document.body.style.overflow = open || vipOpen ? 'hidden' : '';
+                if (open && closeBtn) setTimeout(function () { closeBtn.focus(); }, 100);
+            }
+            hamburger.addEventListener('click', function () { setMenu(!menu.classList.contains('active')); });
+            if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
+            backdrop.addEventListener('click', function () { setMenu(false); });
+            menu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () { setMenu(false); });
+            });
+            if (vipBtn) {
+                vipBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    setMenu(false);
+                    var vipModal = document.getElementById('vipModal');
+                    if (vipModal) {
+                        vipModal.removeAttribute('hidden');
+                        vipModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+                vipBtn.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        vipBtn.click();
+                    }
+                });
+            }
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && menu.classList.contains('active')) setMenu(false);
+            });
+        })();
     }
 
     /* ------------------------------------------------------------------ */

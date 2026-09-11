@@ -46,7 +46,7 @@
     <a class="skip-link" href="#animeMain">پرش به محتوای اصلی</a>
     <div id="toastContainer" aria-live="polite"></div>
 
-    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+        <div class="mobile-backdrop" id="mobileBackdrop"></div>
     <aside class="side-menu" id="sideMenu" aria-label="منوی اصلی">
         <div class="side-menu-header">
             <a href="login.html" id="loginTriggerBtn2" class="auth-trigger" title="ورود / ثبت‌نام">
@@ -61,13 +61,16 @@
         <div class="side-menu-links">
             <a href="index.html"><span class="icon">🏠</span> خانه</a>
             <a href="catalog.html"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
-            <a href="catalog.html?genre=action#catalogResults"><span class="icon">⚔️</span> انیمه‌های اکشن</a>
-            <a href="catalog.html?genre=dark-fantasy#catalogResults"><span class="icon">🌑</span> فانتزی تاریک</a>
+            <a href="catalog.html?view=all#catalogResults"><span class="icon">🗂️</span> همه عناوین</a>
             <a href="schedule.html"><span class="icon">📅</span> تقویم پخش</a>
             <a href="mag.html"><span class="icon">📰</span> مجله</a>
-            <a href="profile.html"><span class="icon">🔖</span> لیست تماشای من</a>
+            <a href="favorites.html"><span class="icon">★</span> علاقه‌مندی‌های من</a>
+            <a href="continue-watching.html"><span class="icon">▶</span> ادامه تماشا</a>
+            <a href="history.html"><span class="icon">⟲</span> تاریخچه تماشا</a>
+            <a href="completed.html"><span class="icon">✔</span> تکمیل‌شده‌ها</a>
+            <a href="profile.html"><span class="icon">👤</span> نمای کلی پروفایل</a>
         </div>
-        <div class="side-menu-vip-promo" id="mobileVipBtn">
+        <div class="side-menu-vip-promo" id="mobileVipBtn" role="button" tabindex="0" aria-label="ارتقا به نئون پلاس">
             <div class="promo-glow"></div>
             <h4>نئون پلاس ✦</h4>
             <p>تماشای بدون محدودیت و تبلیغات</p>

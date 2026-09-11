@@ -153,17 +153,21 @@ a.logo, a.logo:visited { text-decoration: none; }
 .hamburger-btn.active span:nth-child(2) { opacity: 0; }
 .hamburger-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: var(--accent); }
 
-.mobile-backdrop { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); opacity: 0; visibility: hidden; transition: 0.4s ease-in-out; z-index: 1000; }
-.mobile-backdrop.active { opacity: 1; visibility: visible; }
+.mobile-backdrop { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); opacity: 0; visibility: hidden; transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; z-index: 1000; pointer-events: none; }
+.mobile-backdrop.active { opacity: 1; visibility: visible; pointer-events: auto; }
 
 .side-menu { 
-    position: fixed; top: 0; right: -350px; width: 320px; max-width: 85vw; height: 100vh; 
-    background: rgba(12, 12, 16, 0.7); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); 
+    position: fixed; top: 0; right: 0; width: 320px; max-width: 85vw; height: 100vh; 
+    background: rgba(12, 12, 16, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); 
     border-left: 1px solid rgba(255,0,60,0.2); box-shadow: -15px 0 50px rgba(0,0,0,0.9); 
-    z-index: 1001; transition: right 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
+    z-index: 1001; 
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.5s;
+    will-change: transform;
     display: flex; flex-direction: column; overflow-y: auto; 
+    visibility: hidden;
 }
-.side-menu.active { right: 0; }
+.side-menu.active { transform: translateX(0); visibility: visible; }
 
 .side-menu-header { display: flex; align-items: center; gap: 15px; padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); background: linear-gradient(to right, rgba(255,0,60,0.05), transparent); }
 .side-menu-header img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
@@ -186,6 +190,11 @@ a.logo, a.logo:visited { text-decoration: none; }
 .side-menu-vip-promo h4 { font-size: 1.2rem; font-weight: 900; color: white; position: relative; z-index: 2; margin-bottom: 10px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 .side-menu-vip-promo p { font-size: 0.85rem; color: #eee; margin-bottom: 15px; position: relative; z-index: 2; }
 .side-menu-vip-promo button { background: var(--accent); border: none; color: white; padding: 10px 20px; border-radius: 20px; font-weight: 700; width: 100%; position: relative; z-index: 2; cursor: pointer; font-family: inherit; }
+.side-menu-vip-promo:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.side-menu-vip-promo:focus { border-color: var(--accent); }
+.side-menu-links a.active { color: white; background: rgba(255,255,255,0.05); }
+.side-menu-links a.active::before { transform: scaleY(1); }
+.side-menu-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; background: rgba(255,255,255,0.05); }
 
 /* ========================================================================= */
 /* TOAST NOTIFICATION & PLAYER MODAL */
