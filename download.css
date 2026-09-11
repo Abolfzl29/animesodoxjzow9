@@ -6,13 +6,13 @@
 .slide-buttons,
 .details-actions { flex-wrap: wrap; }
 
-/* The homepage has exactly one download entry point. It follows the active
-   hero slide and sends the visitor to the dedicated graphic download page. */
+/* The homepage has exactly one download entry point. Keep it floating above
+   the hero so it is immediately visible instead of hiding it in a slide. */
 .hero-download-entry {
-    position: absolute;
-    left: 5%;
-    bottom: 32px;
-    z-index: 10;
+    position: fixed;
+    right: 24px;
+    bottom: 28px;
+    z-index: 1001;
     min-width: 156px;
     text-align: center;
 }
@@ -437,6 +437,13 @@
     .dl-ep { padding: 10px 12px; gap: 10px; }
     .dl-ep-num { width: 42px; height: 42px; font-size: 1.05rem; border-radius: 11px; }
     .dl-ep-copy span { display: none; }
+    .hero-download-entry {
+        right: 16px;
+        bottom: 76px;
+        min-width: 142px;
+        min-height: 50px;
+        padding: 12px 22px;
+    }
     .slide-buttons .btn,
     .details-actions .btn { flex: 1 1 150px; }
     .dl-cta { flex-wrap: wrap; }
