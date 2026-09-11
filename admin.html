@@ -58,7 +58,7 @@
                 </div>
                 <div class="topbar-center"><label class="global-search"><span>⌕</span><input id="globalSearch" type="search" placeholder="جستجو در کاتالوگ، کاربران..." autocomplete="off"><kbd>⌘ K</kbd></label></div>
                 <div class="topbar-right">
-                    <span class="preview-pill"><i></i> DEMO MODE</span>
+                    <span class="preview-pill" id="modePill"><i></i><span id="modePillText">DEMO MODE</span></span>
                     <button class="top-icon theme-toggle" id="themeToggle" type="button" aria-label="تغییر تم"><span class="moon">☾</span><span class="sun">☀</span></button>
                     <button class="notification-button" id="notificationButton" type="button" aria-label="اعلان‌ها">♢<i></i></button>
                     <a href="profile.html" class="admin-user"><span class="user-initial">A</span><span><b>مدیر سایت</b><small>owner access</small></span></a>
@@ -126,6 +126,28 @@
 
     <div class="admin-backdrop" id="adminBackdrop"></div>
     <div class="admin-toast-region" id="adminToast" aria-live="polite"></div>
+
+    <div class="admin-modal-backdrop" id="loginModal" hidden>
+        <section class="admin-modal login-modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+            <div class="eyebrow">SECURE ADMIN ACCESS</div>
+            <h2 id="loginModalTitle">ورود مدیر سایت</h2>
+            <p class="modal-description">برای خواندن و تغییر داده‌های واقعی، با حساب مدیر سرور وارد شو. این اطلاعات در مرورگر ذخیره نمی‌شوند.</p>
+            <form id="adminLoginForm" class="admin-form">
+                <label>نام کاربری<input id="adminUsername" type="text" autocomplete="username" value="admin" required></label>
+                <label>رمز عبور<input id="adminPassword" type="password" autocomplete="current-password" required></label>
+                <p class="login-error" id="loginError" role="alert"></p>
+                <div class="modal-actions"><button class="admin-button primary" type="submit">ورود امن <span>↗</span></button></div>
+            </form>
+        </section>
+    </div>
+
+    <div class="admin-modal-backdrop" id="articleModal" hidden>
+        <section class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="articleModalTitle">
+            <button class="modal-close" type="button" data-close-modal="articleModal" aria-label="بستن">×</button>
+            <div class="eyebrow">MAGAZINE / EDITOR</div><h2 id="articleModalTitle">مقاله جدید</h2><p class="modal-description">مقاله در حالت live از API تحریریه ذخیره می‌شود.</p>
+            <form id="articleForm" class="admin-form"><input id="editingArticleSlug" type="hidden"><label>عنوان مقاله<input id="articleTitle" required></label><label>خلاصه<textarea id="articleExcerpt" rows="3"></textarea></label><div class="form-row"><label>دسته‌بندی<select id="articleCategory"><option value="news">خبر</option><option value="review">نقد</option><option value="intro">معرفی</option></select></label><label>نویسنده<input id="articleAuthor" value="مدیر سایت"></label></div><label>مسیر تصویر<input id="articleImage" dir="ltr" value="assets/img/og-image.jpg"></label><div class="modal-safe-note">◈ فایل و محتوای article body از secretها جدا نگه داشته می‌شود.</div><div class="modal-actions"><button class="admin-button ghost" type="button" data-close-modal="articleModal">انصراف</button><button class="admin-button primary" type="submit">ذخیره مقاله <span>✓</span></button></div></form>
+        </section>
+    </div>
 
     <div class="admin-modal-backdrop" id="contentModal" hidden>
         <section class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="contentModalTitle">

@@ -2,9 +2,16 @@ plugins {
     id 'com.android.application'
 }
 
+def configuredAdminUrl = (project.findProperty('adminUrl') ?: System.getenv('NEON_ADMIN_URL') ?: '').toString()
+def escapedAdminUrl = configuredAdminUrl.replace('\\', '\\\\').replace('"', '\\"')
+
 android {
     namespace 'com.neonanime.app'
     compileSdk 35
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId 'com.neonanime.app'
@@ -12,6 +19,7 @@ android {
         targetSdk 35
         versionCode 1
         versionName '1.0.0'
+        buildConfigField 'String', 'ADMIN_URL', '"' + escapedAdminUrl + '"'
     }
 
     buildTypes {
@@ -48,6 +56,7 @@ tasks.register('syncWebAppAssets', Sync) {
         exclude('out/**')
         exclude('target/**')
         exclude('artifacts/**')
+        exclude('server-data/**')
         exclude('**/.env')
         exclude('**/.env.*')
         exclude('**/*.log')

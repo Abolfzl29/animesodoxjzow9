@@ -47,9 +47,13 @@ public class MainActivity extends Activity {
         });
 
         setContentView(webView);
-        // The Android build is the site-management app. It contains a link
-        // back to the public site and a separate infrastructure console.
-        webView.loadUrl("file:///android_asset/web/admin.html");
+        // If NEON_ADMIN_URL/adminUrl is configured at build time, open the
+        // authenticated hosted admin app so writes reach the live server.
+        // Otherwise keep a bundled offline preview for local testing.
+        String adminUrl = BuildConfig.ADMIN_URL;
+        webView.loadUrl(adminUrl == null || adminUrl.trim().isEmpty()
+                ? "file:///android_asset/web/admin.html"
+                : adminUrl.trim());
     }
 
     @Override

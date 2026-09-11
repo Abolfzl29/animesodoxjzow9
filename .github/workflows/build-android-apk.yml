@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -45,7 +45,9 @@ jobs:
           gradle-version: '8.7'
 
       - name: Assemble debug APK
-        run: gradle -p android assembleDebug --no-daemon
+        env:
+          NEON_ADMIN_URL: ${{ vars.NEON_ADMIN_URL }}
+        run: gradle -p android assembleDebug --no-daemon -PadminUrl="${NEON_ADMIN_URL}"
 
       - name: Rename APK
         run: cp android/app/build/outputs/apk/debug/app-debug.apk NeonAnime-debug.apk
