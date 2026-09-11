@@ -17,9 +17,9 @@
     text-align: center;
 }
 
-/* ============ Shared big download button ============ */
+/* ============ Shared big download button (Neon Crimson & Violet Gradient) ============ */
 .btn-download {
-    background: linear-gradient(135deg, #ff003c 0%, #ff5e3a 60%, #ffaa00 130%);
+    background: linear-gradient(135deg, #ff0055 0%, #a855f7 50%, #7000ff 100%);
     color: #fff !important;
     border: none;
     min-height: 54px;
@@ -27,7 +27,7 @@
     font-size: 1.08rem;
     font-weight: 900;
     border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(255, 0, 60, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 28px rgba(255, 0, 85, 0.32), 0 4px 12px rgba(138, 43, 226, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     text-decoration: none;
     position: relative;
     overflow: hidden;
@@ -43,12 +43,12 @@
 }
 .btn-download:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 16px 42px rgba(255, 0, 60, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    box-shadow: 0 16px 42px rgba(255, 0, 85, 0.45), 0 6px 18px rgba(138, 43, 226, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 .btn-download:hover::after { transform: translateX(120%); }
 .btn-download:active { transform: translateY(-1px) scale(1); }
 .btn-download:focus-visible {
-    outline: 3px solid rgba(255, 122, 89, 0.8);
+    outline: 3px solid rgba(223, 92, 221, 0.85);
     outline-offset: 3px;
 }
 .btn-download-lg {
@@ -62,12 +62,14 @@
     display: flex;
     align-items: center;
     gap: 18px;
-    margin-top: 18px;
+    margin-top: 28px;
+    margin-bottom: 24px;
     padding: 20px 24px;
     border-radius: 18px;
-    border: 1px solid rgba(255, 0, 60, 0.3);
+    border: 1px solid rgba(223, 92, 221, 0.28);
     background:
-        radial-gradient(circle at 12% 20%, rgba(255, 0, 60, 0.16), transparent 55%),
+        radial-gradient(circle at 12% 20%, rgba(255, 0, 85, 0.12), transparent 55%),
+        radial-gradient(circle at 88% 80%, rgba(138, 43, 226, 0.1), transparent 55%),
         linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
 }
@@ -79,8 +81,9 @@
     place-items: center;
     font-size: 1.7rem;
     border-radius: 16px;
-    background: linear-gradient(135deg, #ff003c, #ff5e3a);
-    box-shadow: 0 8px 22px rgba(255, 0, 60, 0.45);
+    background: linear-gradient(135deg, #ff0055, #8a2be2);
+    box-shadow: 0 8px 22px rgba(255, 0, 85, 0.38);
+    color: #fff;
 }
 .dl-cta-copy { flex: 1 1 auto; min-width: 0; }
 .dl-cta-copy h2 {
@@ -218,16 +221,16 @@
 }
 .dl-ep:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 0, 60, 0.45);
+    border-color: rgba(255, 0, 85, 0.45);
 }
 .dl-ep:focus-visible {
-    outline: 3px solid rgba(255, 71, 118, 0.72);
+    outline: 3px solid rgba(223, 92, 221, 0.72);
     outline-offset: 2px;
 }
 .dl-ep.is-selected {
     border-color: var(--accent);
-    background: rgba(255, 0, 60, 0.1);
-    box-shadow: 0 10px 28px rgba(255, 0, 60, 0.18);
+    background: rgba(255, 0, 85, 0.1);
+    box-shadow: 0 10px 28px rgba(255, 0, 85, 0.18);
 }
 .dl-ep-num {
     flex: 0 0 auto;
@@ -236,8 +239,8 @@
     display: grid;
     place-items: center;
     border-radius: 14px;
-    background: rgba(255, 0, 60, 0.14);
-    border: 1px solid rgba(255, 0, 60, 0.3);
+    background: rgba(255, 0, 85, 0.14);
+    border: 1px solid rgba(255, 0, 85, 0.3);
     color: var(--text-light);
     font-size: 1.25rem;
     font-weight: 900;
@@ -284,13 +287,13 @@
 }
 .dl-quality:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 0, 60, 0.4);
+    border-color: rgba(223, 92, 221, 0.4);
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
 }
 .dl-quality.is-best {
-    border-color: rgba(255, 170, 0, 0.5);
+    border-color: rgba(168, 85, 247, 0.5);
     background:
-        radial-gradient(circle at 85% 15%, rgba(255, 170, 0, 0.12), transparent 55%),
+        radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.14), transparent 55%),
         linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
 }
 .dl-quality-badge {
@@ -299,9 +302,9 @@
     left: 12px;
     padding: 3px 10px;
     border-radius: 999px;
-    background: rgba(255, 170, 0, 0.16);
-    border: 1px solid rgba(255, 170, 0, 0.4);
-    color: #ffd978;
+    background: rgba(168, 85, 247, 0.18);
+    border: 1px solid rgba(168, 85, 247, 0.45);
+    color: #e9b3fb;
     font-size: 0.7rem;
     font-weight: 900;
 }
@@ -345,19 +348,19 @@
     padding: 12px 22px;
     border-radius: 13px;
     border: none;
-    background: linear-gradient(135deg, #ff003c, #ff5e3a);
+    background: linear-gradient(135deg, #ff0055, #8a2be2);
     color: #fff;
     font-family: inherit;
     font-size: 0.98rem;
     font-weight: 900;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(255, 0, 60, 0.35);
+    box-shadow: 0 8px 24px rgba(255, 0, 85, 0.35);
     transition: 0.2s;
 }
 .dl-quality-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(255, 0, 60, 0.5);
+    box-shadow: 0 12px 30px rgba(138, 43, 226, 0.45);
 }
 .dl-quality.is-locked .dl-quality-btn {
     background: #3a3a42;
@@ -369,9 +372,9 @@
     margin-top: 16px;
     padding: 12px 16px;
     border-radius: 12px;
-    background: rgba(255, 170, 0, 0.08);
-    border: 1px solid rgba(255, 170, 0, 0.25);
-    color: #ffd978;
+    background: rgba(138, 43, 226, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.28);
+    color: #d8b4fe;
     font-size: 0.85rem;
     line-height: 1.8;
 }
@@ -422,9 +425,18 @@
 :root[data-theme="light"] .dl-hero::after {
     background: linear-gradient(to left, transparent 20%, #f4f1f9 135%);
 }
-:root[data-theme="light"] .dl-ep.is-selected { background: rgba(255, 0, 60, 0.07); }
+:root[data-theme="light"] .dl-ep.is-selected { background: rgba(255, 0, 85, 0.07); }
 :root[data-theme="light"] .dl-quality-tags i { background: rgba(0, 0, 0, 0.04); }
-:root[data-theme="light"] .dl-demo-note { background: rgba(255, 170, 0, 0.12); color: #8a5b00; }
+:root[data-theme="light"] .dl-quality-badge {
+    background: rgba(138, 43, 226, 0.12);
+    color: #7928ca;
+    border-color: rgba(138, 43, 226, 0.3);
+}
+:root[data-theme="light"] .dl-demo-note {
+    background: rgba(138, 43, 226, 0.08);
+    color: #6b21a8;
+    border-color: rgba(138, 43, 226, 0.25);
+}
 :root[data-theme="light"] .dl-quality.is-locked .dl-quality-btn { background: #c9c4d4; color: #fff; }
 
 /* Responsive */
