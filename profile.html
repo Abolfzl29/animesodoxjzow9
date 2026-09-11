@@ -38,6 +38,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="library.css">
+    <link rel="stylesheet" href="gamification.css">
 
     
     <style>
@@ -431,6 +432,24 @@
 
             <div class="lib-overview-stats" id="overviewStats"></div>
 
+            <!-- SECTION: Otaku Level (gamification) -->
+            <section class="lib-overview-section" aria-labelledby="otakuLevelHeading">
+                <div class="lib-overview-head">
+                    <h2 id="otakuLevelHeading">سطح اوتاکو</h2>
+                    <a class="lib-overview-more" href="index.html">گردونه شانس و حس و حال 🎲 <span aria-hidden="true">›</span></a>
+                </div>
+                <div class="otaku-level-box" id="otakuLevelBox"></div>
+            </section>
+
+            <!-- SECTION: Badge Showcase (gamification) -->
+            <section class="lib-overview-section" aria-labelledby="otakuBadgesHeading">
+                <div class="lib-overview-head">
+                    <h2 id="otakuBadgesHeading">ویترین نشان‌های دستاورد</h2>
+                    <span class="otaku-badge-count" id="otakuBadgeCount"></span>
+                </div>
+                <div class="badge-showcase" id="badgeShowcase"></div>
+            </section>
+
             <section class="lib-overview-section" aria-labelledby="overviewContinueHeading">
                 <div class="lib-overview-head">
                     <h2 id="overviewContinueHeading">ادامه تماشا</h2>
@@ -534,6 +553,7 @@
     <script src="auth.js"></script>
     <script src="script.js"></script>
     <script src="library.js"></script>
+    <script src="gamification.js"></script>
     <script>
         // Bind bottom nav buttons to existing modals
         document.addEventListener('DOMContentLoaded', () => {
