@@ -1,0 +1,1065 @@
+/* ========================================================================= */
+/* NEON.ANIME — GAMIFICATION PACK                                            */
+/* Surprise Roulette · Mood & Vibe Explorer · Otaku Levels & Badges          */
+/* ========================================================================= */
+
+/* ========================================================================= */
+/* 1) TRIGGERS — navbar button + side-menu entry                             */
+/* ========================================================================= */
+
+.gami-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 16px;
+    border-radius: 22px;
+    border: 1px solid rgba(0, 240, 255, 0.45);
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(138, 43, 226, 0.18));
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.25), inset 0 0 12px rgba(0, 240, 255, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    animation: gamiNavPulse 2.6s ease-in-out infinite;
+}
+.gami-nav-btn .gami-nav-dice {
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.8));
+}
+.gami-nav-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.22) 50%, transparent 60%);
+    transform: translateX(-120%);
+    transition: transform 0.7s ease;
+}
+.gami-nav-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 24px rgba(0, 240, 255, 0.5), inset 0 0 16px rgba(0, 240, 255, 0.12);
+}
+.gami-nav-btn:hover::after { transform: translateX(120%); }
+.gami-nav-btn:active { transform: scale(0.96); }
+@keyframes gamiNavPulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(0, 240, 255, 0.25), inset 0 0 12px rgba(0, 240, 255, 0.08); }
+    50%      { box-shadow: 0 0 26px rgba(0, 240, 255, 0.5), inset 0 0 16px rgba(0, 240, 255, 0.16); }
+}
+@media (max-width: 768px) {
+    .gami-nav-btn { padding: 7px 11px; font-size: 0; gap: 0; }
+    .gami-nav-btn .gami-nav-dice { font-size: 1.15rem; }
+}
+
+/* Side-menu entry */
+.side-menu-links a.gami-side-link {
+    color: var(--text-light);
+    background: linear-gradient(90deg, rgba(0, 240, 255, 0.1), rgba(138, 43, 226, 0.08));
+    border-right: 2px solid rgba(0, 240, 255, 0.5);
+}
+.side-menu-links a.gami-side-link .icon {
+    filter: grayscale(0);
+    opacity: 1;
+    animation: gamiDiceWiggle 2.4s ease-in-out infinite;
+}
+.side-menu-links a.gami-side-link .gami-side-plus {
+    margin-right: auto;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    color: #071018;
+    background: linear-gradient(45deg, var(--neon-blue), #7df9ff);
+    padding: 3px 9px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.55);
+}
+@keyframes gamiDiceWiggle {
+    0%, 86%, 100% { transform: rotate(0deg); }
+    89%  { transform: rotate(-16deg); }
+    92%  { transform: rotate(14deg); }
+    95%  { transform: rotate(-9deg); }
+}
+
+/* ========================================================================= */
+/* 2) ROULETTE MODAL — «انیمه شانسی»                                        */
+/* ========================================================================= */
+
+.gami-roulette-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 6000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(4, 5, 10, 0.78);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.gami-roulette-overlay.open { opacity: 1; visibility: visible; }
+
+.gami-roulette-modal {
+    width: 100%;
+    max-width: 540px;
+    max-height: 92vh;
+    overflow-y: auto;
+    border-radius: 24px;
+    padding: 28px 26px 26px;
+    position: relative;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(0, 240, 255, 0.14), transparent 45%),
+        radial-gradient(circle at 90% 10%, rgba(138, 43, 226, 0.16), transparent 40%),
+        var(--bg-surface, #121217);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 60px rgba(0, 240, 255, 0.14), 0 30px 80px rgba(0, 0, 0, 0.6);
+    transform: translateY(36px) scale(0.96);
+    transition: transform 0.4s cubic-bezier(0.2, 1.2, 0.3, 1);
+}
+.gami-roulette-overlay.open .gami-roulette-modal { transform: translateY(0) scale(1); }
+
+.gami-roulette-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+.gami-roulette-head h3 {
+    font-size: 1.35rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.gami-roulette-head h3 .gami-title-neon {
+    color: var(--neon-blue);
+    text-shadow: 0 0 14px rgba(0, 240, 255, 0.75);
+}
+.gami-roulette-modal > p {
+    color: var(--text-muted);
+    font-size: 0.86rem;
+    margin: 2px 0 16px;
+}
+.gami-close-btn {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.35);
+    color: var(--text-light);
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.gami-close-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 14px rgba(255, 0, 60, 0.4);
+    transform: rotate(90deg);
+}
+
+/* Wheel */
+.gami-wheel-stage {
+    position: relative;
+    width: min(300px, 78vw);
+    height: min(300px, 78vw);
+    margin: 8px auto 4px;
+}
+.gami-wheel {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    transform: rotate(0deg);
+    will-change: transform;
+    border: 4px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 0 0 6px rgba(0, 240, 255, 0.08),
+        0 0 34px rgba(0, 240, 255, 0.28),
+        inset 0 0 34px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+    background: #0b0b12;
+}
+.gami-wheel.spinning { transition: transform 4.2s cubic-bezier(0.12, 0.75, 0.06, 1); }
+.gami-wheel-seg {
+    position: absolute;
+    inset: 0;
+    /* slice colours are set inline per segment */
+}
+.gami-seg-icon {
+    position: absolute;
+    top: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(1rem, 4.4vw, 1.45rem);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.85));
+}
+.gami-wheel-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 27%;
+    height: 27%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.3rem, 6vw, 1.9rem);
+    background: radial-gradient(circle at 32% 28%, #1c1c28, #0a0a10 70%);
+    border: 2px solid rgba(0, 240, 255, 0.6);
+    box-shadow: 0 0 22px rgba(0, 240, 255, 0.5), inset 0 0 14px rgba(0, 240, 255, 0.2);
+    z-index: 3;
+    pointer-events: none;
+}
+.gami-wheel.spinning ~ .gami-wheel-hub,
+.gami-roulette-overlay.spinning .gami-wheel-hub { animation: gamiHubSpin 0.5s linear infinite; }
+@keyframes gamiHubSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+.gami-wheel-pointer {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 26px solid var(--neon-blue);
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.9));
+    z-index: 4;
+}
+.gami-wheel-pointer::after {
+    content: '';
+    position: absolute;
+    top: -27px;
+    left: -8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--neon-blue);
+    box-shadow: 0 0 12px var(--neon-blue);
+}
+.gami-wheel-lights {
+    position: absolute;
+    inset: -13px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+}
+.gami-wheel-lights span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px;
+    border-radius: 50%;
+    background: #ffe66d;
+    box-shadow: 0 0 8px #ffe66d;
+    opacity: 0.35;
+    animation: gamiBulb 1.2s ease-in-out infinite;
+}
+@keyframes gamiBulb { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+.gami-spin-status {
+    text-align: center;
+    min-height: 26px;
+    margin-top: 10px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    font-weight: 500;
+}
+.gami-spin-status.highlight {
+    color: var(--neon-blue);
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+}
+
+/* Result card */
+.gami-roulette-result {
+    display: none;
+    margin-top: 14px;
+    border-radius: 18px;
+    padding: 16px;
+    background: linear-gradient(160deg, rgba(0, 240, 255, 0.07), rgba(138, 43, 226, 0.08));
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.2, 1.1, 0.3, 1);
+}
+.gami-roulette-result.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+.gami-result-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #071018;
+    background: linear-gradient(45deg, var(--neon-blue), #a6faff);
+    padding: 4px 12px;
+    border-radius: 12px;
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.5);
+    margin-bottom: 12px;
+}
+.gami-result-body {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+}
+.gami-result-poster {
+    width: 118px;
+    min-height: 160px;
+    flex: 0 0 auto;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 240, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    background: #0b0b12;
+}
+.gami-result-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.gami-result-info h4 {
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1.35;
+}
+.gami-result-info .gami-result-title-en {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    color: var(--neon-blue);
+    opacity: 0.85;
+    margin: 3px 0 8px;
+}
+.gami-result-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffd166;
+    font-weight: 800;
+    font-size: 1rem;
+    text-shadow: 0 0 10px rgba(255, 209, 102, 0.45);
+}
+.gami-result-genre {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    margin: 6px 0 8px;
+}
+.gami-result-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.gami-result-meta span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: var(--text-light);
+    background: rgba(255, 255, 255, 0.05);
+}
+.gami-result-desc {
+    font-size: 0.83rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-top: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.gami-result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+.gami-btn {
+    flex: 1 1 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+.gami-btn:active { transform: scale(0.95); }
+.gami-btn-play {
+    background: linear-gradient(45deg, var(--accent), #ff5f8f);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(255, 0, 60, 0.45);
+}
+.gami-btn-play:hover { transform: translateY(-2px); box-shadow: 0 0 28px rgba(255, 0, 60, 0.65); }
+.gami-btn-download {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: rgba(0, 240, 255, 0.45);
+    color: var(--neon-blue);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+.gami-btn-download:hover {
+    transform: translateY(-2px);
+    background: rgba(0, 240, 255, 0.18);
+    box-shadow: 0 0 22px rgba(0, 240, 255, 0.4);
+}
+.gami-btn-again {
+    background: linear-gradient(45deg, var(--neon-purple), #b06cff);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(138, 43, 226, 0.45);
+}
+.gami-btn-again:hover { transform: translateY(-2px); box-shadow: 0 0 26px rgba(138, 43, 226, 0.65); }
+.gami-btn-again:disabled {
+    filter: grayscale(0.6) brightness(0.7);
+    cursor: not-allowed;
+    transform: none;
+}
+@media (max-width: 480px) {
+    .gami-result-body { flex-direction: column; }
+    .gami-result-poster { width: 100%; min-height: 190px; }
+    .gami-result-actions { flex-direction: column; }
+}
+
+/* ========================================================================= */
+/* 3) MOOD & VIBE EXPLORER — «الان تو چه حس و حالی هستی؟»                   */
+/* ========================================================================= */
+
+.mood-explorer .row-header { margin-bottom: 18px; }
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+.mood-card {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 22px 14px 18px;
+    min-height: 148px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text-light);
+    background: var(--glass-bg);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.mood-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--mood-grad, linear-gradient(135deg, var(--neon-purple), var(--neon-blue)));
+    opacity: 0.16;
+    transition: opacity 0.35s ease;
+}
+.mood-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 3px;
+    background: var(--mood-grad, linear-gradient(90deg, var(--neon-purple), var(--neon-blue)));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+.mood-card > * { position: relative; z-index: 1; }
+.mood-emoji {
+    font-size: 2rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
+    transition: transform 0.35s ease;
+}
+.mood-card h3 { font-size: 0.98rem; font-weight: 800; }
+.mood-card .mood-tagline { font-size: 0.74rem; color: var(--text-muted); line-height: 1.7; }
+.mood-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.45), 0 0 24px var(--mood-glow, rgba(138, 43, 226, 0.35));
+}
+.mood-card:hover::before { opacity: 0.3; }
+.mood-card:hover .mood-emoji { transform: scale(1.18) rotate(-6deg); }
+.mood-card.active {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px var(--mood-glow, rgba(138, 43, 226, 0.6)), 0 12px 34px rgba(0, 0, 0, 0.5), 0 0 30px var(--mood-glow, rgba(138, 43, 226, 0.4));
+}
+.mood-card.active::before { opacity: 0.34; }
+.mood-card.active::after { transform: scaleX(1); }
+.mood-card[data-mood="adrenaline"] { --mood-grad: linear-gradient(135deg, #ff003c, #ffaa00); --mood-glow: rgba(255, 0, 60, 0.45); }
+.mood-card[data-mood="mystery"]    { --mood-grad: linear-gradient(135deg, #2b0a6b, #00d9a6); --mood-glow: rgba(45, 212, 191, 0.4); }
+.mood-card[data-mood="epic"]       { --mood-grad: linear-gradient(135deg, #b8860b, #ffd200); --mood-glow: rgba(255, 200, 60, 0.4); }
+.mood-card[data-mood="cyber"]      { --mood-grad: linear-gradient(135deg, #00f0ff, #8a2be2); --mood-glow: rgba(0, 240, 255, 0.45); }
+.mood-card[data-mood="feels"]      { --mood-grad: linear-gradient(135deg, #fc466b, #f7971e); --mood-glow: rgba(252, 70, 107, 0.4); }
+@media (max-width: 1024px) { .mood-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px)  { .mood-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Mood results */
+.mood-results {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 18px;
+}
+.mood-results[hidden] { display: none; }
+.mood-anime-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-surface, #121217);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    animation: moodCardIn 0.5s cubic-bezier(0.2, 1, 0.3, 1) both;
+}
+@keyframes moodCardIn {
+    from { opacity: 0; transform: translateY(22px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.mood-anime-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 240, 255, 0.45);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55), 0 0 26px var(--mood-glow, rgba(0, 240, 255, 0.3));
+}
+.mood-anime-poster {
+    position: relative;
+    height: 168px;
+    overflow: hidden;
+}
+.mood-anime-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+.mood-anime-card:hover .mood-anime-poster img { transform: scale(1.07); }
+.mood-anime-poster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--bg-surface, #121217) 4%, transparent 55%);
+}
+.mood-anime-rating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 11px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #ffd166;
+    background: rgba(5, 6, 10, 0.72);
+    border: 1px solid rgba(255, 209, 102, 0.35);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+.mood-anime-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 9px;
+    color: #061018;
+    background: linear-gradient(45deg, #7df9ff, var(--neon-blue));
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+}
+.mood-anime-status.finished { background: linear-gradient(45deg, #d4fc79, #96e6a1); box-shadow: 0 0 12px rgba(150, 230, 161, 0.45); }
+.mood-anime-body { padding: 13px 15px 15px; }
+.mood-anime-body h4 { font-size: 1.02rem; font-weight: 900; }
+.mood-anime-body .mood-anime-sub {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 1.6px;
+    color: var(--neon-blue);
+    opacity: 0.8;
+    margin: 4px 0 8px;
+}
+.mood-anime-genres {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mood-anime-actions { display: flex; gap: 8px; }
+.mood-anime-actions .gami-btn { padding: 9px 14px; font-size: 0.8rem; border-radius: 12px; }
+.mood-anime-actions .gami-btn-details {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: var(--text-light);
+}
+.mood-anime-actions .gami-btn-details:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
+.mood-clear-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    transition: 0.3s;
+}
+.mood-clear-btn:hover { color: var(--text-light); border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.08); }
+
+/* ========================================================================= */
+/* 4) OTAKU LEVEL & XP — profile                                            */
+/* ========================================================================= */
+
+.otaku-level-box {
+    position: relative;
+    border-radius: 20px;
+    padding: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    background:
+        radial-gradient(circle at 88% -10%, rgba(138, 43, 226, 0.22), transparent 45%),
+        radial-gradient(circle at 0% 110%, rgba(0, 240, 255, 0.14), transparent 45%),
+        var(--bg-surface, #121217);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 26px rgba(138, 43, 226, 0.12);
+}
+.otaku-level-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+.otaku-level-emblem {
+    width: 76px;
+    height: 76px;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    border-radius: 22px;
+    background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02) 65%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 0 24px rgba(138, 43, 226, 0.35), inset 0 0 18px rgba(138, 43, 226, 0.18);
+    animation: otakuEmblemFloat 3.4s ease-in-out infinite;
+}
+@keyframes otakuEmblemFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
+}
+.otaku-level-copy { flex: 1; min-width: 220px; }
+.otaku-level-copy .otaku-level-name {
+    font-size: 1.35rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.otaku-level-copy .otaku-level-name .otaku-level-tag {
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #071018;
+    padding: 4px 11px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, var(--neon-blue), #a6faff);
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.5);
+}
+.otaku-level-sub {
+    color: var(--text-muted);
+    font-size: 0.86rem;
+    margin-top: 6px;
+    line-height: 1.8;
+}
+.otaku-xp-total {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--neon-blue);
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.55);
+    white-space: nowrap;
+}
+.otaku-xp-total small { color: var(--text-muted); font-family: 'Vazirmatn', sans-serif; font-size: 0.72rem; }
+
+.otaku-xp-track {
+    position: relative;
+    height: 16px;
+    margin-top: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+.otaku-xp-fill {
+    position: absolute;
+    inset: 0;
+    width: 0%;
+    border-radius: 9px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue), #7df9ff);
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+    transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.otaku-xp-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.5) 50%, transparent 65%);
+    background-size: 220% 100%;
+    animation: otakuXpShimmer 2.2s linear infinite;
+}
+@keyframes otakuXpShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.otaku-xp-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 7px;
+}
+.otaku-xp-labels .otaku-xp-next { color: var(--neon-blue); font-weight: 700; }
+
+.otaku-ladder {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 22px;
+}
+.otaku-ladder-step {
+    position: relative;
+    text-align: center;
+    padding: 12px 6px 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.025);
+    transition: 0.35s;
+}
+.otaku-ladder-step .ladder-emoji { font-size: 1.25rem; display: block; margin-bottom: 6px; filter: grayscale(1) opacity(0.45); transition: 0.35s; }
+.otaku-ladder-step .ladder-name { font-size: 0.72rem; font-weight: 800; color: var(--text-muted); display: block; }
+.otaku-ladder-step .ladder-xp { font-size: 0.62rem; color: var(--text-muted); opacity: 0.75; font-family: 'Orbitron', sans-serif; }
+.otaku-ladder-step.done { border-color: rgba(0, 240, 255, 0.35); background: rgba(0, 240, 255, 0.06); }
+.otaku-ladder-step.done .ladder-emoji { filter: none; }
+.otaku-ladder-step.done .ladder-name { color: var(--text-light); }
+.otaku-ladder-step.current {
+    border-color: rgba(0, 240, 255, 0.7);
+    background: linear-gradient(180deg, rgba(0, 240, 255, 0.14), rgba(138, 43, 226, 0.1));
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    transform: translateY(-3px);
+}
+.otaku-ladder-step.current .ladder-emoji { filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.8)); }
+.otaku-ladder-step.current .ladder-name { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+.otaku-ladder-step.current::after {
+    content: 'سطح فعلی';
+    position: absolute;
+    top: -9px;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 0.56rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 8px;
+    color: #071018;
+    background: linear-gradient(45deg, var(--neon-blue), #a6faff);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.55);
+    white-space: nowrap;
+}
+@media (max-width: 640px) {
+    .otaku-ladder { grid-template-columns: repeat(3, 1fr); }
+    .otaku-ladder-step.current::after { display: none; }
+}
+
+/* ========================================================================= */
+/* 5) BADGE SHOWCASE — ویترین ۷ نشان                                        */
+/* ========================================================================= */
+
+.badge-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    gap: 14px;
+}
+.badge-card {
+    position: relative;
+    border-radius: 18px;
+    padding: 20px 16px 16px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: var(--bg-surface, #121217);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.badge-card:hover { transform: translateY(-5px); }
+.badge-medal {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02) 68%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.badge-medal::before {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.16);
+}
+.badge-card.unlocked { border-color: rgba(255, 209, 102, 0.45); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 22px rgba(255, 209, 102, 0.14); }
+.badge-card.unlocked .badge-medal {
+    border-color: rgba(255, 209, 102, 0.65);
+    box-shadow: 0 0 22px rgba(255, 209, 102, 0.4), inset 0 0 14px rgba(255, 209, 102, 0.22);
+    animation: badgeMedalGlow 2.8s ease-in-out infinite;
+}
+.badge-card.unlocked .badge-medal::before {
+    border-color: rgba(255, 209, 102, 0.5);
+    animation: badgeRingSpin 14s linear infinite;
+}
+@keyframes badgeRingSpin { to { transform: rotate(360deg); } }
+@keyframes badgeMedalGlow {
+    0%, 100% { box-shadow: 0 0 16px rgba(255, 209, 102, 0.3), inset 0 0 12px rgba(255, 209, 102, 0.16); }
+    50%      { box-shadow: 0 0 30px rgba(255, 209, 102, 0.55), inset 0 0 18px rgba(255, 209, 102, 0.28); }
+}
+.badge-card.locked .badge-medal { filter: grayscale(1); opacity: 0.5; }
+.badge-card.locked .badge-medal::before { border-style: solid; border-color: rgba(255, 255, 255, 0.12); }
+.badge-card h4 { font-size: 0.95rem; font-weight: 900; }
+.badge-card.locked h4 { color: var(--text-muted); }
+.badge-card .badge-desc {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin: 7px 0 10px;
+    min-height: 40px;
+}
+.badge-card .badge-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 10px;
+}
+.badge-card.unlocked .badge-state {
+    color: #1f1500;
+    background: linear-gradient(45deg, #ffd166, #ffe9a8);
+    box-shadow: 0 0 14px rgba(255, 209, 102, 0.5);
+}
+.badge-card.locked .badge-state {
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+}
+.badge-card .badge-xp {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: var(--neon-blue);
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.28);
+    border-radius: 8px;
+    padding: 3px 7px;
+}
+.badge-card .badge-date {
+    font-size: 0.64rem;
+    color: #ffd166;
+    margin-top: 7px;
+    display: block;
+}
+.otaku-badge-count {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #ffd166;
+    background: rgba(255, 209, 102, 0.1);
+    border: 1px solid rgba(255, 209, 102, 0.35);
+    padding: 5px 14px;
+    border-radius: 12px;
+}
+
+/* ========================================================================= */
+/* 6) BADGE UNLOCK POPUP — نوتیفیکیشن گرافیکی                               */
+/* ========================================================================= */
+
+.gami-unlock-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 6500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(3, 4, 9, 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.gami-unlock-overlay.open { opacity: 1; visibility: visible; }
+
+.gami-unlock-card {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    padding: 40px 30px 28px;
+    border-radius: 26px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% -20%, rgba(255, 209, 102, 0.2), transparent 55%),
+        var(--bg-surface, #121217);
+    border: 1px solid rgba(255, 209, 102, 0.5);
+    box-shadow: 0 0 70px rgba(255, 209, 102, 0.18), 0 30px 70px rgba(0, 0, 0, 0.65);
+    transform: scale(0.7);
+    transition: transform 0.5s cubic-bezier(0.2, 1.4, 0.3, 1);
+}
+.gami-unlock-overlay.open .gami-unlock-card { transform: scale(1); }
+
+.gami-unlock-card .gami-unlock-kicker {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+}
+.gami-unlock-medal {
+    position: relative;
+    width: 118px;
+    height: 118px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.1rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02) 70%);
+    border: 2px solid rgba(255, 209, 102, 0.75);
+    box-shadow: 0 0 42px rgba(255, 209, 102, 0.55), inset 0 0 22px rgba(255, 209, 102, 0.3);
+    animation: gamiUnlockPop 0.7s cubic-bezier(0.2, 1.6, 0.35, 1) both;
+}
+@keyframes gamiUnlockPop {
+    from { transform: scale(0) rotate(-140deg); }
+    to   { transform: scale(1) rotate(0deg); }
+}
+.gami-unlock-medal::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 209, 102, 0.55);
+    animation: badgeRingSpin 9s linear infinite;
+}
+.gami-unlock-medal::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 209, 102, 0.8);
+    animation: gamiUnlockRipple 1.6s ease-out infinite;
+}
+@keyframes gamiUnlockRipple {
+    from { transform: scale(0.92); opacity: 0.9; }
+    to   { transform: scale(1.45); opacity: 0; }
+}
+.gami-unlock-card h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #ffd166;
+    text-shadow: 0 0 18px rgba(255, 209, 102, 0.55);
+}
+.gami-unlock-card .gami-unlock-desc {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin: 10px 0 6px;
+}
+.gami-unlock-card .gami-unlock-xp {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--neon-blue);
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+    margin-bottom: 20px;
+    display: block;
+}
+.gami-unlock-close {
+    padding: 11px 34px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #1f1500;
+    background: linear-gradient(45deg, #ffd166, #ffe9a8);
+    box-shadow: 0 0 24px rgba(255, 209, 102, 0.55);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.gami-unlock-close:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 0 34px rgba(255, 209, 102, 0.75); }
+
+/* Confetti sparks */
+.gami-confetti {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: gamiConfettiFly 1.15s ease-out forwards;
+    animation-delay: var(--d, 0s);
+}
+@keyframes gamiConfettiFly {
+    0%   { transform: translate(-50%, -50%) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, -120px))) rotate(var(--rot, 180deg)) scale(0.4); opacity: 0; }
+}
+
+/* ========================================================================= */
+/* 7) LIGHT THEME ADJUSTMENTS                                                */
+/* ========================================================================= */
+
+:root[data-theme="light"] .gami-roulette-overlay,
+:root[data-theme="light"] .gami-unlock-overlay { background: rgba(240, 242, 248, 0.8); }
+:root[data-theme="light"] .gami-nav-btn { color: #14161a; }
+:root[data-theme="light"] .gami-close-btn { background: rgba(0, 0, 0, 0.05); color: #14161a; }
+:root[data-theme="light"] .gami-result-meta span,
+:root[data-theme="light"] .badge-card .badge-desc { color: #5c636b; }
+:root[data-theme="light"] .gami-btn-download { color: #007c8f; }
+:root[data-theme="light"] .mood-anime-poster::after { background: linear-gradient(to top, #ffffff 4%, transparent 55%); }

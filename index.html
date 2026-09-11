@@ -38,6 +38,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="download.css">
+    <link rel="stylesheet" href="gamification.css">
 </head>
 <body>
 
@@ -609,6 +610,41 @@
             </div>
         </section>
 
+        <!-- SECTION: Mood & Vibe Explorer (gamification) -->
+        <section class="anime-row mt-large reveal mood-explorer" id="moodExplorer" aria-labelledby="moodExplorerHeading">
+            <div class="row-header">
+                <h2 class="row-title" id="moodExplorerHeading">الان تو چه حس و حالی هستی؟ <span class="accent">💫</span></h2>
+            </div>
+            <div class="mood-grid" id="moodGrid">
+                <button type="button" class="mood-card" data-mood="adrenaline">
+                    <span class="mood-emoji">⚡</span>
+                    <h3>آدرنالین و هیجان</h3>
+                    <span class="mood-tagline">دلت می‌خواد ضربان قلبت بره بالا؟</span>
+                </button>
+                <button type="button" class="mood-card" data-mood="mystery">
+                    <span class="mood-emoji">🕯️</span>
+                    <h3>معمایی و فسفرسوز</h3>
+                    <span class="mood-tagline">معمایی ذهن‌سوز برای شب‌های بیداری</span>
+                </button>
+                <button type="button" class="mood-card" data-mood="epic">
+                    <span class="mood-emoji">🗺️</span>
+                    <h3>حماسی و ماجراجویانه</h3>
+                    <span class="mood-tagline">سفرهایی به دنیاهای بزرگ و ناشناخته</span>
+                </button>
+                <button type="button" class="mood-card" data-mood="cyber">
+                    <span class="mood-emoji">🌃</span>
+                    <h3>سایبرپانک و خاص</h3>
+                    <span class="mood-tagline">نئون، سایفر و آینده‌ی پادآرمان‌شهری</span>
+                </button>
+                <button type="button" class="mood-card" data-mood="feels">
+                    <span class="mood-emoji">💫</span>
+                    <h3>انگیزشی و احساسی</h3>
+                    <span class="mood-tagline">قصه‌هایی که به روحت قدرت می‌دهند</span>
+                </button>
+            </div>
+            <div class="mood-results" id="moodResults" hidden></div>
+        </section>
+
         <!-- NEW SECTION: Blog / News -->
         <section class="anime-row mt-large reveal" id="news">
             <div class="row-header">
@@ -1130,6 +1166,7 @@
     <script src="data/anime.js"></script>
     <script src="auth.js"></script>
     <script src="script.js"></script>
+    <script src="gamification.js"></script>
 
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
