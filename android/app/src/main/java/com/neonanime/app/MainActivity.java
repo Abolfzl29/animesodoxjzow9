@@ -47,7 +47,9 @@ public class MainActivity extends Activity {
         });
 
         setContentView(webView);
-        webView.loadUrl("file:///android_asset/web/index.html");
+        // The Android build is the site-management app. It contains a link
+        // back to the public site and a separate infrastructure console.
+        webView.loadUrl("file:///android_asset/web/admin.html");
     }
 
     @Override

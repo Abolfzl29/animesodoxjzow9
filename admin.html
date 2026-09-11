@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت سایت | Neon Anime</title>
+    <meta name="description" content="پنل مدیریت کامل محتوای نئون انیمه؛ کاتالوگ، مجله، کاربران، نظرات، برنامه پخش و انتشار.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0a0b12">
+    <script>
+        (function () {
+            try {
+                if (localStorage.getItem('neon_theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
+            } catch (e) {}
+        })();
+    </script>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/Orbitron-Variable.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-app">
+        <aside class="admin-sidebar" id="adminSidebar" aria-label="منوی مدیریت">
+            <div class="sidebar-brand">
+                <a href="index.html" class="admin-logo">NEON<span>.</span>ANIME</a>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            <div class="workspace-card">
+                <div class="workspace-avatar">N</div>
+                <div><strong>Neon Workspace</strong><small><i></i> پیش‌نمایش امن</small></div>
+                <button type="button" aria-label="تغییر workspace">⌄</button>
+            </div>
+            <div class="sidebar-caption">مدیریت سایت</div>
+            <nav class="admin-nav">
+                <a class="admin-nav-link active" href="#dashboard" data-admin-section="dashboard"><span>⌂</span><b>نمای کلی</b><small>01</small></a>
+                <a class="admin-nav-link" href="#content" data-admin-section="content"><span>▣</span><b>کاتالوگ انیمه</b><small>02</small></a>
+                <a class="admin-nav-link" href="#articles" data-admin-section="articles"><span>▤</span><b>مجله و مقاله‌ها</b><small>03</small></a>
+                <a class="admin-nav-link" href="#users" data-admin-section="users"><span>♙</span><b>کاربران و VIP</b><small>04</small></a>
+                <a class="admin-nav-link" href="#moderation" data-admin-section="moderation"><span>◌</span><b>نظرات و گزارش‌ها</b><small>05</small></a>
+                <a class="admin-nav-link" href="#schedule" data-admin-section="schedule"><span>◷</span><b>برنامه پخش</b><small>06</small></a>
+                <a class="admin-nav-link" href="#settings" data-admin-section="settings"><span>⚙</span><b>تنظیمات سایت</b><small>07</small></a>
+                <a class="admin-nav-link" href="#deployment" data-admin-section="deployment"><span>▲</span><b>انتشار و سرور</b><small>08</small></a>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="safe-box"><span>◈</span><div><strong>محافظت فعال</strong><small>secretها در پنل نمایش داده نمی‌شوند</small></div></div>
+                <a href="control-center.html" class="ops-link">◈ کنسول زیرساخت <span>↗</span></a>
+                <a href="index.html" class="back-site">← بازگشت به سایت اصلی</a>
+            </div>
+        </aside>
+
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <button class="mobile-menu" id="mobileMenu" type="button" aria-label="باز کردن منوی مدیریت"><i></i><i></i><i></i></button>
+                    <div class="crumbs"><span>NEON.ANIME</span><b>/</b><strong>پنل مدیریت</strong></div>
+                </div>
+                <div class="topbar-center"><label class="global-search"><span>⌕</span><input id="globalSearch" type="search" placeholder="جستجو در کاتالوگ، کاربران..." autocomplete="off"><kbd>⌘ K</kbd></label></div>
+                <div class="topbar-right">
+                    <span class="preview-pill"><i></i> DEMO MODE</span>
+                    <button class="top-icon theme-toggle" id="themeToggle" type="button" aria-label="تغییر تم"><span class="moon">☾</span><span class="sun">☀</span></button>
+                    <button class="notification-button" id="notificationButton" type="button" aria-label="اعلان‌ها">♢<i></i></button>
+                    <a href="profile.html" class="admin-user"><span class="user-initial">A</span><span><b>مدیر سایت</b><small>owner access</small></span></a>
+                </div>
+            </header>
+
+            <main class="admin-content">
+                <section class="admin-panel-section active-panel" id="dashboard" data-admin-panel="dashboard">
+                    <div class="admin-hero">
+                        <div><div class="eyebrow">SITE CONTROL / 01</div><h1>سلام، مدیر <em>نئون</em></h1><p>همه‌چیز از کاتالوگ تا کاربران و انتشار را از یک پنل کنترل کن.</p></div>
+                        <div class="hero-actions"><button class="admin-button primary" id="quickAddButton" type="button">＋ افزودن عنوان</button><a class="admin-button ghost" href="index.html" target="_blank" rel="noopener">مشاهده سایت ↗</a></div>
+                    </div>
+                    <div class="demo-notice"><span>!</span><div><strong>پنل در حالت پیش‌نمایش است</strong><small>تغییرات این نسخه در localStorage مرورگر ذخیره می‌شوند. برای مدیریت واقعی چندکاربره باید API احراز هویت‌شده وصل شود؛ secretها هرگز در APK یا مرورگر ذخیره نمی‌شوند.</small></div><button id="dismissAdminNotice" type="button" aria-label="بستن">×</button></div>
+                    <div class="admin-stats">
+                        <article class="admin-stat pink"><div><span>کل عناوین</span><strong id="statTitles">—</strong><small><i></i> کاتالوگ فعال</small></div><b>▣</b></article>
+                        <article class="admin-stat cyan"><div><span>کاربران ثبت‌شده</span><strong id="statUsers">12,842</strong><small><i></i> +۸.۲٪ این ماه</small></div><b>♙</b></article>
+                        <article class="admin-stat purple"><div><span>اشتراک‌های VIP</span><strong id="statVip">1,284</strong><small><i></i> ۷۲٪ تمدید</small></div><b>✦</b></article>
+                        <article class="admin-stat green"><div><span>درآمد ماهانه</span><strong>۲۴۸<span>م</span></strong><small><i></i> تومان · نمونه</small></div><b>↗</b></article>
+                    </div>
+                    <div class="dashboard-grid">
+                        <article class="admin-card traffic-card"><div class="card-heading"><div><span class="card-kicker">ANALYTICS / LIVE</span><h2>رشد بازدید سایت</h2></div><select aria-label="دوره نمودار"><option>۷ روز اخیر</option><option>۳۰ روز اخیر</option></select></div><div class="traffic-total">۸۴,۲۱۰ <small>بازدید یکتا <b>+۱۲.۴٪</b></small></div><div class="traffic-chart"><div class="chart-labels"><span>۱۰۰k</span><span>۷۵k</span><span>۵۰k</span><span>۲۵k</span><span>۰</span></div><div class="chart-bars"><i style="height:38%" data-label="شنبه"></i><i style="height:49%" data-label="یکشنبه"></i><i style="height:43%" data-label="دوشنبه"></i><i style="height:68%" data-label="سه‌شنبه"></i><i style="height:58%" data-label="چهارشنبه"></i><i style="height:82%" data-label="پنجشنبه"></i><i style="height:72%" data-label="جمعه"></i></div></div><div class="chart-footer"><span><i class="dot pink-dot"></i> بازدید کاربران</span><span>داده نمونه تا اتصال analytics</span></div></article>
+                        <article class="admin-card quick-card"><div class="card-heading"><div><span class="card-kicker">QUICK ACCESS</span><h2>دسترسی سریع</h2></div><span class="card-more">•••</span></div><div class="quick-grid"><button type="button" data-quick="content"><span class="quick-icon pink-icon">▣</span><b>مدیریت کاتالوگ</b><small>عنوان و قسمت‌ها</small></button><button type="button" data-quick="articles"><span class="quick-icon cyan-icon">▤</span><b>نوشتن مقاله</b><small>مجله نئون</small></button><button type="button" data-quick="users"><span class="quick-icon purple-icon">♙</span><b>کاربران</b><small>نقش و اشتراک</small></button><button type="button" data-quick="deployment"><span class="quick-icon green-icon">▲</span><b>انتشار تغییرات</b><small>Deploy امن</small></button></div></article>
+                        <article class="admin-card recent-card"><div class="card-heading"><div><span class="card-kicker">AUDIT TRAIL</span><h2>آخرین تغییرات</h2></div><button class="link-button" data-jump="deployment" type="button">همه رویدادها ↗</button></div><div class="audit-list" id="auditList"><div><span class="audit-icon green-icon">✓</span><p><b>قسمت جدید اضافه شد</b><small>شیطان‌کش · ۱۲ دقیقه پیش</small></p><em>موفق</em></div><div><span class="audit-icon purple-icon">✎</span><p><b>مقاله ویرایش شد</b><small>نقد سایبرپانک · ۴۵ دقیقه پیش</small></p><em>منتشر</em></div><div><span class="audit-icon cyan-icon">♙</span><p><b>نقش کاربر تغییر کرد</b><small>admin@neon.example · ۲ ساعت پیش</small></p><em>ثبت شد</em></div></div></article>
+                    </div>
+                </section>
+
+                <section class="admin-panel-section" id="content" data-admin-panel="content">
+                    <div class="section-title-row"><div><div class="eyebrow">CONTENT / 02</div><h1>کاتالوگ انیمه</h1><p>عنوان‌ها، فصل‌ها و قسمت‌های سایت را مدیریت کن.</p></div><div class="title-actions"><button class="admin-button ghost" id="exportCatalog" type="button">⇩ خروجی JSON</button><button class="admin-button primary" id="addTitleButton" type="button">＋ عنوان جدید</button></div></div>
+                    <div class="content-toolbar"><label class="table-search"><span>⌕</span><input id="contentSearch" type="search" placeholder="جستجوی عنوان..." autocomplete="off"></label><select id="contentStatus" aria-label="فیلتر وضعیت"><option value="all">همه وضعیت‌ها</option><option value="airing">در حال پخش</option><option value="finished">پایان‌یافته</option><option value="draft">پیش‌نویس</option></select><span class="result-count" id="contentCount">— عنوان</span></div>
+                    <div class="admin-card table-card"><div class="table-scroll"><table class="admin-table"><thead><tr><th>عنوان</th><th>وضعیت</th><th>امتیاز</th><th>قسمت‌ها</th><th>آخرین تغییر</th><th></th></tr></thead><tbody id="contentTable"></tbody></table></div><div class="table-empty" id="contentEmpty" hidden>عنوانی با این فیلتر پیدا نشد.</div></div>
+                </section>
+
+                <section class="admin-panel-section" id="articles" data-admin-panel="articles">
+                    <div class="section-title-row"><div><div class="eyebrow">MAGAZINE / 03</div><h1>مجله و مقاله‌ها</h1><p>محتوای تحریریه، دسته‌بندی‌ها و زمان انتشار.</p></div><button class="admin-button primary" id="newArticleButton" type="button">＋ مقاله جدید</button></div>
+                    <div class="article-admin-grid" id="articleGrid"></div>
+                </section>
+
+                <section class="admin-panel-section" id="users" data-admin-panel="users">
+                    <div class="section-title-row"><div><div class="eyebrow">PEOPLE / 04</div><h1>کاربران و اشتراک‌ها</h1><p>نقش‌ها و وضعیت اشتراک را از اینجا مدیریت کن.</p></div><button class="admin-button ghost" id="exportUsers" type="button">⇩ خروجی کاربران</button></div>
+                    <div class="user-overview"><div class="user-segment"><span class="segment-label">توزیع کاربران</span><div class="donut"><strong>۱۲.۸k</strong><small>کاربر</small></div><div class="segment-legend"><span><i class="seg-pink"></i> عادی <b>۸۹٪</b></span><span><i class="seg-purple"></i> VIP <b>۱۰٪</b></span><span><i class="seg-cyan"></i> ادمین <b>۱٪</b></span></div></div><div class="user-mini-stats"><div><span>ثبت‌نام امروز</span><strong>+۱۲۸</strong><small>در مقایسه با دیروز <b>+۱۴٪</b></small></div><div><span>کاربران فعال</span><strong>۸,۴۲۱</strong><small>در ۲۴ ساعت گذشته</small></div><div><span>در انتظار تأیید</span><strong>۲۳</strong><small class="warning-text">نیازمند بررسی</small></div></div></div>
+                    <div class="admin-card table-card user-table-card"><div class="table-scroll"><table class="admin-table"><thead><tr><th>کاربر</th><th>نقش</th><th>اشتراک</th><th>آخرین فعالیت</th><th>وضعیت</th><th></th></tr></thead><tbody id="userTable"></tbody></table></div></div>
+                </section>
+
+                <section class="admin-panel-section" id="moderation" data-admin-panel="moderation">
+                    <div class="section-title-row"><div><div class="eyebrow">TRUST & SAFETY / 05</div><h1>نظرات و گزارش‌ها</h1><p>صف بررسی نظرات گزارش‌شده و محتوای نامناسب.</p></div><span class="pending-badge"><i></i> ۶ مورد در انتظار</span></div>
+                    <div class="moderation-layout"><div class="admin-card moderation-list" id="moderationList"></div><aside class="admin-card moderation-guide"><span class="guide-icon">◈</span><h3>راهنمای مدیریت محتوا</h3><p>قبل از حذف، متن و سابقه کاربر را بررسی کن. اقدام‌های واقعی باید از API احراز هویت‌شده انجام شوند.</p><ul><li>حذف دائمی برگشت‌پذیر نیست.</li><li>کاربر متخلف را موقتاً محدود کن.</li><li>دلیل اقدام را در audit log ثبت کن.</li></ul><button class="link-button" type="button" data-toast="راهنمای قوانین در نسخه بعدی اضافه می‌شود.">مشاهده قوانین ↗</button></aside></div>
+                </section>
+
+                <section class="admin-panel-section" id="schedule" data-admin-panel="schedule">
+                    <div class="section-title-row"><div><div class="eyebrow">RELEASE CALENDAR / 06</div><h1>برنامه پخش</h1><p>انتشار قسمت‌ها و زمان‌بندی اعلان‌ها.</p></div><button class="admin-button primary" id="scheduleButton" type="button">＋ زمان‌بندی جدید</button></div>
+                    <div class="schedule-admin-card admin-card"><div class="schedule-days"><button class="active" type="button">شنبه <small>۲۳</small></button><button type="button">یکشنبه <small>۲۴</small></button><button type="button">دوشنبه <small>۲۵</small></button><button type="button">سه‌شنبه <small>۲۶</small></button><button type="button">چهارشنبه <small>۲۷</small></button><button type="button">پنجشنبه <small>۲۸</small></button><button type="button">جمعه <small>۲۹</small></button></div><div class="schedule-items" id="scheduleItems"></div></div>
+                </section>
+
+                <section class="admin-panel-section" id="settings" data-admin-panel="settings">
+                    <div class="section-title-row"><div><div class="eyebrow">WORKSPACE SETTINGS / 07</div><h1>تنظیمات سایت</h1><p>برند، ظاهر و رفتار عمومی سایت را تنظیم کن.</p></div><span class="saved-label" id="savedLabel">آخرین ذخیره: —</span></div>
+                    <form class="settings-layout" id="settingsForm"><div class="admin-card settings-card"><h2>اطلاعات عمومی</h2><p class="card-description">این تنظیمات در نسخه واقعی از API مدیریت خوانده می‌شوند.</p><label>نام سایت<input id="siteName" value="Neon Anime" required></label><label>توضیح کوتاه<textarea id="siteDescription" rows="3">پلتفرم تماشای آنلاین انیمه با دوبله و زیرنویس فارسی.</textarea></label><div class="form-row"><label>زبان پیش‌فرض<select id="siteLanguage"><option value="fa">فارسی</option><option value="en">English</option></select></label><label>منطقه زمانی<select id="siteTimezone"><option>Asia/Tehran</option><option>Europe/Paris</option><option>UTC</option></select></label></div></div><div class="admin-card settings-card"><h2>قابلیت‌های سایت</h2><p class="card-description">تغییر این گزینه‌ها نیازمند دسترسی مدیر ارشد است.</p><label class="switch-row"><span><b>ثبت‌نام کاربران</b><small>کاربر جدید بتواند حساب بسازد</small></span><input id="registrationToggle" type="checkbox" checked><i></i></label><label class="switch-row"><span><b>کامنت‌ها</b><small>نظرات بعد از ثبت در صف بررسی بروند</small></span><input id="commentsToggle" type="checkbox" checked><i></i></label><label class="switch-row danger-switch"><span><b>حالت تعمیرات</b><small>سایت عمومی را موقتاً قفل کن</small></span><input id="maintenanceToggle" type="checkbox"><i></i></label><div class="settings-secret-note">◈ کلید API و اطلاعات اتصال در این فرم وجود ندارد و باید سمت سرور تنظیم شود.</div></div><div class="settings-submit"><button class="admin-button primary" type="submit">ذخیره تنظیمات <span>✓</span></button></div></form>
+                </section>
+
+                <section class="admin-panel-section" id="deployment" data-admin-panel="deployment">
+                    <div class="section-title-row"><div><div class="eyebrow">RELEASE & INFRA / 08</div><h1>انتشار و سرور</h1><p>نسخه‌ها را بررسی و از طریق مسیر امن منتشر کن.</p></div><a class="admin-button ghost" href="control-center.html">کنسول زیرساخت ↗</a></div>
+                    <div class="deploy-grid"><article class="admin-card deploy-status"><div class="deploy-head"><span class="server-status"><i></i> آماده انتشار</span><span class="version-tag">v2.8.4</span></div><div class="deploy-server"><span class="server-symbol">⌁</span><div><h3>neon-prod-01</h3><p>production · HTTPS · EU / Frankfurt</p></div></div><div class="deploy-progress"><div><span>وضعیت سرویس</span><b>پایدار</b></div><div class="progress-line"><i style="width:96%"></i></div></div><button class="admin-button primary full" id="deployButton" type="button">بررسی و انتشار نسخه <span>↗</span></button></article><article class="admin-card release-history"><div class="card-heading"><div><span class="card-kicker">RELEASE HISTORY</span><h2>تاریخچه انتشار</h2></div><button class="link-button" type="button" data-toast="لاگ کامل در نسخه بک‌اند در دسترس است.">مشاهده همه</button></div><div class="release-list"><div><span class="release-mark success-mark">✓</span><p><b>v2.8.4</b><small>امروز · ۱۰:۲۴ · مدیر سایت</small></p><em>Production</em></div><div><span class="release-mark cyan-mark">↻</span><p><b>v2.8.3</b><small>دیروز · ۱۸:۰۲ · CI/CD</small></p><em>موفق</em></div><div><span class="release-mark muted-mark">○</span><p><b>v2.8.2</b><small>۳ روز پیش · مدیر سایت</small></p><em>Archive</em></div></div></article></div><div class="deployment-warning">⚠ <span>برای انتشار واقعی، endpoint احراز هویت‌شده و allowlist لازم است. این APK هیچ دستور shell آزاد یا secret سروری را اجرا نمی‌کند.</span></div></section>
+            </main>
+        </div>
+    </div>
+
+    <div class="admin-backdrop" id="adminBackdrop"></div>
+    <div class="admin-toast-region" id="adminToast" aria-live="polite"></div>
+
+    <div class="admin-modal-backdrop" id="contentModal" hidden>
+        <section class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="contentModalTitle">
+            <button class="modal-close" type="button" data-close-modal="contentModal" aria-label="بستن">×</button>
+            <div class="eyebrow">CATALOG / EDITOR</div><h2 id="contentModalTitle">افزودن عنوان جدید</h2><p class="modal-description">این فرم فعلاً داده‌ی محلی پیش‌نمایش را ویرایش می‌کند.</p>
+            <form id="contentForm" class="admin-form"><input id="editingId" type="hidden"><div class="form-row"><label>نام فارسی<input id="titleFa" required placeholder="مثلاً: دفترچه مرگ"></label><label>نام انگلیسی<input id="titleEn" required placeholder="DEATH NOTE" dir="ltr"></label></div><div class="form-row"><label>وضعیت<select id="titleStatus"><option value="airing">در حال پخش</option><option value="finished">پایان‌یافته</option><option value="draft">پیش‌نویس</option></select></label><label>امتیاز<input id="titleRating" type="number" min="0" max="10" step="0.1" value="8.5"></label></div><label>ژانرها<input id="titleGenres" placeholder="action, drama" dir="ltr"></label><label>توضیح کوتاه<textarea id="titleDescription" rows="3" placeholder="خلاصه داستان..."></textarea></label><div class="modal-safe-note">◈ کلید API، رمز عبور و لینک خصوصی ویدیو در این فرم قابل ثبت نیستند.</div><div class="modal-actions"><button class="admin-button ghost" type="button" data-close-modal="contentModal">انصراف</button><button class="admin-button primary" type="submit">ذخیره عنوان <span>✓</span></button></div></form>
+        </section>
+    </div>
+
+    <script src="data/anime.js"></script>
+    <script src="data/articles.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
