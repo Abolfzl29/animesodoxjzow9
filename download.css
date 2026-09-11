@@ -1,4 +1,10 @@
-/* Download page + shared download buttons/banners used by anime.html and watch.html. */
+/* Download page + shared download buttons/banners used by the home, detail, and watch pages. */
+
+/* The home hero and legacy details modal have more than two actions on narrow
+   screens; allow the prominent download action to keep its own row instead of
+   being pushed off-screen. */
+.slide-buttons,
+.details-actions { flex-wrap: wrap; }
 
 /* ============ Shared big download button ============ */
 .btn-download {
@@ -420,6 +426,8 @@
     .dl-ep { padding: 10px 12px; gap: 10px; }
     .dl-ep-num { width: 42px; height: 42px; font-size: 1.05rem; border-radius: 11px; }
     .dl-ep-copy span { display: none; }
+    .slide-buttons .btn,
+    .details-actions .btn { flex: 1 1 150px; }
     .dl-cta { flex-wrap: wrap; }
     .dl-cta .btn-download { width: 100%; }
 }
