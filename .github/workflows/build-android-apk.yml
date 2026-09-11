@@ -1,0 +1,59 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'android/**'
+      - '*.html'
+      - '*.css'
+      - '*.js'
+      - 'assets/**'
+      - 'data/**'
+      - '.github/workflows/build-android-apk.yml'
+
+permissions:
+  contents: read
+
+env:
+  ANDROID_API_LEVEL: '35'
+  ANDROID_BUILD_TOOLS: '35.0.0'
+
+jobs:
+  build:
+    name: Build Neon Anime APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android build tools
+        run: sdkmanager "platform-tools" "platforms;android-${ANDROID_API_LEVEL}" "build-tools;${ANDROID_BUILD_TOOLS}"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Assemble debug APK
+        run: gradle -p android assembleDebug --no-daemon
+
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk NeonAnime-debug.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-anime-apk
+          path: NeonAnime-debug.apk
+          if-no-files-found: error
+          retention-days: 14

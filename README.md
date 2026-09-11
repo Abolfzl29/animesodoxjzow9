@@ -53,6 +53,16 @@ python3 -m http.server 8080   # سپس http://localhost:8080
 - صفحه‌ی ۴۰۴ اختصاصی (`404.html`) و کش استاتیک در `nginx.conf` تنظیم شده است.
 - تست محلی با داکر: `docker build -t neon-anime . && docker run -p 8080:8080 neon-anime`
 
+## 📱 ساخت APK اندروید
+پروژه‌ی `android/` کل سایت را داخل یک WebView امن بسته‌بندی می‌کند و به‌صورت آفلاین باز می‌شود. برای ساخت محلی، Android SDK، Java 17 و Gradle 8.7 لازم است:
+
+```bash
+gradle -p android assembleDebug
+# خروجی: android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+با هر push مرتبط، workflow گیت‌هاب به نام `Build Android APK` هم APK را می‌سازد و در بخش **Actions → Artifacts** قابل دانلود می‌کند. این APK نسخه‌ی فعلی سایت و کنسول را شامل می‌شود؛ اتصال واقعی هاست همچنان به بک‌اند احراز هویت‌شده نیاز دارد.
+
 ## 🛡️ کنسول عملیات و مدیریت secret
 صفحه‌ی `control-center.html` یک کنسول RTL برای وضعیت سرویس، تنظیم اتصال و عملیات محدود هاست است. این ریپو عمداً کلید API، رمز عبور، کلید SSH یا endpoint اجرای shell آزاد ندارد. کلید واقعی نباید در مرورگر، `localStorage`، فایل دانلودی یا GitHub قرار بگیرد؛ آن را در Secret Manager / Environment Variables سمت سرور نگه دار و فقط از طریق endpointهای احراز هویت‌شده استفاده کن.
 
