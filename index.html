@@ -379,6 +379,14 @@
         </section>
 
         <!-- SECTION: New & Trending (PORTRAIT CARDS) -->
+        <section class="anime-row mt-large reveal" id="homeRecs">
+            <div class="row-header">
+                <h2 class="row-title">پیشنهاد <span class="accent">برای تو</span></h2>
+                <a href="catalog.html?view=all#catalogResults" class="row-header-link">جستجو و فیلتر ›</a>
+            </div>
+            <div class="cards-container" id="homeRecCards"></div>
+        </section>
+
         <section id="trendingSection" class="anime-row mt-large reveal">
             
             <div class="row-header" style="margin-bottom: 15px;">
@@ -1084,9 +1092,13 @@
             </div>
             <div class="footer-col">
                 <h4>قوانین</h4>
-                <a href="#" class="coming-soon">قوانین استفاده</a>
-                <a href="#" class="coming-soon">حریم خصوصی</a>
-                <a href="#" class="coming-soon">تماس با ما</a>
+                <a href="legal.html?p=terms">قوانین استفاده</a>
+                <a href="legal.html?p=privacy">حریم خصوصی</a>
+                <a href="legal.html?p=contact">تماس با ما</a>
+                <a href="legal.html?p=about">درباره ما</a>
+                <a href="legal.html?p=help">راهنما</a>
+                <a href="legal.html?p=report">گزارش مشکل</a>
+                <a href="legal.html?p=settings">تنظیمات</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -1164,6 +1176,8 @@
     </div>
 
     <script src="data/anime.js"></script>
+    <script src="data/anime-extra.js"></script>
+    <script src="data/recommend.js"></script>
     <script src="auth.js"></script>
     <script src="script.js"></script>
     <script src="gamification.js"></script>

@@ -253,6 +253,25 @@
                     : `دانلود ${anime.title}`);
             }
 
+            const restart = document.getElementById('animeRestartBtn');
+            if (restart && anime.episodes[0]) {
+                restart.hidden = false;
+                restart.href = DATA.watchUrl(anime, anime.episodes[0].number) + '&restart=1';
+            }
+            const rateBox = document.getElementById('userRate');
+            if (rateBox) {
+                let ratings = {};
+                try { ratings = JSON.parse(localStorage.getItem('neon_user_ratings') || '{}'); } catch (e) {}
+                rateBox.querySelectorAll('[data-score]').forEach(btn => {
+                    btn.classList.toggle('active', Number(ratings[anime.id]) === Number(btn.dataset.score));
+                    btn.onclick = () => {
+                        ratings[anime.id] = Number(btn.dataset.score);
+                        localStorage.setItem('neon_user_ratings', JSON.stringify(ratings));
+                        showToast('امتیاز شما ثبت شد (فقط روی این دستگاه).');
+                        renderHeroActions();
+                    };
+                });
+            }
             const continueBox = document.getElementById('animeContinue');
             if (resume) {
                 continueBox.hidden = false;
@@ -368,8 +387,9 @@
         function renderRelated() {
             const section = document.getElementById('relatedSection');
             const grid = document.getElementById('relatedGrid');
-            const related = DATA.list.filter(item => item.id !== anime.id && item.genres.some(genre => anime.genres.includes(genre))).slice(0, 4);
-            const fallback = related.length ? related : DATA.list.filter(item => item.id !== anime.id).slice(0, 4);
+            const rec = window.NEON_REC;
+            const related = rec ? rec.similar(DATA, anime, 8) : DATA.list.filter(item => item.id !== anime.id && item.genres.some(genre => anime.genres.includes(genre))).slice(0, 8);
+            const fallback = related.length ? related : DATA.list.filter(item => item.id !== anime.id).slice(0, 8);
             if (!fallback.length) {
                 section.hidden = true;
                 return;

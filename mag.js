@@ -487,6 +487,50 @@
                 }
             }
             document.title = a.title + ' | مجله نئون انیمه';
+            try {
+                var hist = JSON.parse(localStorage.getItem('neon_mag_history') || '[]');
+                hist = hist.filter(function (s) { return s !== a.slug; });
+                hist.unshift(a.slug);
+                localStorage.setItem('neon_mag_history', JSON.stringify(hist.slice(0, 50)));
+            } catch (e) {}
+            var saveBtn = document.getElementById('articleSaveBtn');
+            if (!saveBtn) {
+                saveBtn = createEl('button', 'btn btn-info', 'ذخیره برای بعد');
+                saveBtn.id = 'articleSaveBtn';
+                saveBtn.type = 'button';
+                var headAct = document.querySelector('.article-actions') || document.getElementById('articleTitle');
+                if (headAct && headAct.parentNode) headAct.parentNode.appendChild(saveBtn);
+            }
+            function savedList() {
+                try { return JSON.parse(localStorage.getItem('neon_mag_saved') || '[]'); } catch (e) { return []; }
+            }
+            function refreshSave() {
+                var s = savedList();
+                saveBtn.textContent = s.indexOf(a.slug) !== -1 ? '✓ ذخیره شده' : 'ذخیره برای بعد';
+            }
+            refreshSave();
+            saveBtn.onclick = function () {
+                var s = savedList();
+                var i = s.indexOf(a.slug);
+                if (i === -1) s.push(a.slug); else s.splice(i, 1);
+                localStorage.setItem('neon_mag_saved', JSON.stringify(s));
+                refreshSave();
+                if (window.showToast) window.showToast(i === -1 ? 'مقاله ذخیره شد.' : 'از ذخیره‌ها حذف شد.');
+            };
+            var exp = document.getElementById('articleExportSaved');
+            if (!exp) {
+                exp = createEl('button', 'btn btn-info', 'پشتیبان مقالات ذخیره‌شده');
+                exp.type = 'button';
+                exp.id = 'articleExportSaved';
+                saveBtn.parentNode && saveBtn.parentNode.appendChild(exp);
+                exp.addEventListener('click', function () {
+                    var blob = new Blob([localStorage.getItem('neon_mag_saved') || '[]'], { type: 'application/json' });
+                    var x = document.createElement('a');
+                    x.href = URL.createObjectURL(blob);
+                    x.download = 'neon-saved-articles.json';
+                    x.click();
+                });
+            }
         }
 
         function renderNotFound() {

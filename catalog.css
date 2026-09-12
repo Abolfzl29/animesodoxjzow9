@@ -146,6 +146,7 @@
 }
 
 .catalog-search {
+    position: relative;
     width: min(690px, 100%);
     min-height: 64px;
     display: flex;

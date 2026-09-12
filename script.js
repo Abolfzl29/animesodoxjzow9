@@ -311,6 +311,46 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Home recommendations + extra catalogue cards
+    (function renderHomeRecs() {
+        if (!DATA) return;
+        const rec = window.NEON_REC;
+        const row = document.getElementById('homeRecCards');
+        if (!row) return;
+        const items = rec ? rec.forYou(DATA, 10) : DATA.list.slice(0, 10);
+        items.forEach(anime => {
+            const a = document.createElement('a');
+            a.className = 'anime-card landscape';
+            a.href = DATA.detailUrl(anime);
+            a.dataset.anime = anime.id;
+            a.style.cssText = 'display:block;text-decoration:none;color:inherit;';
+            a.innerHTML = '<img class="card-static-img" alt="" loading="lazy" decoding="async">' +
+                '<div class="lang-badges"><span class="lang-badge dub">دوبله</span><span class="lang-badge sub">زیرنویس</span></div>' +
+                '<div class="card-overlay"><div class="card-details-sleek"><h3 class="sleek-title"></h3></div>' +
+                '<div class="sleek-rating"><span class="icon">★</span> ' + anime.rating.toFixed(1) + '</div></div>';
+            a.querySelector('img').src = anime.banner;
+            a.querySelector('img').alt = anime.title;
+            a.querySelector('.sleek-title').textContent = anime.title;
+            row.appendChild(a);
+        });
+        const trend = document.querySelector('#trendingSection .cards-container');
+        if (trend) {
+            DATA.list.slice(7, 16).forEach(anime => {
+                const a = document.createElement('a');
+                a.className = 'anime-card landscape';
+                a.href = DATA.detailUrl(anime);
+                a.dataset.anime = anime.id;
+                a.dataset.genre = anime.genres.join(' ');
+                a.style.cssText = 'display:block;text-decoration:none;color:inherit;';
+                a.innerHTML = '<img class="card-static-img" alt="" loading="lazy" decoding="async">' +
+                    '<div class="card-overlay"><div class="card-details-sleek"><h3 class="sleek-title"></h3></div></div>';
+                a.querySelector('img').src = anime.banner;
+                a.querySelector('.sleek-title').textContent = anime.title;
+                trend.appendChild(a);
+            });
+        }
+    })();
+
     // 5b. HOVER PREVIEW VIDEOS ON CARDS (lazy: only load/play while hovered, desktop only)
     if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
         document.querySelectorAll('.anime-card').forEach(card => {
@@ -587,6 +627,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchModal) {
         if (searchInput) {
             searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitSearch(searchInput.value); });
+            let box = document.getElementById('homeSearchSuggest');
+            if (!box) {
+                box = document.createElement('div');
+                box.id = 'homeSearchSuggest';
+                box.style.cssText = 'margin-top:16px;text-align:right;max-height:280px;overflow:auto;';
+                searchInput.parentNode.parentNode.appendChild(box);
+            }
+            searchInput.addEventListener('input', () => {
+                if (!DATA) return;
+                const q = searchInput.value.trim();
+                box.innerHTML = '';
+                if (q.length < 1) return;
+                DATA.search(q).slice(0, 8).forEach(anime => {
+                    const a = document.createElement('a');
+                    a.href = DATA.detailUrl(anime);
+                    a.style.cssText = 'display:block;padding:10px 12px;color:var(--text-light);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08);';
+                    a.textContent = anime.title + ' · ' + anime.titleEn;
+                    box.appendChild(a);
+                });
+            });
         }
         const searchSubmitBtn = searchModal.querySelector('.search-submit-btn');
         if (searchSubmitBtn) searchSubmitBtn.addEventListener('click', () => submitSearch(searchInput && searchInput.value));
