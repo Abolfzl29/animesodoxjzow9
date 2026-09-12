@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیشنهادهای هوشمند | نئون انیمه</title>
+    <meta name="description" content="پیشنهاد انیمه بر اساس سلیقه، تاریخچه تماشا و علاقه‌مندی‌های شما — شخصی‌سازی‌شده در نئون انیمه.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="پیشنهادهای هوشمند | نئون انیمه">
+    <meta property="og:description" content="انیمه‌های پیشنهادی بر اساس سلیقه، تاریخچه تماشا و علاقه‌مندی‌های شما.">
+    <meta name="theme-color" content="#0a0a0c">
+    <script>
+        // Apply the saved theme before paint and keep browser chrome in sync.
+        (function () {
+            var theme = 'dark';
+            try {
+                if (localStorage.getItem('neon_theme') === 'light') {
+                    theme = 'light';
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) {}
+            document.querySelector('meta[name="theme-color"]').setAttribute(
+                'content', theme === 'light' ? '#f4f1f9' : '#0a0a0c'
+            );
+        })();
+    </script>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/icon-192.png" sizes="192x192" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta property="og:site_name" content="Neon Anime">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:image" content="assets/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preload" href="assets/fonts/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/Orbitron-Variable.ttf" as="font" type="font/ttf" crossorigin>
+    <link href="assets/fonts/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="catalog.css">
+    <link rel="stylesheet" href="gamification.css">
+    <link rel="stylesheet" href="recommend.css">
+</head>
+<body class="recommend-page">
+
+    <div id="toastContainer" aria-live="polite"></div>
+
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <aside class="side-menu" id="sideMenu" aria-label="منوی اصلی">
+        <div class="side-menu-header">
+            <a href="login.html" id="loginTriggerBtn2" class="auth-trigger" title="ورود / ثبت‌نام">
+                <img src="assets/img/avatar-1.webp" alt="تصویر کاربر" width="48" height="48" loading="eager" decoding="async">
+                <div>
+                    <h4>کاربر مهمان</h4>
+                    <span class="status-badge">ورود / عضویت</span>
+                </div>
+            </a>
+            <button class="close-side-btn" id="closeSideBtn" type="button" aria-label="بستن منو">✕</button>
+        </div>
+        <div class="side-menu-links">
+            <a href="index.html"><span class="icon">🏠</span> خانه</a>
+            <a href="catalog.html"><span class="icon">🎬</span> آرشیو انیمه‌ها</a>
+            <a href="catalog.html?view=all#catalogResults"><span class="icon">🗂️</span> همه عناوین</a>
+            <a href="recommend.html" class="active"><span class="icon">✨</span> پیشنهادهای هوشمند</a>
+            <a href="schedule.html"><span class="icon">📅</span> تقویم پخش</a>
+            <a href="mag.html"><span class="icon">📰</span> مجله</a>
+            <a href="favorites.html"><span class="icon">★</span> علاقه‌مندی‌های من</a>
+            <a href="continue-watching.html"><span class="icon">▶</span> ادامه تماشا</a>
+            <a href="history.html"><span class="icon">⟲</span> تاریخچه تماشا</a>
+            <a href="completed.html"><span class="icon">✔</span> تکمیل‌شده‌ها</a>
+            <a href="profile.html"><span class="icon">👤</span> نمای کلی پروفایل</a>
+        </div>
+        <div class="side-menu-vip-promo" id="mobileVipBtn" role="button" tabindex="0" aria-label="ارتقا به نئون پلاس">
+            <div class="promo-glow"></div>
+            <h4>نئون پلاس ✦</h4>
+            <p>تماشای بدون محدودیت و تبلیغات</p>
+            <button type="button">ارتقا حساب کاربری</button>
+        </div>
+    </aside>
+
+    <!-- Ambient Background Glows -->
+    <div class="ambient-bg">
+        <div class="glow-orb purple"></div>
+        <div class="glow-orb blue"></div>
+    </div>
+
+    <!-- Transparent Sleek Navbar -->
+    <nav class="main-nav" id="navbar">
+        <div class="nav-left">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="منو" aria-controls="sideMenu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <a class="logo" href="index.html" aria-label="نئون انیمه - صفحه اصلی">NEON<span class="accent">.</span>ANIME</a>
+
+            <ul class="nav-links">
+                <li><a href="index.html">خانه</a></li>
+                <li class="has-mega-menu">
+                    <a href="catalog.html">آرشیو انیمه‌ها <span class="dropdown-arrow">▾</span></a>
+                    <div class="mega-menu">
+                        <div class="mega-grid">
+                            <div class="mega-column">
+                                <h4>ژانرها</h4>
+                                <a href="catalog.html?genre=action#catalogResults">اکشن و ماجراجویی</a>
+                                <a href="catalog.html?genre=scifi#catalogResults">سایبرپانک و علمی‌تخیلی</a>
+                                <a href="catalog.html?genre=dark-fantasy#catalogResults">فانتزی تاریک</a>
+                                <a href="catalog.html?genre=drama#catalogResults">درام</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>برترین‌های تاریخ</h4>
+                                <a href="anime.html?id=attack-on-titan">حمله به تایتان</a>
+                                <a href="anime.html?id=cyberpunk-edgerunners">سایبرپانک: اج‌رانرز</a>
+                                <a href="anime.html?id=death-note">دفترچه مرگ</a>
+                                <a href="anime.html?id=one-piece">وان پیس</a>
+                            </div>
+                            <div class="mega-column featured">
+                                <img src="assets/img/attack-on-titan-wallpaper.webp" alt="Featured" loading="lazy" decoding="async">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="catalog.html?view=all#catalogResults">همه عناوین</a></li>
+                <li><a href="schedule.html">تقویم پخش</a></li>
+                <li><a href="mag.html">مجله</a></li>
+
+                <!-- THREE DOTS MENU -->
+                <li class="more-menu-container">
+                    <button class="three-dots-btn" id="threeDotsBtn" title="بیشتر" aria-label="منوی بیشتر" aria-haspopup="true">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    </button>
+                    <div class="three-dots-dropdown" id="moreMenuDropdown">
+                        <div class="dropdown-section">
+                            <h4>کشف محتوا</h4>
+                            <a href="recommend.html">✨ پیشنهادهای هوشمند</a>
+                            <a href="index.html#top10">🔥 برترین‌های IMDB</a>
+                            <a href="#" class="coming-soon">🎵 موسیقی انیمه (OST)</a>
+                        </div>
+                        <div class="dropdown-section">
+                            <h4>کتابخانه من</h4>
+                            <a href="favorites.html">★ علاقه‌مندی‌های من</a>
+                            <a href="continue-watching.html">▶ ادامه تماشا</a>
+                            <a href="history.html">⟲ تاریخچه تماشا</a>
+                            <a href="completed.html">✔ تکمیل‌شده‌ها</a>
+                            <a href="profile.html">👤 نمای کلی پروفایل</a>
+                        </div>
+                        <div class="dropdown-section">
+                            <h4>بیشتر</h4>
+                            <a href="mag.html">📰 مجله</a>
+                            <a href="index.html#news">📰 اخبار دنیای انیمه</a>
+                            <a href="#" class="coming-soon">🎧 کامیونیتی دیسکورد</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-right">
+            <!-- Audio Visualizer -->
+            <div class="audio-visualizer hide-mobile" style="cursor:pointer;" title="رادیو انیمه (در حال پخش)">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+
+            <!-- Live Counter -->
+            <div class="live-counter hide-mobile" title="کاربران آنلاین">
+                <div class="live-dot pulse"></div>
+                <span id="onlineCounter">12,450</span>
+            </div>
+
+            <button class="vip-nav-btn hide-mobile" id="vipOpenBtn">اشتراک VIP ✦</button>
+            <button class="icon-btn" id="searchBtnIcon" title="جستجو" aria-label="جستجو">🔍</button>
+            <button class="icon-btn theme-toggle-btn" id="themeToggleBtn" title="حالت روز / شب" aria-label="تغییر حالت روز و شب"><span class="theme-icon-moon">🌙</span><span class="theme-icon-sun">☀️</span></button>
+
+            <!-- NOTIFICATION DROPDOWN -->
+            <div class="notification-container" style="position: relative;">
+                <button class="icon-btn hide-mobile" id="bellBtnIcon" title="اعلانات" aria-label="اعلانات">
+                    🔔
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notif-header">
+                        <h4>اعلانات شما</h4>
+                        <span class="mark-read">علامت خوانده شده</span>
+                    </div>
+                    <div class="notif-body">
+                        <div class="notif-item unread">
+                            <img src="assets/img/jujutsu-kaisen.webp" alt="JJK" loading="lazy" decoding="async">
+                            <div class="notif-info">
+                                <p>قسمت جدید <strong>جوجوتسو کایسن</strong> با دوبله اختصاصی منتشر شد!</p>
+                                <span>۲ ساعت پیش</span>
+                            </div>
+                        </div>
+                        <div class="notif-item">
+                            <img src="assets/img/chainsaw-man.webp" alt="CSM" loading="lazy" decoding="async">
+                            <div class="notif-info">
+                                <p>آلبوم موسیقی متن <strong>مرد اره‌ای</strong> به رادیو انیمه اضافه شد.</p>
+                                <span>دیروز</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="profile.html" class="user-profile hide-mobile" style="text-decoration: none; cursor:pointer;" title="ورود / ثبت‌نام">
+                <img src="assets/img/avatar-1.webp" alt="Profile" loading="eager" decoding="async">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Full Screen Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content" style="width: 100%; max-width: 800px; padding: 40px; text-align: center; position: relative;">
+            <button class="close-side-btn" id="searchCloseBtn" style="position: absolute; top: -50px; right: 0; background: none; border: none; color: var(--text-light); font-size: 2rem; cursor: pointer;">✕</button>
+            <div style="position: relative; width: 100%;">
+                <input type="text" id="searchInput" placeholder="جستجوی انیمه، شخصیت یا ژانر..." style="width: 100%; padding: 20px 25px; font-size: 1.5rem; background: var(--search-field-bg, rgba(255,255,255,0.05)); border: 2px solid var(--search-field-border, rgba(255,255,255,0.1)); border-radius: 20px; color: var(--text-light); outline: none; transition: 0.3s;">
+                <button type="button" class="search-submit-btn" aria-label="جستجو" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.8rem; color: var(--accent); cursor: pointer;">🔍</button>
+            </div>
+            <div style="margin-top: 40px; text-align: right;">
+                <h4 style="color: var(--text-muted); margin-bottom: 15px; font-size: 1.1rem;">جستجوهای پرطرفدار</h4>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <span class="search-tag" style="padding: 8px 20px; background: var(--search-tag-bg, rgba(255,255,255,0.05)); border-radius: 30px; border: 1px solid var(--search-tag-border, rgba(255,255,255,0.1)); cursor: pointer;">حمله به تایتان</span>
+                    <span class="search-tag" style="padding: 8px 20px; background: var(--search-tag-bg, rgba(255,255,255,0.05)); border-radius: 30px; border: 1px solid var(--search-tag-border, rgba(255,255,255,0.1)); cursor: pointer;">گوجو ساتورو</span>
+                    <span class="search-tag" style="padding: 8px 20px; background: var(--search-tag-bg, rgba(255,255,255,0.05)); border-radius: 30px; border: 1px solid var(--search-tag-border, rgba(255,255,255,0.1)); cursor: pointer;">سایبرپانک</span>
+                    <span class="search-tag" style="padding: 8px 20px; background: var(--search-tag-bg, rgba(255,255,255,0.05)); border-radius: 30px; border: 1px solid var(--search-tag-border, rgba(255,255,255,0.1)); cursor: pointer;">اکشن</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREMIUM VIP MODAL -->
+    <div class="vip-modal" id="vipModal">
+        <div class="vip-backdrop" id="vipCloseBackdrop"></div>
+        <div class="vip-modal-content">
+            <button class="vip-close-btn" id="vipCloseBtn" aria-label="بستن">✕</button>
+
+            <div class="vip-header">
+                <h2>ارتقا به سطح <span class="accent">نئون پلاس</span></h2>
+                <p>بدون محدودیت، بدون تبلیغات، با بالاترین کیفیت ممکن تماشا کنید.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>یک ماهه</h3>
+                    <div class="price">۹۹,۰۰۰ <span>تومان</span></div>
+                    <ul class="features">
+                        <li>✔️ کیفیت 1080p</li>
+                        <li>✔️ بدون تبلیغات</li>
+                        <li style="color:var(--text-muted)">❌ دانلود آفلاین</li>
+                    </ul>
+                    <button class="btn btn-info w-100 plan-select-btn" data-plan="یک ماهه">انتخاب پلن</button>
+                </div>
+
+                <div class="pricing-card premium animated-border">
+                    <div class="popular-badge">محبوب‌ترین</div>
+                    <h3>سه ماهه</h3>
+                    <div class="price">۲۵۰,۰۰۰ <span>تومان</span></div>
+                    <ul class="features">
+                        <li>✔️ کیفیت 4K HDR</li>
+                        <li>✔️ بدون تبلیغات</li>
+                        <li>✔️ دانلود آفلاین</li>
+                        <li>✔️ پخش همزمان ۲ دستگاه</li>
+                    </ul>
+                    <button class="btn btn-play w-100 plan-select-btn" data-plan="سه ماهه">خرید اشتراک ویژه</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>یک ساله</h3>
+                    <div class="price">۸۵۰,۰۰۰ <span>تومان</span></div>
+                    <ul class="features">
+                        <li>✔️ کیفیت 4K HDR</li>
+                        <li>✔️ بدون تبلیغات</li>
+                        <li>✔️ دانلود آفلاین</li>
+                    </ul>
+                    <button class="btn btn-info w-100 plan-select-btn" data-plan="یک ساله">انتخاب پلن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================ PAGE CONTENT ============================ -->
+    <header class="rec-hero">
+        <div class="rec-hero-art" id="recHeroArt" aria-hidden="true"></div>
+        <div class="rec-hero-inner">
+            <span class="catalog-kicker">پیشنهاد هوشمند · مخصوص شما</span>
+            <h1>امروز چی <span class="accent">تماشا</span> کنی؟</h1>
+            <p id="recHeroSub">بر اساس تاریخچه تماشا، علاقه‌مندی‌ها و امتیازهای تو، یک لیست کاملاً شخصی برایت می‌چینیم.</p>
+            <div class="rec-hero-actions">
+                <a class="btn btn-play glow-effect" id="recHeroCta" href="catalog.html">▶ شروع تماشا</a>
+                <button class="btn btn-info glass-effect" id="recLuckyBtn" type="button">🎲 انیمه شانسی</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="rec-main">
+        <section id="recEmpty" class="rec-empty" hidden>
+            <div class="rec-empty-card">
+                <span class="rec-empty-icon">🔮</span>
+                <h2>هنوز چیزی از تو نمی‌دانیم!</h2>
+                <p>برای دریافت پیشنهادهای شخصی، چند قسمت تماشا کن یا به چند انیمه «لیست من» اضافه کن. تا آن موقع این‌ها محبوب‌ترین‌های نئون‌اند:</p>
+                <a class="catalog-outline-btn" href="catalog.html">رفتن به آرشیو →</a>
+            </div>
+        </section>
+
+        <div id="recSections"></div>
+
+        <section class="rec-genre-section" id="recExploreSection">
+            <div class="catalog-section-header">
+                <div>
+                    <span class="catalog-section-index en-text">EXPLORE</span>
+                    <div>
+                        <h3>بر اساس ژانر کاوش کن</h3>
+                        <p>در ژانرهای پرطرفدار بچرخ و سلیقه‌ی بعدی‌ات را پیدا کن.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="rec-genre-chips" id="recGenreChips"></div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">NEON<span class="accent">.</span>ANIME</a>
+                <p>پلتفرم تماشای آنلاین انیمه با دوبله اختصاصی و زیرنویس فارسی. این نسخه یک <strong>دموی نمایشی</strong> است و هنوز به سرور واقعی متصل نیست.</p>
+            </div>
+            <div class="footer-col">
+                <h4>دسترسی سریع</h4>
+                <a href="index.html">خانه</a>
+                <a href="catalog.html">آرشیو انیمه‌ها</a>
+                <a href="recommend.html">پیشنهادهای هوشمند</a>
+                <a href="schedule.html">تقویم پخش</a>
+            </div>
+            <div class="footer-col">
+                <h4>حساب کاربری</h4>
+                <a href="login.html">ورود</a>
+                <a href="login.html?mode=signup">ثبت‌نام</a>
+                <a href="profile.html">پنل کاربری</a>
+                <a href="subscribe.html">اشتراک ویژه</a>
+            </div>
+            <div class="footer-col">
+                <h4>قوانین</h4>
+                <a href="legal.html?p=terms">قوانین استفاده</a>
+                <a href="legal.html?p=privacy">حریم خصوصی</a>
+                <a href="legal.html?p=contact">تماس با ما</a>
+                <a href="legal.html?p=about">درباره ما</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span id="footerYear">۱۴۰۵</span> نئون انیمه</span>
+            <span class="en-text">SMART PICKS · v0.3</span>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="backToTop" class="back-to-top" title="بازگشت به بالا" aria-label="بازگشت به بالا">↑</button>
+
+    <script src="data/anime.js"></script>
+    <script src="data/anime-extra.js"></script>
+    <script src="data/recommend.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="library.js"></script>
+    <script src="gamification.js"></script>
+    <script src="recommend.js"></script>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>خانه</span>
+        </a>
+        <a href="catalog.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+            <span>آرشیو</span>
+        </a>
+        <a href="javascript:void(0)" class="bottom-nav-item" id="bottomNavSearch">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>جستجو</span>
+        </a>
+        <a href="javascript:void(0)" class="bottom-nav-item vip-item" id="bottomNavVIP">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M2 22h20"/><path d="M4 22l-1-14 5 4 4-8 4 8 5-4-1 14"/></svg>
+            <span>ویژه</span>
+        </a>
+        <a href="profile.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>پروفایل</span>
+        </a>
+    </nav>
+
+    <script>
+        // Bind bottom nav buttons to existing modals
+        document.addEventListener('DOMContentLoaded', () => {
+            const bottomSearch = document.getElementById('bottomNavSearch');
+            const bottomVip = document.getElementById('bottomNavVIP');
+
+            if(bottomSearch) {
+                bottomSearch.addEventListener('click', () => {
+                    const mainSearchBtn = document.getElementById('searchBtnIcon');
+                    if(mainSearchBtn) mainSearchBtn.click();
+                });
+            }
+            if(bottomVip) {
+                bottomVip.addEventListener('click', () => {
+                    const mainVipBtn = document.getElementById('vipOpenBtn');
+                    if(mainVipBtn) mainVipBtn.click();
+                });
+            }
+        });
+    </script>
+
+  <script src="sw-register.js" defer></script>
+</body>
+</html>

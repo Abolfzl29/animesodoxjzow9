@@ -1,0 +1,215 @@
+/* ==========================================================================
+   recommend.css — «پیشنهادهای هوشمند» (Smart Picks)
+   Reuses catalog.css card/section styles; adds the hero, shelves and chips.
+   ========================================================================== */
+
+.recommend-page { --rec-max: 1240px; }
+
+/* ---------- Hero ---------- */
+.rec-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 440px;
+    display: flex;
+    align-items: flex-end;
+    padding: 150px clamp(20px, 5vw, 60px) 70px;
+    isolation: isolate;
+}
+.rec-hero-art {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    filter: saturate(1.05) contrast(1.05);
+    transition: background-image 0.6s ease;
+}
+.rec-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(to top, var(--bg-main, #0a0a0c) 4%, transparent 55%),
+        linear-gradient(to left, transparent 30%, rgba(10, 10, 12, 0.85) 100%);
+}
+.rec-hero-inner { max-width: var(--rec-max); margin-inline: auto; width: 100%; }
+.rec-hero-inner h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+    font-weight: 900;
+    margin: 14px 0;
+    line-height: 1.15;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+.rec-hero-inner > p {
+    max-width: 620px;
+    color: var(--text-muted, #cfd0d6);
+    font-size: 1.05rem;
+    line-height: 1.9;
+    margin: 0 0 26px;
+}
+.rec-hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.rec-hero-actions .btn { min-width: 180px; }
+
+/* ---------- Main ---------- */
+.rec-main {
+    max-width: var(--rec-max);
+    margin-inline: auto;
+    padding: 10px clamp(20px, 5vw, 60px) 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+}
+
+/* ---------- Empty state (guest) ---------- */
+.rec-empty { text-align: center; }
+.rec-empty-card {
+    max-width: 640px;
+    margin-inline: auto;
+    padding: 48px 32px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(14px);
+}
+.rec-empty-icon { font-size: 3.4rem; display: block; margin-bottom: 14px; }
+.rec-empty-card h2 { font-size: 1.7rem; font-weight: 900; margin-bottom: 12px; }
+.rec-empty-card p { color: var(--text-muted, #cfd0d6); line-height: 1.9; margin-bottom: 22px; }
+
+/* ---------- Shelf ---------- */
+.rec-shelf {
+    padding: 26px clamp(16px, 2vw, 28px);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background:
+        radial-gradient(120% 120% at 0% 0%, rgba(255, 0, 60, 0.06), transparent 45%),
+        rgba(255, 255, 255, 0.02);
+    animation: recFade 0.6s ease both;
+}
+@keyframes recFade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* Hero-ish "today pick" shelf */
+.rec-today {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 30px;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+}
+.rec-today-media { position: relative; min-height: 340px; }
+.rec-today-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 22px 0 0 22px;
+}
+.rec-today-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 22px 0 0 22px;
+    background: linear-gradient(to left, rgba(255,255,255,0.03), transparent 40%);
+}
+.rec-today-copy { padding: 40px 44px 40px 12px; }
+.rec-today-copy .rec-reason {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+.rec-today-copy h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 900; margin-bottom: 8px; }
+.rec-today-copy .rec-today-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    color: var(--text-muted, #cfd0d6);
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+}
+.rec-today-copy .rec-today-meta b { color: #ffb224; }
+.rec-today-copy p { color: var(--text-muted, #cfd0d6); line-height: 1.9; margin-bottom: 22px; }
+
+/* Reason chips under each card */
+.rec-card-reason {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    margin: 12px 4px 0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-light, #fff);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rec-card-reason .rec-dot { color: var(--accent); }
+
+/* Cards grid inside shelves */
+.rec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 18px;
+    margin-top: 6px;
+}
+.rec-grid .catalog-anime-card { border-radius: 14px; }
+
+/* Genre chips */
+.rec-genre-chips { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+.rec-genre-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-light, #fff);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: 0.25s;
+}
+.rec-genre-chip:hover {
+    border-color: var(--accent);
+    background: rgba(255, 0, 60, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 0, 60, 0.22);
+}
+
+/* Light theme */
+:root[data-theme="light"] .rec-hero::before {
+    background:
+        linear-gradient(to top, var(--bg-main, #f4f1f9) 4%, transparent 55%),
+        linear-gradient(to left, transparent 30%, rgba(244, 241, 249, 0.9) 100%);
+}
+:root[data-theme="light"] .rec-shelf {
+    border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.7);
+}
+:root[data-theme="light"] .rec-card-reason,
+:root[data-theme="light"] .rec-genre-chip { border-color: rgba(0, 0, 0, 0.12); color: #1a1a1e; background: rgba(255, 255, 255, 0.8); }
+
+/* Mobile */
+@media (max-width: 900px) {
+    .rec-hero { min-height: 380px; padding-top: 120px; }
+    .rec-today { grid-template-columns: 1fr; }
+    .rec-today-media { min-height: 220px; }
+    .rec-today-media img,
+    .rec-today-media::after { border-radius: 22px 22px 0 0; }
+    .rec-today-copy { padding: 26px 22px 30px; }
+    .rec-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .rec-shelf { padding: 20px 14px; }
+}

@@ -44,7 +44,10 @@
 
     function logout() {
         // Remove the whole neon_* namespace (session, likes, progress, comments, watchlist).
+        // The theme preference is a device setting, not account data, so keep it.
+        const theme = localStorage.getItem('neon_theme');
         Object.keys(localStorage).forEach(k => { if (k.indexOf('neon_') === 0) localStorage.removeItem(k); });
+        if (theme) localStorage.setItem('neon_theme', theme);
     }
 
     function setVip(flag, plan) {

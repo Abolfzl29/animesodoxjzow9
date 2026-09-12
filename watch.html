@@ -130,7 +130,7 @@
                     <div class="three-dots-dropdown" id="moreMenuDropdown">
                         <div class="dropdown-section">
                             <h4>کشف محتوا</h4>
-                            <a href="#" class="coming-soon">✨ پیشنهاد هوش مصنوعی</a>
+                            <a href="recommend.html">✨ پیشنهاد هوشمند</a>
                             <a href="index.html#top10">🔥 برترین‌های IMDB</a>
                             <a href="#" class="coming-soon">🎵 موسیقی انیمه (OST)</a>
                         </div>
@@ -481,9 +481,10 @@
             </div>
             <div class="footer-col">
                 <h4>قوانین</h4>
-                <a href="#" class="coming-soon">قوانین استفاده</a>
-                <a href="#" class="coming-soon">حریم خصوصی</a>
-                <a href="#" class="coming-soon">تماس با ما</a>
+                <a href="legal.html?p=terms">قوانین استفاده</a>
+                <a href="legal.html?p=privacy">حریم خصوصی</a>
+                <a href="legal.html?p=contact">تماس با ما</a>
+                <a href="legal.html?p=about">درباره ما</a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -564,6 +565,13 @@
                 if (episode.vip && !isVip) {
                     episode = anime.episodes.find(e => !e.vip) || episode;
                 }
+            }
+
+            // "از اول شروع کن" (anime.html?…&restart=1): forget the saved position
+            // so playback really starts at 00:00 instead of resuming.
+            const restart = params.get('restart') === '1';
+            if (restart && anime && episode) {
+                localStorage.removeItem(progressKey(anime, episode));
             }
 
             // ---------- Elements ----------
@@ -975,5 +983,6 @@
             }
         });
     </script>
+  <script src="sw-register.js" defer></script>
 </body>
 </html>
