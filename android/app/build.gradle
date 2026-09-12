@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.application'
+}
+
+def configuredAdminUrl = (project.findProperty('adminUrl') ?: System.getenv('NEON_ADMIN_URL') ?: '').toString()
+def escapedAdminUrl = configuredAdminUrl.replace('\\', '\\\\').replace('"', '\\"')
+
+android {
+    namespace 'com.neonanime.app'
+    compileSdk 35
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    defaultConfig {
+        applicationId 'com.neonanime.app'
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0'
+        buildConfigField 'String', 'ADMIN_URL', '"' + escapedAdminUrl + '"'
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+            debuggable true
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/assets']
+        }
+    }
+}
+
+// Bundle the existing static site into the APK at build time. The generated
+// directory is ignored so the repository keeps one source of truth for the UI.
+tasks.register('syncWebAppAssets', Sync) {
+    from(rootProject.projectDir.parentFile) {
+        exclude('.git/**')
+        exclude('.arena/**')
+        exclude('android/**')
+        exclude('node_modules/**')
+        exclude('build/**')
+        exclude('coverage/**')
+        exclude('dist/**')
+        exclude('out/**')
+        exclude('target/**')
+        exclude('artifacts/**')
+        exclude('server-data/**')
+        exclude('**/.env')
+        exclude('**/.env.*')
+        exclude('**/*.log')
+    }
+    into(layout.projectDirectory.dir('src/main/assets/web'))
+}
+
+tasks.named('preBuild').configure {
+    dependsOn(tasks.named('syncWebAppAssets'))
+}

@@ -78,28 +78,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 2. LIVE COUNTER ANIMATION
+    // 2. DEMO STATUS (there is no live backend while the site is on GitHub Pages)
     const onlineCounter = document.getElementById('onlineCounter');
     if (onlineCounter) {
-        let currentCount = 0;
-        const targetCount = 12450;
-        const duration = 3000;
-        const step = targetCount / (duration / 16);
-
-        function updateCounter() {
-            currentCount += step;
-            if (currentCount < targetCount) {
-                onlineCounter.innerText = Math.floor(currentCount).toLocaleString();
-                requestAnimationFrame(updateCounter);
-            } else {
-                onlineCounter.innerText = targetCount.toLocaleString();
-                setInterval(() => {
-                    const fluctuation = Math.floor(Math.random() * 10) - 5;
-                    onlineCounter.innerText = (targetCount + fluctuation).toLocaleString();
-                }, 3000);
-            }
+        onlineCounter.textContent = 'دمو';
+        const counter = onlineCounter.closest('.live-counter');
+        if (counter) {
+            counter.classList.add('demo-counter');
+            counter.title = 'آمار آنلاین پس از اتصال Backend فعال می‌شود';
+            counter.setAttribute('aria-label', 'آمار آنلاین در نسخه آزمایشی غیرفعال است');
         }
-        updateCounter();
     }
 
     // 3. TYPED.JS EFFECT (optional CDN enhancement)

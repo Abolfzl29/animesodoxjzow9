@@ -3,3 +3,9 @@ node_modules/
 Thumbs.db
 *.log
 .env
+
+# Android/Gradle build output and generated bundled web assets.
+android/.gradle/
+android/app/build/
+android/app/src/main/assets/web/
+server-data/

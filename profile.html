@@ -150,6 +150,7 @@
     </style>
 
 
+    <script src="pwa.js" defer></script>
 </head>
 <body>
 
@@ -274,7 +275,7 @@
             <!-- Live Counter -->
             <div class="live-counter hide-mobile" title="کاربران آنلاین">
                 <div class="live-dot pulse"></div>
-                <span id="onlineCounter">12,450</span>
+                <span id="onlineCounter">دمو</span>
             </div>
 
             <button class="vip-nav-btn hide-mobile" id="vipOpenBtn">اشتراک VIP ✦</button>
@@ -432,6 +433,19 @@
 
             <div class="lib-overview-stats" id="overviewStats"></div>
 
+            <section class="library-backup-card" aria-labelledby="libraryBackupTitle">
+                <div>
+                    <span class="catalog-eyebrow">پشتیبان محلی</span>
+                    <h2 id="libraryBackupTitle">کتابخانه‌ات را از دست نده</h2>
+                    <p>در نسخه GitHub، علاقه‌مندی‌ها و پیشرفت تماشا فقط روی همین مرورگر ذخیره می‌شوند. از آن‌ها فایل پشتیبان بگیر و بعداً روی دستگاه دیگر وارد کن.</p>
+                </div>
+                <div class="library-backup-actions">
+                    <button class="library-backup-button primary" id="exportLibraryButton" type="button">دانلود پشتیبان</button>
+                    <label class="library-backup-button" for="importLibraryInput">بازیابی پشتیبان<input id="importLibraryInput" type="file" accept="application/json,.json" hidden></label>
+                </div>
+                <p class="library-backup-status" id="libraryBackupStatus" role="status" aria-live="polite">اطلاعات حساب واقعی نیست و روی سرور ذخیره نمی‌شود.</p>
+            </section>
+
             <!-- SECTION: Otaku Level (gamification) -->
             <section class="lib-overview-section" aria-labelledby="otakuLevelHeading">
                 <div class="lib-overview-head">
@@ -553,6 +567,7 @@
     <script src="auth.js"></script>
     <script src="script.js"></script>
     <script src="library.js"></script>
+    <script src="library-backup.js"></script>
     <script src="gamification.js"></script>
     <script>
         // Bind bottom nav buttons to existing modals

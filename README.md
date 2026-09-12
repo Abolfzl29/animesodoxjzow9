@@ -1,6 +1,6 @@
 # Neon Anime VOD Platform 🎬
 
-پلتفرم استریم انیمه (فارسی / RTL) — فرانت‌اند خالص بدون فریم‌ورک. این نسخه بعد از بازبینی کد (`CODE-REVIEW.md`) در ۶ مرحله اصلاح شده و به‌عنوان **دمو** آماده‌ی قرارگیری روی هر هاست استاتیکی است. بک‌اند هنوز وجود ندارد (همه‌چیز با `localStorage` شبیه‌سازی می‌شود).
+پلتفرم استریم انیمه (فارسی / RTL) — فرانت‌اند Vanilla به‌همراه یک سرور Node.js بدون وابستگی خارجی. نسخه‌ی APK و پنل مدیریت (`admin.html`) آماده‌اند؛ در حالت بدون تنظیم محیط، پنل به‌صورت preview محلی کار می‌کند و با تنظیم `server.mjs` به داده‌های واقعی سایت وصل می‌شود.
 
 ## 🛠 Tech Stack
 - **HTML5** (semantic, `lang="fa" dir="rtl"`), **CSS3** با CSS Variables و Glassmorphism، **Vanilla JS**.
@@ -28,29 +28,111 @@
 | `auth.js` | لایه‌ی سشن (`NeonAuth`) — تنها جایی که برای اتصال به بک‌اند واقعی باید عوض شود |
 | `script.js` | منطق مشترک: منوها، مودال‌ها، جستجو، فیلتر، اسلایدر، توست، ... |
 | `gamification.js` / `gamification.css` | **پکیج گیمیفیکیشن** (در همه‌ی صفحات دارای نوبار): دکمه «🎲 انیمه شانسی» در نوبار و منوی کناری + مودال گردونه شانس (چرخش، پوستر/امتیاز/ژانر، پخش/دانلود/دوباره بچرخون)، ۵ مود «حس و حال» در صفحه اصلی، سطح اوتاکو (۵ سطح با XP) و ۷ نشان دستاورد با پاپ‌آپ گرافیکی در پروفایل |
+| `admin.html` / `admin.css` / `admin.js` | **پنل مدیریت کامل سایت**: داشبورد، کاتالوگ، مقاله‌ها، کاربران/VIP، نظرات، برنامه پخش، تنظیمات و انتشار؛ نسخه فعلی با داده‌ی preview محلی کار می‌کند |
+| `control-center.html` / `control-center.css` / `control-center.js` | **کنسول عملیات امن**: داشبورد وضعیت هاست، تنظیم metadata اتصال، قرارداد endpointهای health/actions، عملیات محدود و خروجی `.env.example`/راهنمای GitHub بدون secret |
+| `server.mjs` | سرور Node.js بدون dependency: سرو استاتیک، احراز هویت مدیر، API مدیریت کاتالوگ/مقاله/کاربر/نظرات/تنظیمات، audit log و داده‌ی زنده برای صفحات عمومی |
+| `package.json` / `scripts/hash-password.mjs` | اجرای سرور و ساخت hash امن `scrypt` برای رمز مدیر |
 | `style.css` | استایل سراسری |
 | `assets/` | تصاویر WebP، favicon، آیکون‌های PWA، og-image |
 | `manifest.webmanifest`, `robots.txt`, `sitemap.xml` | متادیتای سایت |
+| `pwa.js` / `sw.js` / `offline.html` | نصب‌پذیری و پوسته‌ی آفلاین برای GitHub Pages؛ ویدئوها عمداً cache نمی‌شوند |
+| `library-backup.js` | خروجی و بازیابی امن داده‌های محلی کتابخانه، چون GitHub Pages دیتابیس قابل‌نوشتن ندارد |
 
 ## 🚀 اجرا
-فایل‌ها استاتیک‌اند؛ کافی است پوشه را روی هر وب‌سرور (Nginx/Apache/Netlify/Vercel/GitHub Pages) بگذارید. برای تست محلی:
+برای فقط دیدن نسخه‌ی استاتیک:
 
 ```bash
-python3 -m http.server 8080   # سپس http://localhost:8080
+python3 -m http.server 8080
+# http://localhost:8080
 ```
 
-## 🚂 دیپلوی روی Railway
-ریپو آماده‌ی دیپلوی مستقیم روی Railway است (یک سرویس، `Dockerfile` + `nginx` + `railway.json`):
+در حالت GitHub Pages، سایت با PWA و پوسته‌ی آفلاین کار می‌کند و از صفحه‌ی پروفایل می‌توانی داده‌های محلی کتابخانه را Export/Import کنی. این نسخه هنوز حساب، VIP، نظر و پنل چندکاربره‌ی واقعی ندارد؛ این اطلاعات فقط در مرورگر همان دستگاه ذخیره می‌شوند.
 
-1. در [Railway](https://railway.app) روی **New Project** → **Deploy from GitHub repo** بزن و ریپوی `animesodoxjzow9` را انتخاب کن.
-2. Railway خودش `Dockerfile` را تشخیص می‌دهد و بیلد می‌گیرد (چیز دیگری لازم نیست تنظیم کنی).
-3. بعد از دیپلوی، از تب **Settings** → بخش **Networking** روی **Generate Domain** بزن تا آدرس عمومی بگیری (مثل `xxx.up.railway.app`).
-4. هر پوش جدید به برنچی که به سرویس وصل است، به‌صورت خودکار ریدپلوی می‌شود.
+برای **اتصال واقعی پنل مدیریت به سایت**، سرور Node را اجرا کن:
 
-نکته‌ها:
-- پورت را Railway خودش با متغیر `PORT` می‌دهد؛ `Dockerfile` به‌صورت خودکار nginx را روی همان پورت بالا می‌آورد.
-- صفحه‌ی ۴۰۴ اختصاصی (`404.html`) و کش استاتیک در `nginx.conf` تنظیم شده است.
-- تست محلی با داکر: `docker build -t neon-anime . && docker run -p 8080:8080 neon-anime`
+```bash
+npm start
+# http://localhost:8080/admin.html
+```
+
+سرور `server.mjs` هم فایل‌های سایت را سرو می‌کند و هم API مدیریت را در همان origin ارائه می‌دهد؛ بنابراین پنل، صفحات عمومی و داده‌ی کاتالوگ از یک منبع استفاده می‌کنند.
+
+## 🚂 دیپلوی کامل روی Railway
+ریپو با `Dockerfile` و `railway.json` برای یک سرویس full-stack آماده است:
+
+1. در Railway گزینه‌ی **Deploy from GitHub repo** را بزن و این ریپو را انتخاب کن.
+2. از **Settings → Networking** یک دامنه بساز.
+3. برای حالت ساده لازم نیست هیچ Variable امنیتی بسازی؛ `Dockerfile` به‌صورت خودکار `DATA_DIR=/data` را تنظیم می‌کند و سرور در اولین اجرا secret داخلی و توکن یک‌بارمصرف می‌سازد.
+4. یک **persistent volume** روی `/data` بساز؛ بدون آن secret و تغییرات بعد از restart از بین می‌روند.
+5. در لاگ Deploy دنبال این خط بگرد:
+
+```text
+ADMIN_BOOTSTRAP_TOKEN=...
+```
+
+6. آدرس `https://دامنه-تو/admin.html` را باز کن، توکن را در فرم «راه‌اندازی مدیر سایت» وارد کن و رمز جدید حداقل ۱۲ کاراکتری بساز. توکن بعد از ساخت حساب باطل می‌شود.
+
+برای محیط‌های حساس می‌توانی به‌جای setup خودکار، این متغیرها را از ابتدا در Railway بگذاری:
+
+```env
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD_HASH=scrypt$...$...
+SESSION_SECRET=یک-مقدار-تصادفی-طولانی
+```
+
+برای ساخت hash دستی:
+
+```bash
+npm run hash-password
+```
+
+Health check سرویس روی `GET /api/health` است. تست Docker:
+
+```bash
+docker build -t neon-anime .
+docker run --rm -p 8080:8080 \
+  -e ADMIN_PASSWORD_HASH='...' \
+  -e SESSION_SECRET='...' neon-anime
+```
+
+## 📱 ساخت APK اندروید
+پروژه‌ی `android/` پنل مدیریت `admin.html` را به‌عنوان صفحه‌ی اصلی APK باز می‌کند و کل سایت را داخل یک WebView امن بسته‌بندی می‌کند؛ از داخل پنل می‌توان به سایت عمومی و کنسول زیرساخت رفت. برای ساخت محلی، Android SDK، Java 17 و Gradle 8.7 لازم است:
+
+```bash
+gradle -p android assembleDebug
+# خروجی: android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+با هر push مرتبط، workflow گیت‌هاب به نام `Build Android APK` هم APK را می‌سازد و در بخش **Actions → Artifacts** قابل دانلود می‌کند. برای اینکه APK به سرور واقعی وصل شود، Repository Variable به نام `NEON_ADMIN_URL` را روی آدرس `https://دامنه-تو/admin.html` بگذار؛ در غیر این صورت APK نسخه‌ی preview آفلاین را باز می‌کند.
+
+## 🛡️ API مدیریت، احراز هویت و secret
+`server.mjs` اتصال واقعی پنل و سایت را فراهم می‌کند. پنل قبل از خواندن یا نوشتن داده به `/api/auth/login` وارد می‌شود و سرور با cookie امن، انقضا و rate limit ساده از endpointها محافظت می‌کند.
+
+Endpointهای مدیریتی اصلی:
+
+- `GET /api/setup/status` و `POST /api/setup/admin` برای راه‌اندازی یک‌باره بدون Variable
+- `POST /api/auth/login`، `GET /api/auth/me`، `POST /api/auth/logout`
+- `GET/POST /api/v1/catalog` و `PATCH/DELETE /api/v1/catalog/:id`
+- `GET/POST /api/v1/articles` و `PATCH /api/v1/articles/:slug`
+- `GET/PATCH /api/v1/users/:id`
+- `GET/POST /api/v1/moderation/:id`
+- `GET/PATCH /api/v1/settings`
+- `GET /api/v1/dashboard` و `POST /api/v1/actions`
+
+کنسول زیرساخت هم از این مسیرها استفاده می‌کند:
+
+- `GET /api/ops/health`
+- `POST /api/ops/actions` با بدنه‌ی `{ "action": "health|deploy|cache|restart|rotate_api_key" }`
+
+عملیات سرور allowlist شده‌اند و endpoint اجرای shell آزاد وجود ندارد. API key، رمز عبور، کلید SSH و session secret هیچ‌وقت از API به پنل برگردانده نمی‌شوند؛ مقدار واقعی را فقط در Secret Manager / Environment Variables نگه دار. فایل `server-data/state.json` داده‌ی runtime را نگه می‌دارد و باید روی volume پایدار قرار بگیرد.
+
+اگر APK را با آدرس سایت live بسازی، صفحه‌ی hosted پنل را باز می‌کند و تغییرات مستقیماً به همین API می‌رسند:
+
+```bash
+NEON_ADMIN_URL=https://your-domain.example/admin.html gradle -p android assembleDebug
+```
+
+در GitHub Actions هم متغیر Repository Variable با نام `NEON_ADMIN_URL` توسط workflow خوانده می‌شود. اگر خالی باشد، APK در حالت preview آفلاین باز می‌شود.
 
 ## 🧠 شبیه‌سازی بک‌اند (موقت)
 کلیدهای `localStorage` با پیشوند `neon_` (ورود، نام، آواتار، VIP، لیست تماشا، پیشرفت تماشا، تاریخچه، نظرات). **این‌ها امنیتی نیستند** — قفل VIP و لینک ویدیو باید سمت سرور اعمال شود.
@@ -80,5 +162,7 @@ python3 -m http.server 8080   # سپس http://localhost:8080
 5. احراز هویت شبیه‌سازی‌شده‌ی تمیز (`auth.js`)، پروفایل واقعی، خروج در موبایل
 6. SEO/متا، favicon، فوتر، 404، manifest، اصلاحات موبایل
 7. کتابخانه‌ی کاربر با چهار صفحه‌ی مستقل (`favorites` / `continue-watching` / `history` / `completed`)، قرارداد `neon_watch_history`، انتخاب چندتایی و دیالوگ تأیید، و تبدیل `profile.html` به نمای کلی
+8. افزودن `control-center.html`: داشبورد عملیات، اتصال health check هم‌دامنه، محافظ کلیدها و خروجی امن برای GitHub بدون secret
+9. افزودن `admin.html` و `server.mjs`: پنل مدیریت live برای کاتالوگ، مقاله‌ها، کاربران، نظرات، تنظیمات و انتشار با API احراز هویت‌شده
 
 جزئیات و آنچه هنوز مانده (بک‌اند، پرداخت، HLS، ادمین): `CODE-REVIEW.md`
