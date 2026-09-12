@@ -13,6 +13,9 @@
         const requestedGenre = params.get('genre') || '';
         const query = (params.get('q') || '').trim();
         const showAll = params.get('view') === 'all';
+        const filterStatus = params.get('status') || '';
+        const filterYearMin = params.get('ymin') || '';
+        const filterRating = params.get('rmin') || '';
         const validSorts = new Set(['featured', 'rating', 'newest', 'title']);
         const requestedSort = validSorts.has(params.get('sort')) ? params.get('sort') : 'featured';
         const genreMap = new Map((DATA && DATA.genres || []).map(genre => [genre.id, genre]));
@@ -234,13 +237,27 @@
             return copy;
         }
 
+        function applyExtraFilters(items) {
+            return items.filter(anime => {
+                if (filterStatus && anime.status !== filterStatus) return false;
+                if (filterYearMin && anime.year < Number(filterYearMin)) return false;
+                if (filterRating && anime.rating < Number(filterRating)) return false;
+                return true;
+            });
+        }
+
         function renderResultGrid() {
             allGrid.replaceChildren();
-            const items = sorted(resultItems, sortSelect.value);
+            const items = sorted(applyExtraFilters(resultItems), sortSelect.value);
             items.forEach(anime => allGrid.appendChild(createAnimeCard(anime)));
             document.getElementById('catalogResultCount').textContent = `${toFa(items.length)} عنوان`;
             allGrid.hidden = items.length === 0;
             emptyState.hidden = items.length !== 0;
+            const relatedEmpty = document.getElementById('catalogRelatedEmpty');
+            if (relatedEmpty && items.length === 0 && DATA) {
+                relatedEmpty.replaceChildren();
+                DATA.list.slice(0, 4).forEach(a => relatedEmpty.appendChild(createAnimeCard(a)));
+            }
         }
 
         function renderResults() {
@@ -288,11 +305,31 @@
                 event.preventDefault();
                 const value = input.value.trim();
                 if (!value) {
-                    window.location.href = 'catalog.html';
+                    window.location.href = 'catalog.html?view=all#catalogResults';
                     return;
                 }
                 window.location.href = `catalog.html?q=${encodeURIComponent(value)}#catalogResults`;
             });
+            const suggestBox = document.getElementById('catalogSuggest');
+            if (suggestBox && DATA) {
+                input.addEventListener('input', () => {
+                    const q = input.value.trim();
+                    if (q.length < 1) { suggestBox.hidden = true; return; }
+                    const hits = DATA.search(q).slice(0, 8);
+                    suggestBox.replaceChildren();
+                    hits.forEach(a => {
+                        const row = element('a', 'catalog-suggest-item');
+                        row.href = DATA.detailUrl(a);
+                        row.setAttribute('role', 'option');
+                        row.textContent = a.title + ' · ' + a.titleEn;
+                        suggestBox.appendChild(row);
+                    });
+                    suggestBox.hidden = hits.length === 0;
+                });
+                document.addEventListener('click', e => {
+                    if (!form.contains(e.target)) suggestBox.hidden = true;
+                });
+            }
 
             function focusSearch() {
                 document.querySelector('.catalog-hero').scrollIntoView({ behavior: 'smooth', block: 'start' });

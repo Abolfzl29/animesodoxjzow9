@@ -142,9 +142,34 @@
             <form class="catalog-search" id="catalogSearchForm" action="catalog.html" method="get" role="search">
                 <label class="sr-only" for="catalogSearchInput">جستجو در آرشیو انیمه‌ها</label>
                 <span aria-hidden="true">⌕</span>
-                <input id="catalogSearchInput" name="q" type="search" autocomplete="off" placeholder="نام انیمه، شخصیت یا ژانر...">
+                <input id="catalogSearchInput" name="q" type="search" autocomplete="off" placeholder="نام انیمه، شخصیت یا ژانر..." aria-autocomplete="list">
                 <button type="submit">جستجو</button>
+                <div id="catalogSuggest" class="catalog-suggest" hidden role="listbox"></div>
             </form>
+            <div class="catalog-filters" id="catalogFilters">
+                <label>وضعیت
+                    <select id="filterStatus">
+                        <option value="">همه</option>
+                        <option value="airing">در حال پخش</option>
+                        <option value="finished">پایان‌یافته</option>
+                        <option value="upcoming">به‌زودی</option>
+                    </select>
+                </label>
+                <label>از سال
+                    <select id="filterYearMin">
+                        <option value="">—</option>
+                    </select>
+                </label>
+                <label>حداقل امتیاز
+                    <select id="filterRating">
+                        <option value="">همه</option>
+                        <option value="9">۹+</option>
+                        <option value="8">۸+</option>
+                        <option value="7">۷+</option>
+                    </select>
+                </label>
+                <button type="button" class="catalog-outline-btn" id="luckyBtn">انیمه شانسی</button>
+            </div>
 
             <div class="catalog-hero-meta" aria-label="آمار آرشیو">
                 <span><strong id="catalogTitleCount">۰</strong> عنوان منتخب</span>
@@ -249,6 +274,8 @@
     </nav>
 
     <script src="data/anime.js"></script>
+    <script src="data/anime-extra.js"></script>
+    <script src="data/recommend.js"></script>
     <script src="auth.js"></script>
     <script src="catalog.js"></script>
     <script src="gamification.js"></script>

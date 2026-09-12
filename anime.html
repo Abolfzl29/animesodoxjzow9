@@ -197,7 +197,7 @@
         <section id="animeNotFound" class="catalog-empty anime-empty" hidden>
             <span aria-hidden="true">⌕</span>
             <h1>این عنوان پیدا نشد</h1>
-            <p id="animeNotFoundCopy">شناسه واردشده در آرشیو وجود ندارد. به آرشیو برگرد و یکی از ۷ عنوان موجود را انتخاب کن.</p>
+            <p id="animeNotFoundCopy">شناسه واردشده در آرشیو وجود ندارد. به آرشیو برگرد و یکی از عنوان‌های موجود را انتخاب کن.</p>
             <div class="anime-empty-actions">
                 <a class="btn btn-play" href="catalog.html">مرور آرشیو</a>
                 <a class="btn btn-info" href="index.html">صفحه اصلی</a>
@@ -237,6 +237,13 @@
                                 <a class="btn btn-download" id="animeDownloadBtn" href="download.html">⬇ دانلود</a>
                                 <button class="btn btn-info" id="animeWatchlistBtn" type="button">+ لیست من</button>
                                 <button class="btn btn-info" id="animeTrailerBtn" type="button">🎞 تریلر</button>
+                                <a class="btn btn-info" id="animeRestartBtn" href="#">از اول شروع کن</a>
+                            </div>
+                            <div id="userRate" class="user-rate" aria-label="امتیاز نمایشی شما">
+                                <span>امتیاز شما:</span>
+                                <button type="button" data-score="6">۶</button>
+                                <button type="button" data-score="8">۸</button>
+                                <button type="button" data-score="10">۱۰</button>
                             </div>
                         </div>
                     </div>
@@ -331,6 +338,8 @@
     </nav>
 
     <script src="data/anime.js"></script>
+    <script src="data/anime-extra.js"></script>
+    <script src="data/recommend.js"></script>
     <script src="data/articles.js"></script>
     <script src="auth.js"></script>
     <script src="anime.js"></script>
