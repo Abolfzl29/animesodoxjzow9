@@ -1082,3 +1082,21 @@
 @media (max-width: 900px) {
     .nav-right { gap: 10px; }
 }
+
+/* Desktop fallback for the roulette trigger: keep it in the More menu so the
+   primary navbar always has room for search and day/night. */
+.gami-dropdown-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 0;
+    border: 0;
+    color: var(--text-muted);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    text-align: right;
+    transition: color .2s ease, transform .2s ease;
+}
+.gami-dropdown-link:hover, .gami-dropdown-link:focus-visible { color: var(--accent); transform: translateX(-4px); }

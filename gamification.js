@@ -349,18 +349,6 @@
     /* TRIGGERS — navbar button + side-menu link                            */
     /* ==================================================================== */
 
-    function buildNavTrigger() {
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'gami-nav-btn';
-        btn.id = 'gamiRouletteNavBtn';
-        btn.title = 'انیمه شانسی';
-        btn.setAttribute('aria-label', 'انیمه شانسی — گردونه شانس');
-        btn.innerHTML = '<span class="gami-nav-dice">🎲</span><span>انیمه شانسی</span>';
-        btn.addEventListener('click', function () { openRoulette(); });
-        return btn;
-    }
-
     function buildSideTrigger() {
         var a = document.createElement('a');
         a.href = '#gami-roulette';
@@ -392,16 +380,19 @@
     function injectTriggers() {
         if (!data() || !data().list || !data().list.length) return;
 
-        var navRight = document.querySelector('#navbar .nav-right') ||
-                       document.querySelector('.main-nav .nav-right');
-        if (navRight && !document.getElementById('gamiRouletteNavBtn')) {
-            var trigger = buildNavTrigger();
-            // Keep the day/night control and search visible. The roulette button
-            // belongs after the theme control instead of taking the first slot
-            // and pushing the right side of the navbar out of view.
-            var themeToggle = navRight.querySelector('.theme-toggle-btn');
-            if (themeToggle && themeToggle.nextElementSibling) navRight.insertBefore(trigger, themeToggle.nextElementSibling);
-            else navRight.appendChild(trigger);
+        // Do not inject a wide roulette button into the top navbar: on smaller
+        // screens it crowds the search/theme controls and can hide day/night.
+        // Keep it in the existing menus instead, where it remains discoverable.
+        var moreSection = document.querySelector('#moreMenuDropdown .dropdown-section');
+        if (moreSection && !document.getElementById('gamiRouletteMenuBtn')) {
+            var menuButton = document.createElement('button');
+            menuButton.type = 'button';
+            menuButton.className = 'gami-dropdown-link';
+            menuButton.id = 'gamiRouletteMenuBtn';
+            menuButton.title = 'گردونه شانس انیمه';
+            menuButton.innerHTML = '<span aria-hidden="true">🎲</span> انیمه شانسی';
+            menuButton.addEventListener('click', openRoulette);
+            moreSection.appendChild(menuButton);
         }
 
         var sideLinks = document.querySelector('#sideMenu .side-menu-links');
