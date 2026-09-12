@@ -395,7 +395,13 @@
         var navRight = document.querySelector('#navbar .nav-right') ||
                        document.querySelector('.main-nav .nav-right');
         if (navRight && !document.getElementById('gamiRouletteNavBtn')) {
-            navRight.insertBefore(buildNavTrigger(), navRight.firstChild);
+            var trigger = buildNavTrigger();
+            // Keep the day/night control and search visible. The roulette button
+            // belongs after the theme control instead of taking the first slot
+            // and pushing the right side of the navbar out of view.
+            var themeToggle = navRight.querySelector('.theme-toggle-btn');
+            if (themeToggle && themeToggle.nextElementSibling) navRight.insertBefore(trigger, themeToggle.nextElementSibling);
+            else navRight.appendChild(trigger);
         }
 
         var sideLinks = document.querySelector('#sideMenu .side-menu-links');
