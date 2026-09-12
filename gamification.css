@@ -4,58 +4,9 @@
 /* ========================================================================= */
 
 /* ========================================================================= */
-/* 1) TRIGGERS — navbar button + side-menu entry                             */
+/* 1) TRIGGERS — More-menu button + side-menu entry                          */
+/* The old navbar dice button is gone: it crowded the day/night toggle.      */
 /* ========================================================================= */
-
-.gami-nav-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 16px;
-    border-radius: 22px;
-    border: 1px solid rgba(0, 240, 255, 0.45);
-    background: linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(138, 43, 226, 0.18));
-    color: var(--text-light);
-    font-family: inherit;
-    font-size: 0.88rem;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 14px rgba(0, 240, 255, 0.25), inset 0 0 12px rgba(0, 240, 255, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    animation: gamiNavPulse 2.6s ease-in-out infinite;
-}
-.gami-nav-btn .gami-nav-dice {
-    display: inline-block;
-    font-size: 1rem;
-    line-height: 1;
-    filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.8));
-}
-.gami-nav-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.22) 50%, transparent 60%);
-    transform: translateX(-120%);
-    transition: transform 0.7s ease;
-}
-.gami-nav-btn:hover {
-    transform: translateY(-2px) scale(1.04);
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 24px rgba(0, 240, 255, 0.5), inset 0 0 16px rgba(0, 240, 255, 0.12);
-}
-.gami-nav-btn:hover::after { transform: translateX(120%); }
-.gami-nav-btn:active { transform: scale(0.96); }
-@keyframes gamiNavPulse {
-    0%, 100% { box-shadow: 0 0 14px rgba(0, 240, 255, 0.25), inset 0 0 12px rgba(0, 240, 255, 0.08); }
-    50%      { box-shadow: 0 0 26px rgba(0, 240, 255, 0.5), inset 0 0 16px rgba(0, 240, 255, 0.16); }
-}
-@media (max-width: 768px) {
-    .gami-nav-btn { padding: 7px 11px; font-size: 0; gap: 0; }
-    .gami-nav-btn .gami-nav-dice { font-size: 1.15rem; }
-}
 
 /* Side-menu entry */
 .side-menu-links a.gami-side-link {
@@ -1057,9 +1008,34 @@
 
 :root[data-theme="light"] .gami-roulette-overlay,
 :root[data-theme="light"] .gami-unlock-overlay { background: rgba(240, 242, 248, 0.8); }
-:root[data-theme="light"] .gami-nav-btn { color: #14161a; }
 :root[data-theme="light"] .gami-close-btn { background: rgba(0, 0, 0, 0.05); color: #14161a; }
 :root[data-theme="light"] .gami-result-meta span,
 :root[data-theme="light"] .badge-card .badge-desc { color: #5c636b; }
 :root[data-theme="light"] .gami-btn-download { color: #007c8f; }
 :root[data-theme="light"] .mood-anime-poster::after { background: linear-gradient(to top, #ffffff 4%, transparent 55%); }
+
+/* Keep the navigation controls visible — the day/night toggle must never be
+   pushed out of the navbar row. */
+.nav-right { min-width: 0; flex-wrap: nowrap; }
+.theme-toggle-btn { width: 38px; height: 38px; flex: 0 0 38px; }
+@media (max-width: 900px) {
+    .nav-right { gap: 10px; }
+}
+
+/* Desktop fallback for the roulette trigger: keep it in the More menu so the
+   primary navbar always has room for search and day/night. */
+.gami-dropdown-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 0;
+    border: 0;
+    color: var(--text-muted);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    text-align: right;
+    transition: color .2s ease, transform .2s ease;
+}
+.gami-dropdown-link:hover, .gami-dropdown-link:focus-visible { color: var(--accent); transform: translateX(-4px); }

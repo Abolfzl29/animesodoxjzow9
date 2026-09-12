@@ -18,9 +18,14 @@
         const filterRating = params.get('rmin') || '';
         const validSorts = new Set(['featured', 'rating', 'newest', 'title']);
         const requestedSort = validSorts.has(params.get('sort')) ? params.get('sort') : 'featured';
+        const requestedStatus = ['all', 'airing', 'finished'].includes(params.get('status')) ? params.get('status') : 'all';
+        const requestedYear = /^\d{4}$/.test(params.get('year') || '') ? params.get('year') : 'all';
+        const requestedMinRating = ['all', '8', '8.5', '9'].includes(params.get('rating')) ? params.get('rating') : 'all';
         const genreMap = new Map((DATA && DATA.genres || []).map(genre => [genre.id, genre]));
         const landingGenreIds = (DATA && DATA.genres || []).map(genre => genre.id);
+        let sourceItems = [];
         let resultItems = [];
+        let filterControls = {};
 
         function element(tag, className, text) {
             const node = document.createElement(tag);
@@ -229,6 +234,87 @@
             });
         }
 
+        function readFilterState() {
+            return {
+                status: filterControls.status ? filterControls.status.value : requestedStatus,
+                year: filterControls.year ? filterControls.year.value : requestedYear,
+                rating: filterControls.rating ? filterControls.rating.value : requestedMinRating
+            };
+        }
+
+        function filterItems(items, filters) {
+            return items.filter(anime => {
+                if (filters.status !== 'all' && anime.status !== filters.status) return false;
+                if (filters.year !== 'all' && String(anime.year) !== filters.year) return false;
+                if (filters.rating !== 'all' && Number(anime.rating) < Number(filters.rating)) return false;
+                return true;
+            });
+        }
+
+        function setFilterUrl(filters) {
+            const nextUrl = new URL(window.location.href);
+            [['status', 'all'], ['year', 'all'], ['rating', 'all']].forEach(([key, defaultValue]) => {
+                if (filters[key] === defaultValue) nextUrl.searchParams.delete(key);
+                else nextUrl.searchParams.set(key, filters[key]);
+            });
+            window.history.replaceState(null, '', `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+        }
+
+        function renderFilterSummary(filters) {
+            const summary = document.getElementById('catalogActiveFilters');
+            const clearButton = document.getElementById('catalogClearFilters');
+            if (!summary) return;
+            const labels = [];
+            if (filters.status !== 'all') labels.push(filters.status === 'airing' ? 'در حال پخش' : 'پایان‌یافته');
+            if (filters.year !== 'all') labels.push(`سال ${toFa(filters.year)}`);
+            if (filters.rating !== 'all') labels.push(`امتیاز ${toFa(filters.rating)} به بالا`);
+            summary.textContent = labels.length ? `فیلتر فعال: ${labels.join(' · ')}` : 'همه عنوان‌ها نمایش داده می‌شوند';
+            if (clearButton) clearButton.hidden = labels.length === 0;
+        }
+
+        function renderFilterOptions() {
+            const yearSelect = filterControls.year;
+            if (!yearSelect || !DATA) return;
+            const years = [...new Set(DATA.list.map(anime => anime.year).filter(Boolean))].sort((a, b) => b - a);
+            yearSelect.replaceChildren(element('option', '', 'همه سال‌ها'));
+            yearSelect.firstElementChild.value = 'all';
+            years.forEach(year => {
+                const option = element('option', '', toFa(year));
+                option.value = String(year);
+                yearSelect.appendChild(option);
+            });
+            yearSelect.value = years.includes(Number(requestedYear)) ? requestedYear : 'all';
+        }
+
+        function updateFilteredResults() {
+            const filters = readFilterState();
+            resultItems = filterItems(sourceItems, filters);
+            renderResultGrid();
+            renderFilterSummary(filters);
+            setFilterUrl(filters);
+        }
+
+        function setupAdvancedFilters() {
+            filterControls = {
+                status: document.getElementById('catalogStatusFilter'),
+                year: document.getElementById('catalogYearFilter'),
+                rating: document.getElementById('catalogRatingFilter')
+            };
+            renderFilterOptions();
+            if (filterControls.status) filterControls.status.value = requestedStatus;
+            if (filterControls.rating) filterControls.rating.value = requestedMinRating;
+            Object.values(filterControls).forEach(control => {
+                if (control) control.addEventListener('change', updateFilteredResults);
+            });
+            const clearButton = document.getElementById('catalogClearFilters');
+            if (clearButton) clearButton.addEventListener('click', () => {
+                if (filterControls.status) filterControls.status.value = 'all';
+                if (filterControls.year) filterControls.year.value = 'all';
+                if (filterControls.rating) filterControls.rating.value = 'all';
+                updateFilteredResults();
+            });
+        }
+
         function sorted(items, mode) {
             const copy = items.slice();
             if (mode === 'rating') return copy.sort((a, b) => b.rating - a.rating);
@@ -269,26 +355,28 @@
             const description = document.getElementById('catalogResultsDescription');
 
             if (query) {
-                resultItems = DATA.search(query);
+                sourceItems = DATA.search(query);
                 eyebrow.textContent = 'نتایج جستجو';
                 title.textContent = `نتیجه برای «${query}»`;
                 description.textContent = 'جستجو در نام فارسی و انگلیسی، شخصیت‌ها و ژانرها.';
                 document.title = `جستجوی ${query} | نئون انیمه`;
             } else if (requestedGenre) {
                 const genre = genreMap.get(requestedGenre);
-                resultItems = genre ? itemsForGenre(requestedGenre) : [];
+                sourceItems = genre ? itemsForGenre(requestedGenre) : [];
                 eyebrow.textContent = 'آرشیو ژانری';
                 title.textContent = genre ? `انیمه‌های ${genre.label}` : 'ژانر پیدا نشد';
                 description.textContent = genre ? genre.description : 'این دسته‌بندی در آرشیو وجود ندارد.';
                 document.title = `${title.textContent} | نئون انیمه`;
             } else {
-                resultItems = DATA.list.slice();
+                sourceItems = DATA.list.slice();
                 eyebrow.textContent = 'کل آرشیو';
                 title.textContent = 'همه انیمه‌ها';
                 description.textContent = 'تمام عنوان‌های موجود در آرشیو، یک‌جا برای مرور دقیق‌تر.';
                 document.title = 'همه انیمه‌ها | نئون انیمه';
             }
+            resultItems = filterItems(sourceItems, readFilterState());
             renderResultGrid();
+            renderFilterSummary(readFilterState());
 
             if (window.location.hash === '#catalogResults') {
                 const focusResults = () => results.scrollIntoView({ behavior: 'auto', block: 'start' });
@@ -300,7 +388,57 @@
         function setupSearch() {
             const form = document.getElementById('catalogSearchForm');
             const input = document.getElementById('catalogSearchInput');
+            const suggestions = document.getElementById('catalogSuggestions');
             input.value = query;
+            let suggestionItems = [];
+            let activeSuggestion = -1;
+
+            function hideSuggestions() {
+                if (!suggestions) return;
+                suggestions.hidden = true;
+                suggestions.replaceChildren();
+                activeSuggestion = -1;
+            }
+
+            function chooseSuggestion(anime) {
+                hideSuggestions();
+                if (!anime) return;
+                // Suggestions deep-link straight to the anime page, the way the
+                // catalog suggestions behaved before this merge.
+                const href = DATA && typeof DATA.detailUrl === 'function' ? DATA.detailUrl(anime) : '';
+                if (href) {
+                    window.location.href = href;
+                    return;
+                }
+                input.value = anime.title;
+                form.requestSubmit();
+            }
+
+            function renderSuggestions() {
+                if (!suggestions || !DATA) return;
+                const value = input.value.trim();
+                if (value.length < 2) {
+                    hideSuggestions();
+                    return;
+                }
+                suggestionItems = DATA.search(value).slice(0, 6);
+                if (!suggestionItems.length) {
+                    hideSuggestions();
+                    return;
+                }
+                suggestions.replaceChildren();
+                suggestionItems.forEach((anime, index) => {
+                    const button = element('button', 'catalog-suggestion', `${anime.title} · ${anime.titleEn}`);
+                    button.type = 'button';
+                    button.setAttribute('role', 'option');
+                    button.setAttribute('aria-selected', String(index === activeSuggestion));
+                    button.addEventListener('mousedown', event => event.preventDefault());
+                    button.addEventListener('click', () => chooseSuggestion(anime));
+                    suggestions.appendChild(button);
+                });
+                suggestions.hidden = false;
+            }
+
             form.addEventListener('submit', event => {
                 event.preventDefault();
                 const value = input.value.trim();
@@ -310,26 +448,30 @@
                 }
                 window.location.href = `catalog.html?q=${encodeURIComponent(value)}#catalogResults`;
             });
-            const suggestBox = document.getElementById('catalogSuggest');
-            if (suggestBox && DATA) {
-                input.addEventListener('input', () => {
-                    const q = input.value.trim();
-                    if (q.length < 1) { suggestBox.hidden = true; return; }
-                    const hits = DATA.search(q).slice(0, 8);
-                    suggestBox.replaceChildren();
-                    hits.forEach(a => {
-                        const row = element('a', 'catalog-suggest-item');
-                        row.href = DATA.detailUrl(a);
-                        row.setAttribute('role', 'option');
-                        row.textContent = a.title + ' · ' + a.titleEn;
-                        suggestBox.appendChild(row);
+            input.addEventListener('input', () => {
+                activeSuggestion = -1;
+                renderSuggestions();
+            });
+            input.addEventListener('keydown', event => {
+                if (!suggestions || suggestions.hidden || !suggestionItems.length) return;
+                if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    activeSuggestion = event.key === 'ArrowDown'
+                        ? (activeSuggestion + 1) % suggestionItems.length
+                        : (activeSuggestion - 1 + suggestionItems.length) % suggestionItems.length;
+                    suggestions.querySelectorAll('.catalog-suggestion').forEach((button, index) => {
+                        button.setAttribute('aria-selected', String(index === activeSuggestion));
                     });
-                    suggestBox.hidden = hits.length === 0;
-                });
-                document.addEventListener('click', e => {
-                    if (!form.contains(e.target)) suggestBox.hidden = true;
-                });
-            }
+                } else if (event.key === 'Enter' && activeSuggestion >= 0) {
+                    event.preventDefault();
+                    chooseSuggestion(suggestionItems[activeSuggestion]);
+                } else if (event.key === 'Escape') {
+                    hideSuggestions();
+                }
+            });
+            document.addEventListener('click', event => {
+                if (!form.contains(event.target)) hideSuggestions();
+            });
 
             function focusSearch() {
                 document.querySelector('.catalog-hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -409,6 +551,7 @@
         document.getElementById('catalogTitleCount').textContent = toFa(DATA.list.length);
         document.getElementById('catalogGenreCount').textContent = toFa(DATA.genres.filter(genre => itemsForGenre(genre.id).length).length);
         renderGenreNav();
+        setupAdvancedFilters();
         sortSelect.value = requestedSort;
         sortSelect.addEventListener('change', () => {
             renderResultGrid();

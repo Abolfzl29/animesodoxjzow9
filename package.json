@@ -1,0 +1,15 @@
+{
+  "name": "neon-anime",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Neon Anime static site and secure admin API",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "hash-password": "node scripts/hash-password.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

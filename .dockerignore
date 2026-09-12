@@ -1,3 +1,10 @@
 .git
 .gitignore
 .arena
+
+# Build/runtime data should not be baked into the image.
+server-data
+android
+artifacts
+node_modules
+*.apk
