@@ -84,6 +84,8 @@
         .auth-page-header { margin-bottom: 40px; }
         .auth-page-header h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 10px; color: white; }
         .auth-page-header p { font-size: 1rem; color: var(--text-muted); }
+        .demo-auth-note { display: grid; gap: 3px; margin-top: 16px; padding: 12px 14px; border: 1px solid rgba(240,166,64,.35); border-radius: 12px; background: rgba(240,166,64,.08); color: var(--text-muted); font-size: .78rem; line-height: 1.7; }
+        .demo-auth-note strong { color: #f0a640; }
 
         @media (max-width: 900px) {
             .auth-page-left { display: none; }
@@ -92,6 +94,7 @@
             body { overflow-y: auto; }
         }
     </style>
+    <script src="pwa.js" defer></script>
 </head>
 <body>
 
@@ -115,6 +118,7 @@
                 <div class="auth-page-header">
                     <h2>ورود به حساب</h2>
                     <p>به نئون انیمه خوش برگشتید.</p>
+                    <div class="demo-auth-note" role="note"><strong>نسخه آزمایشی</strong><span>تا زمان اتصال Backend، این ورود فقط اطلاعات را روی همین مرورگر نگه می‌دارد و حساب واقعی نمی‌سازد.</span></div>
                 </div>
                 
                 <form class="premium-form" id="loginForm" novalidate>
@@ -406,7 +410,7 @@
                 setTimeout(() => { window.location.href = NeonAuth.nextUrl('profile.html'); }, 1200);
             }
 
-            // ----- Login (DEMO: no server -> any credentials pass; VIP is granted for showcasing) -----
+            // ----- Login (static demo: no server; credentials are not verified) -----
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (!validate(loginForm)) return;
@@ -425,9 +429,10 @@
                         username: localStorage.getItem('neon_user_username') || 'Kianoosh_Otaku',
                         avatar: localStorage.getItem('neon_user_avatar') || 'assets/img/gojo-satoru.webp',
                         email: identifier.includes('@') ? identifier : '',
-                        vip: true
+                        // VIP is never granted by the static demo; it must come from a real backend.
+                        vip: false
                     });
-                    finishAuth(btn, 'با موفقیت وارد شدید!', 'در حال انتقال...');
+                    finishAuth(btn, 'ورود آزمایشی انجام شد!', 'اطلاعات فقط روی همین مرورگر ذخیره شد.');
                 }, 1200);
             });
 

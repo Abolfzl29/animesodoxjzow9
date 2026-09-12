@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="catalog.css">
     <link rel="stylesheet" href="gamification.css">
+    <script src="pwa.js" defer></script>
 </head>
 <body class="catalog-page">
     <div id="toastContainer" aria-live="polite"></div>
@@ -142,9 +143,9 @@
             <form class="catalog-search" id="catalogSearchForm" action="catalog.html" method="get" role="search">
                 <label class="sr-only" for="catalogSearchInput">جستجو در آرشیو انیمه‌ها</label>
                 <span aria-hidden="true">⌕</span>
-                <input id="catalogSearchInput" name="q" type="search" autocomplete="off" placeholder="نام انیمه، شخصیت یا ژانر..." aria-autocomplete="list">
+                <input id="catalogSearchInput" name="q" type="search" autocomplete="off" placeholder="نام انیمه، شخصیت یا ژانر..." aria-controls="catalogSuggestions" aria-autocomplete="list">
                 <button type="submit">جستجو</button>
-                <div id="catalogSuggest" class="catalog-suggest" hidden role="listbox"></div>
+                <div class="catalog-suggestions" id="catalogSuggestions" role="listbox" aria-label="پیشنهادهای جستجو" hidden></div>
             </form>
             <div class="catalog-filters" id="catalogFilters">
                 <label>وضعیت
@@ -214,7 +215,15 @@
                     </select>
                 </label>
             </div>
-            <div class="catalog-result-summary" role="status" aria-live="polite"><span id="catalogResultCount">۰ عنوان</span></div>
+            <div class="catalog-filter-toolbar" aria-label="فیلترهای آرشیو">
+                <div class="catalog-filter-fields">
+                    <label>وضعیت پخش<select id="catalogStatusFilter"><option value="all">همه وضعیت‌ها</option><option value="airing">در حال پخش</option><option value="finished">پایان‌یافته</option></select></label>
+                    <label>سال انتشار<select id="catalogYearFilter"><option value="all">همه سال‌ها</option></select></label>
+                    <label>حداقل امتیاز<select id="catalogRatingFilter"><option value="all">همه امتیازها</option><option value="8">۸ به بالا</option><option value="8.5">۸.۵ به بالا</option><option value="9">۹ به بالا</option></select></label>
+                </div>
+                <button class="catalog-clear-filters" id="catalogClearFilters" type="button" hidden>پاک کردن فیلترها</button>
+            </div>
+            <div class="catalog-result-summary" role="status" aria-live="polite"><span id="catalogResultCount">۰ عنوان</span><span id="catalogActiveFilters">همه عنوان‌ها نمایش داده می‌شوند</span></div>
             <div id="catalogAllGrid" class="catalog-all-grid"></div>
             <div id="catalogEmpty" class="catalog-empty" hidden>
                 <span aria-hidden="true">⌕</span>
