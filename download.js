@@ -74,8 +74,10 @@
             const meta = document.querySelector('meta[name="theme-color"]');
             if (meta) meta.content = theme === 'light' ? '#f4f1f9' : '#0a0a0c';
             const themeButton = document.getElementById('themeToggleBtn');
-            themeButton.setAttribute('aria-pressed', String(theme === 'light'));
-            themeButton.title = theme === 'light' ? 'حالت شب' : 'حالت روز';
+            if (themeButton) {
+                themeButton.setAttribute('aria-pressed', String(theme === 'light'));
+                themeButton.title = theme === 'light' ? 'حالت شب' : 'حالت روز';
+            }
         }
 
         function setupShell() {
@@ -105,9 +107,11 @@
             window.addEventListener('scroll', updateNav, { passive: true });
             updateNav();
             const footerYear = document.getElementById('footerYear');
-            try {
-                footerYear.textContent = new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(new Date());
-            } catch (e) {}
+            if (footerYear) {
+                try {
+                    footerYear.textContent = new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(new Date());
+                } catch (e) {}
+            }
         }
 
         function openVip() {

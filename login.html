@@ -425,12 +425,16 @@
                 setTimeout(() => {
                     // TODO(backend): POST /api/auth/login { identifier, password } -> session cookie + user profile
                     const existingName = localStorage.getItem('neon_user_name');
+                    // Demo behaviour: keep whatever VIP state this browser already
+                    // has (so a free signup can't silently become VIP by logging in
+                    // again); only grant the demo VIP on a completely fresh session.
+                    const storedVip = localStorage.getItem('neon_is_vip');
                     NeonAuth.login({
                         name: existingName || 'کیانوش',
                         username: localStorage.getItem('neon_user_username') || 'Kianoosh_Otaku',
                         avatar: localStorage.getItem('neon_user_avatar') || 'assets/img/gojo-satoru.webp',
                         email: identifier.includes('@') ? identifier : '',
-                        vip: true
+                        vip: storedVip === null ? true : storedVip === 'true'
                     });
                     finishAuth(btn, 'با موفقیت وارد شدید!', 'در حال انتقال...');
                 }, 1200);

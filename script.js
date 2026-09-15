@@ -121,46 +121,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 4. INTERACTIVE SCHEDULE TABS
+    // Data comes from data/schedule.js (window.NEON_SCHEDULE_DATA) — the same
+    // single source the full schedule page uses, so the two never disagree.
     const scheduleTabs = document.querySelectorAll('.day-btn');
     const scheduleContent = document.getElementById('scheduleContent');
 
-    const scheduleData = {
-        0: [ 
-            { title: "وان پیس", time: "۱۴:۳۰", img: "assets/img/one-piece.webp" },
-            { title: "حمله به تایتان", time: "۱۶:۰۰", img: "assets/img/attack-on-titan-wallpaper.webp" },
-            { title: "جوجوتسو کایسن", time: "۱۹:۳۰", img: "assets/img/jujutsu-kaisen.webp" }
-        ],
-        1: [ 
-            { title: "دفترچه مرگ", time: "۱۸:۰۰", img: "assets/img/death-note.webp" },
-            { title: "مرد اره‌ای", time: "۲۱:۰۰", img: "assets/img/chainsaw-man.webp" }
-        ],
-        2: [
-            { title: "جوجوتسو کایسن", time: "۲۱:۳۰", img: "assets/img/jujutsu-kaisen.webp" },
-            { title: "مرد اره‌ای", time: "۲۳:۰۰", img: "assets/img/chainsaw-man.webp" },
-            { title: "سایبرپانک: اج‌رانرز", time: "۰۰:۳۰", img: "assets/img/cyberpunk-edgerunners-2.webp" }
-        ],
-        3: [ 
-            { title: "شیطان کش", time: "۲۰:۰۰", img: "assets/img/demon-slayer.webp" },
-            { title: "وان پیس", time: "۲۲:۰۰", img: "assets/img/one-piece.webp" }
-        ],
-        4: [ 
-            { title: "اتک آن تایتان", time: "۲۲:۱۵", img: "assets/img/attack-on-titan-wallpaper.webp" },
-            { title: "دفترچه مرگ", time: "۲۳:۳۰", img: "assets/img/death-note.webp" }
-        ]
-    };
+    const HOME_DAY_KEYS = ['sat', 'sun', 'mon', 'tue', 'wed']; // order of the tabs above
+    const HOME_DAY_JSDAY = { sat: 6, sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5 };
 
-    function renderSchedule(dayIndex) {
+    function homeTodayKey() {
+        const jsDay = new Date().getDay();
+        for (const key in HOME_DAY_JSDAY) {
+            if (HOME_DAY_JSDAY[key] === jsDay) return key;
+        }
+        return 'sat';
+    }
+
+    function renderSchedule(dayKey) {
         if(!scheduleContent) return;
         scheduleContent.innerHTML = '';
-        const items = scheduleData[dayIndex];
-        
-        if(items && items.length > 0) {
+        const schedule = window.NEON_SCHEDULE_DATA || [];
+        const catalog = window.NEON_ANIME;
+        const items = schedule.filter(entry => entry.day === dayKey)
+            .map(entry => {
+                const match = catalog ? catalog.byId[entry.animeId] : null;
+                if (!match) return null;
+                return { title: match.title, time: catalog.toFa(entry.time), img: match.banner, anime: match };
+            })
+            .filter(Boolean);
+
+        if(items.length > 0) {
             items.forEach(item => {
-                const catalog = window.NEON_ANIME;
-                const match = catalog ? catalog.findByTitle(item.title) : null;
-                const href = match && catalog.detailUrl ? catalog.detailUrl(match) : 'catalog.html';
                 scheduleContent.innerHTML += `
-                    <a class="schedule-card" href="${href}" data-anime="${match ? match.id : ''}">
+                    <a class="schedule-card" href="${catalog.detailUrl(item.anime)}" data-anime="${item.anime.id}">
                         <img src="${item.img}" alt="${item.title}">
                         <div class="schedule-info">
                             <h4>${item.title}</h4>
@@ -175,12 +168,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if(scheduleTabs.length > 0) {
-        renderSchedule(2);
+        // Mark today's tab dynamically instead of hardcoding "(امروز)".
+        // (If today falls outside the five visible days, activate the first tab.)
+        const todayIndex = HOME_DAY_KEYS.indexOf(homeTodayKey());
+        const activeIndex = todayIndex >= 0 ? todayIndex : 0;
+        scheduleTabs.forEach((tab, i) => {
+            tab.classList.toggle('active', i === activeIndex);
+            tab.textContent = tab.textContent.replace(/\s*\(امروز\)\s*$/, '');
+            if (i === todayIndex) tab.textContent += ' (امروز)';
+        });
+        renderSchedule(HOME_DAY_KEYS[activeIndex]);
         scheduleTabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 scheduleTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                renderSchedule(tab.getAttribute('data-day'));
+                renderSchedule(HOME_DAY_KEYS[parseInt(tab.getAttribute('data-day'), 10)]);
             });
         });
     }

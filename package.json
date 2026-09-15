@@ -1,0 +1,12 @@
+{
+  "name": "neon-anime",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Neon Anime — static RTL anime streaming front-end (demo). Front-end only; all persistence is localStorage.",
+  "scripts": {
+    "test": "node tests/run-tests.js"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.0"
+  }
+}

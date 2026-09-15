@@ -10,7 +10,9 @@
  * Bump CACHE_NAME whenever the app shell changes significantly; old caches
  * are cleaned automatically on `activate`.
  * ========================================================================== */
-var CACHE_NAME = 'neon-anime-v1';
+// Bump this on every deploy that changes the app shell: old caches are
+// cleaned on `activate`, and the precache below is refreshed.
+var CACHE_NAME = 'neon-anime-v2';
 var PRECACHE = [
     './',
     './index.html',
@@ -18,10 +20,19 @@ var PRECACHE = [
     './schedule.html',
     './mag.html',
     './recommend.html',
+    './anime.html',
+    './watch.html',
+    './article.html',
+    './download.html',
+    './profile.html',
     './404.html',
     './style.css',
     './catalog.css',
     './recommend.css',
+    './anime.css',
+    './mag.css',
+    './schedule.css',
+    './download.css',
     './gamification.css',
     './library.css',
     './script.js',
@@ -29,10 +40,18 @@ var PRECACHE = [
     './library.js',
     './gamification.js',
     './recommend.js',
+    './anime.js',
+    './catalog.js',
+    './schedule.js',
+    './mag.js',
+    './download.js',
     './data/anime.js',
     './data/anime-extra.js',
     './data/recommend.js',
     './data/articles.js',
+    './data/schedule.js',
+    './assets/vendor/gsap.min.js',
+    './assets/vendor/typed.umd.js',
     './manifest.webmanifest',
     './assets/favicon.svg',
     './assets/icon-192.png',

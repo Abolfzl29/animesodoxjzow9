@@ -33,7 +33,7 @@
     <meta property="og:locale" content="fa_IR">
     <meta property="og:image" content="assets/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="assets/vendor/gsap.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="download.css">
     <link rel="stylesheet" href="gamification.css">
@@ -282,6 +282,17 @@
     </div>
 
     <main class="watch-container">
+        <!-- Shown when ?anime= / ?title= does not match anything in the archive -->
+        <section id="watchNotFound" hidden style="grid-column: 1 / -1; text-align: center; padding: 90px 20px;">
+            <span aria-hidden="true" style="font-size: 3.5rem; display: block; margin-bottom: 18px;">⌕</span>
+            <h1 style="font-size: 1.6rem; margin-bottom: 12px;">این عنوان برای پخش پیدا نشد</h1>
+            <p id="watchNotFoundCopy" style="color: var(--text-muted); max-width: 560px; margin: 0 auto 26px; line-height: 1.9;">شناسه واردشده در آرشیو وجود ندارد. به آرشیو برگرد و یکی از عنوان‌های موجود را انتخاب کن.</p>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <a class="btn btn-play" href="catalog.html">مرور آرشیو</a>
+                <a class="btn btn-info" href="index.html">صفحه اصلی</a>
+            </div>
+        </section>
+
         <!-- Left/Main Side: Video & Info -->
         <div class="watch-main">
             <!-- Custom Video Player -->
@@ -377,7 +388,7 @@
                         </button>
                         <button class="w-action-btn" id="watchlistBtn">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                            لیست من
+                            <span id="watchlistLabel">لیست من</span>
                         </button>
                         <button class="w-action-btn" id="shareBtn">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
@@ -554,8 +565,13 @@
 
             // ---------- Resolve which anime / episode to show ----------
             let anime = null;
+            let requested = (params.get('anime') || params.get('title') || '').trim();
             if (DATA) {
-                anime = DATA.byId[params.get('anime')] || DATA.findByTitle(params.get('title') || params.get('anime')) || DATA.list[0];
+                if (requested) {
+                    anime = DATA.byId[params.get('anime')] || DATA.findByTitle(requested) || null;
+                } else {
+                    anime = DATA.list[0]; // bare watch.html -> show something sensible
+                }
             }
             let episode = null;
             if (anime) {
@@ -565,6 +581,24 @@
                 if (episode.vip && !isVip) {
                     episode = anime.episodes.find(e => !e.vip) || episode;
                 }
+            }
+
+            // Unknown id/title: show a real not-found state instead of silently
+            // playing an unrelated title.
+            function showNotFound() {
+                document.title = 'عنوان پیدا نشد | نئون انیمه';
+                const copy = document.getElementById('watchNotFoundCopy');
+                if (copy && requested) {
+                    copy.textContent = '«' + requested + '» در آرشیو پخش وجود ندارد. به آرشیو برگرد و یکی از عنوان‌های موجود را انتخاب کن.';
+                }
+                const panel = document.getElementById('watchNotFound');
+                if (panel) panel.hidden = false;
+                // Use inline display:none: some children (e.g. .watch-sidebar)
+                // have CSS `display` rules that override the [hidden] attribute.
+                document.querySelectorAll('.watch-container > *:not(#watchNotFound)').forEach(el => {
+                    el.setAttribute('hidden', '');
+                    el.style.display = 'none';
+                });
             }
 
             // "از اول شروع کن" (anime.html?…&restart=1): forget the saved position
@@ -885,7 +919,8 @@
                 if (!watchlistBtn || !anime) return;
                 const inList = getWatchlist().includes(anime.id);
                 watchlistBtn.classList.toggle('active', inList);
-                watchlistBtn.lastChild.textContent = inList ? ' در لیست من ✓' : ' لیست من';
+                const label = document.getElementById('watchlistLabel');
+                if (label) label.textContent = inList ? 'در لیست من ✓' : 'لیست من';
             }
             if (watchlistBtn) {
                 watchlistBtn.addEventListener('click', () => {
@@ -917,6 +952,23 @@
             const commentSubmit = document.getElementById('commentSubmit');
             const commentsList = document.getElementById('commentsList');
             function commentsKey() { return 'neon_comments_' + anime.id + '_' + episode.number; }
+            // Relative timestamp for comments; falls back to a short fa-IR date
+            // after a couple of days. Legacy entries without `time` keep their
+            // stored `when` string.
+            function formatCommentTime(c) {
+                if (!c || !c.time) return (c && c.when) || '';
+                const diff = Date.now() - c.time;
+                const min = Math.floor(diff / 60000);
+                if (min < 1) return 'همین الان';
+                if (min < 60) return toFa(min) + ' دقیقه پیش';
+                const hr = Math.floor(min / 60);
+                if (hr < 24) return toFa(hr) + ' ساعت پیش';
+                const day = Math.floor(hr / 24);
+                if (day < 3) return toFa(day) + ' روز پیش';
+                try {
+                    return new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' }).format(new Date(c.time));
+                } catch (e) { return ''; }
+            }
             function loadLocalComments() {
                 if (!commentsList || !anime) return;
                 commentsList.querySelectorAll('.local-comment').forEach(el => el.remove());
@@ -935,7 +987,7 @@
                     <div>
                         <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 5px;">
                             <h5 style="font-weight: bold;">${escapeHtml(c.name)}</h5>
-                            <span style="font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(c.when)}</span>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(formatCommentTime(c))}</span>
                             ${c.vip ? '<span class="vip-tag" style="font-size: 0.6rem; padding: 2px 6px;">VIP</span>' : ''}
                         </div>
                         <p style="color: var(--comment-text, #ddd); font-size: 0.95rem; line-height: 1.6;">${escapeHtml(c.text)}</p>
@@ -954,7 +1006,7 @@
                     const c = {
                         name: localStorage.getItem('neon_user_username') || localStorage.getItem('neon_user_name') || 'کاربر',
                         avatar: localStorage.getItem('neon_user_avatar') || 'assets/img/avatar-1.webp',
-                        vip: isVip, text: text, when: 'همین الان'
+                        vip: isVip, text: text, time: Date.now()
                     };
                     let saved = [];
                     try { saved = JSON.parse(localStorage.getItem(commentsKey()) || '[]'); } catch (e) {}
@@ -978,6 +1030,8 @@
             if (anime) {
                 renderPage();
                 loadLocalComments();
+            } else if (requested) {
+                showNotFound();
             } else {
                 setPlayingUI(false);
             }
