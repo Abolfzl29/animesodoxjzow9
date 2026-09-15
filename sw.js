@@ -12,7 +12,9 @@
  * ========================================================================== */
 // Bump this on every deploy that changes the app shell: old caches are
 // cleaned on `activate`, and the precache below is refreshed.
-var CACHE_NAME = 'neon-anime-v2';
+// v3: navbar dice button removed — returning visitors must not see a stale
+// cached gamification.js that still injects it.
+var CACHE_NAME = 'neon-anime-v3';
 var PRECACHE = [
     './',
     './index.html',
