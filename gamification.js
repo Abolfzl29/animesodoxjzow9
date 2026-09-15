@@ -349,18 +349,6 @@
     /* TRIGGERS — navbar button + side-menu link                            */
     /* ==================================================================== */
 
-    function buildNavTrigger() {
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'gami-nav-btn';
-        btn.id = 'gamiRouletteNavBtn';
-        btn.title = 'انیمه شانسی';
-        btn.setAttribute('aria-label', 'انیمه شانسی — گردونه شانس');
-        btn.innerHTML = '<span class="gami-nav-dice">🎲</span><span>انیمه شانسی</span>';
-        btn.addEventListener('click', function () { openRoulette(); });
-        return btn;
-    }
-
     function buildSideTrigger() {
         var a = document.createElement('a');
         a.href = '#gami-roulette';
@@ -389,14 +377,11 @@
         return a;
     }
 
+    // The navbar dice button was removed on purpose: it crowded the navbar
+    // and pushed the day/night toggle out of view. The roulette stays
+    // reachable from the side menu («انیمه شانسی»).
     function injectTriggers() {
         if (!data() || !data().list || !data().list.length) return;
-
-        var navRight = document.querySelector('#navbar .nav-right') ||
-                       document.querySelector('.main-nav .nav-right');
-        if (navRight && !document.getElementById('gamiRouletteNavBtn')) {
-            navRight.insertBefore(buildNavTrigger(), navRight.firstChild);
-        }
 
         var sideLinks = document.querySelector('#sideMenu .side-menu-links');
         if (sideLinks && !document.getElementById('gamiRouletteSideLink')) {
@@ -616,7 +601,7 @@
         results.style.setProperty('--mood-glow', moodGlow(mood.id));
 
         if (!list.length) {
-            results.innerHTML = '<p class="mood-empty" style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:26px 0;">فعلاً انیمه‌ای برای این حس و حال داریم — به‌زودی اضافه می‌شود!</p>';
+            results.innerHTML = '<p class="mood-empty" style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:26px 0;">فعلاً انیمه‌ای برای این حس و حال نداریم — به‌زودی اضافه می‌شود!</p>';
             return;
         }
 

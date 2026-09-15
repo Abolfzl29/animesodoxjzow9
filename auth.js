@@ -43,11 +43,20 @@
     }
 
     function logout() {
-        // Remove the whole neon_* namespace (session, likes, progress, comments, watchlist).
-        // The theme preference is a device setting, not account data, so keep it.
-        const theme = localStorage.getItem('neon_theme');
+        // Remove the session and per-device activity (likes, progress, comments, watchlist).
+        // Kept on purpose:
+        //  - neon_theme: a device setting, not account data.
+        //  - neon_is_vip / neon_vip_plan: the demo "account" state, so logging out
+        //    and back in can't silently turn a free signup into a VIP (or vice versa).
+        const keep = {
+            theme: localStorage.getItem('neon_theme'),
+            vip: localStorage.getItem('neon_is_vip'),
+            plan: localStorage.getItem('neon_vip_plan')
+        };
         Object.keys(localStorage).forEach(k => { if (k.indexOf('neon_') === 0) localStorage.removeItem(k); });
-        if (theme) localStorage.setItem('neon_theme', theme);
+        if (keep.theme) localStorage.setItem('neon_theme', keep.theme);
+        if (keep.vip) localStorage.setItem('neon_is_vip', keep.vip);
+        if (keep.plan) localStorage.setItem('neon_vip_plan', keep.plan);
     }
 
     function setVip(flag, plan) {
