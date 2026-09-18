@@ -1,19 +1,89 @@
-/* Extra catalogue titles (reuses existing art as posters). Merges into NEON_ANIME. */
+/* Extra catalogue titles. Every title has its own real key art:
+   assets/img/<id>.webp (426x640 poster) + assets/img/<id>-banner.webp (1600x900). */
 (function () {
     var D = window.NEON_ANIME;
     if (!D) return;
     var V = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4';
     var V2 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-    var posters = [
-        'assets/img/attack-on-titan.webp', 'assets/img/demon-slayer-tanjiro.webp', 'assets/img/jujutsu-kaisen-2.webp',
-        'assets/img/chainsaw-man-2.webp', 'assets/img/one-piece-thumb.webp', 'assets/img/death-note-poster.webp',
-        'assets/img/cyberpunk-edgerunners.webp'
-    ];
-    var banners = [
-        'assets/img/attack-on-titan-wallpaper.webp', 'assets/img/demon-slayer.webp', 'assets/img/jujutsu-kaisen-gojo-wallpaper.webp',
-        'assets/img/chainsaw-man.webp', 'assets/img/one-piece-wano-wallpaper.webp', 'assets/img/death-note-wallpaper.webp',
-        'assets/img/cyberpunk-edgerunners-wallpaper.webp'
-    ];
+    /* Character portraits (real art) — assets/img/<slug>.webp */
+    var CAST = {
+        'naruto': [
+            { name: 'ناروتو اوزوماکی', nameEn: 'Naruto Uzumaki', role: 'قهرمان', img: 'assets/img/naruto-uzumaki.webp' },
+            { name: 'ساسکه اوشیها', nameEn: 'Sasuke Uchiha', role: 'رقیب', img: 'assets/img/sasuke-uchiha.webp' },
+            { name: 'کاکاشی هاتاکه', nameEn: 'Kakashi Hatake', role: 'مربی', img: 'assets/img/kakashi-hatake.webp' },
+            { name: 'ایتاچی اوشیها', nameEn: 'Itachi Uchiha', role: 'آنتاگونیست', img: 'assets/img/itachi-uchiha.webp' }
+        ],
+        'naruto-shippuden': [
+            { name: 'ناروتو اوزوماکی', nameEn: 'Naruto Uzumaki', role: 'قهرمان', img: 'assets/img/naruto-uzumaki.webp' },
+            { name: 'ساسکه اوشیها', nameEn: 'Sasuke Uchiha', role: 'رقیب', img: 'assets/img/sasuke-uchiha.webp' },
+            { name: 'ایتاچی اوشیها', nameEn: 'Itachi Uchiha', role: 'آنتاگونیست', img: 'assets/img/itachi-uchiha.webp' },
+            { name: 'کاکاشی هاتاکه', nameEn: 'Kakashi Hatake', role: 'مربی', img: 'assets/img/kakashi-hatake.webp' }
+        ],
+        'bleach': [
+            { name: 'ایچیگو کوروساکی', nameEn: 'Ichigo Kurosaki', role: 'قهرمان', img: 'assets/img/ichigo-kurosaki.webp' },
+            { name: 'روکیا کوچیکی', nameEn: 'Rukia Kuchiki', role: 'قهرمان', img: 'assets/img/rukia-kuchiki.webp' }
+        ],
+        'fullmetal-alchemist': [
+            { name: 'ادوارد الریک', nameEn: 'Edward Elric', role: 'قهرمان', img: 'assets/img/edward-elric.webp' },
+            { name: 'آلفونسه الریک', nameEn: 'Alphonse Elric', role: 'قهرمان', img: 'assets/img/alphonse-elric.webp' }
+        ],
+        'hunter-x-hunter': [
+            { name: 'گون فریکس', nameEn: 'Gon Freecss', role: 'قهرمان', img: 'assets/img/gon-freecss.webp' },
+            { name: 'کیلوا زولدیک', nameEn: 'Killua Zoldyck', role: 'بهترین دوست', img: 'assets/img/killua-zoldyck.webp' }
+        ],
+        'spy-x-family': [
+            { name: 'لوید فورجر', nameEn: 'Loid Forger', role: 'قهرمان', img: 'assets/img/loid-forger.webp' },
+            { name: 'آنیا فورجر', nameEn: 'Anya Forger', role: 'دختر خانواده', img: 'assets/img/anya-forger.webp' }
+        ],
+        'one-punch-man': [
+            { name: 'سایتاما', nameEn: 'Saitama', role: 'قهرمان', img: 'assets/img/saitama.webp' },
+            { name: 'جینوس', nameEn: 'Genos', role: 'شاگرد', img: 'assets/img/genos.webp' }
+        ],
+        'my-hero-academia': [
+            { name: 'ایزوکو میدورییا', nameEn: 'Izuku Midoriya', role: 'قهرمان', img: 'assets/img/izuku-midoriya.webp' },
+            { name: 'کاتسوکی باکوگو', nameEn: 'Katsuki Bakugo', role: 'رقیب', img: 'assets/img/katsuki-bakugo.webp' }
+        ],
+        'tokyo-ghoul': [
+            { name: 'کانکی کن', nameEn: 'Ken Kaneki', role: 'قهرمان', img: 'assets/img/ken-kaneki.webp' },
+            { name: 'توکا کیریشیما', nameEn: 'Touka Kirishima', role: 'قهرمان', img: 'assets/img/touka-kirishima.webp' }
+        ],
+        'steins-gate': [
+            { name: 'رینتارو اوکابه', nameEn: 'Rintarou Okabe', role: 'قهرمان', img: 'assets/img/rintarou-okabe.webp' },
+            { name: 'کوریسو ماکیسه', nameEn: 'Kurisu Makise', role: 'قهرمان', img: 'assets/img/kurisu-makise.webp' }
+        ],
+        'code-geass': [
+            { name: 'للوش لمپروژ', nameEn: 'Lelouch Lamperouge', role: 'قهرمان', img: 'assets/img/lelouch-lamperouge.webp' },
+            { name: 'سوزاکو کوروروگی', nameEn: 'Suzaku Kururugi', role: 'رقیب', img: 'assets/img/suzaku-kururugi.webp' }
+        ],
+        'cowboy-bebop': [
+            { name: 'اسپایک اشپیگل', nameEn: 'Spike Spiegel', role: 'قهرمان', img: 'assets/img/spike-spiegel.webp' },
+            { name: 'فِی ولنتاین', nameEn: 'Faye Valentine', role: 'قهرمان', img: 'assets/img/faye-valentine.webp' }
+        ],
+        'vinland-saga': [
+            { name: 'ثورفین', nameEn: 'Thorfinn', role: 'قهرمان', img: 'assets/img/thorfinn.webp' },
+            { name: 'آسکلاد', nameEn: 'Askeladd', role: 'آنتاگونیست', img: 'assets/img/askeladd.webp' }
+        ],
+        'mob-psycho': [
+            { name: 'شیگئو کگیاما', nameEn: 'Shigeo Kageyama', role: 'قهرمان', img: 'assets/img/shigeo-kageyama.webp' },
+            { name: 'آراتاکا ریگن', nameEn: 'Arataka Reigen', role: 'مربی', img: 'assets/img/arataka-reigen.webp' }
+        ],
+        'frieren': [
+            { name: 'فری‌رن', nameEn: 'Frieren', role: 'قهرمان', img: 'assets/img/frieren.webp' },
+            { name: 'فرن', nameEn: 'Fern', role: 'شاگرد', img: 'assets/img/fern.webp' }
+        ],
+        'dandadan': [
+            { name: 'مومو آیاسه', nameEn: 'Momo Ayase', role: 'قهرمان', img: 'assets/img/momo-ayase.webp' },
+            { name: 'اوکارون', nameEn: 'Okarun', role: 'قهرمان', img: 'assets/img/okarun.webp' }
+        ],
+        'solo-leveling': [
+            { name: 'سونگ جین‌وو', nameEn: 'Sung Jinwoo', role: 'قهرمان', img: 'assets/img/sung-jinwoo.webp' },
+            { name: 'چا هه-این', nameEn: 'Cha Hae-in', role: 'قهرمان', img: 'assets/img/cha-hae-in.webp' }
+        ],
+        'oshi-no-ko': [
+            { name: 'آکوا هوشینو', nameEn: 'Aquamarine Hoshino', role: 'قهرمان', img: 'assets/img/aqua-hoshino.webp' },
+            { name: 'روبی هوشینو', nameEn: 'Ruby Hoshino', role: 'قهرمان', img: 'assets/img/ruby-hoshino.webp' }
+        ]
+    };
     function eps(season, n, vipFrom) {
         var list = [];
         for (var i = 1; i <= n; i++) {
@@ -64,8 +134,9 @@
     ];
     extra.forEach(function (a, i) {
         if (D.byId[a.id]) return;
-        a.poster = posters[i % posters.length];
-        a.banner = banners[i % banners.length];
+        a.poster = 'assets/img/' + a.id + '.webp';
+        a.banner = 'assets/img/' + a.id + '-banner.webp';
+        if (CAST[a.id]) a.characters = CAST[a.id];
         a.trailer = V2;
         a.characters = a.characters || [];
         a.episodes = a.episodes || eps(a.currentSeason || 1, 4, 4);
