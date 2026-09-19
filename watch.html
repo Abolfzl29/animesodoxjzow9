@@ -504,29 +504,9 @@
         </div>
     </footer>
 
-<!-- Mobile Bottom Navigation -->
-    <nav class="mobile-bottom-nav">
-        <a href="index.html" class="bottom-nav-item">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            <span>خانه</span>
-        </a>
-        <a href="catalog.html" class="bottom-nav-item">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
-            <span>آرشیو</span>
-        </a>
-        <a href="javascript:void(0)" class="bottom-nav-item" id="bottomNavSearch">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <span>جستجو</span>
-        </a>
-        <a href="javascript:void(0)" class="bottom-nav-item vip-item" id="bottomNavVIP">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M2 22h20"/><path d="M4 22l-1-14 5 4 4-8 4 8 5-4-1 14"/></svg>
-            <span>ویژه</span>
-        </a>
-        <a href="profile.html" class="bottom-nav-item">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <span>پروفایل</span>
-        </a>
-    </nav>
+    <!-- Mobile Bottom Navigation — the shared 5-tab bar, rendered by bottom-nav.js -->
+    <nav class="mobile-bottom-nav" aria-label="ناوبری موبایل"></nav>
+    <script src="bottom-nav.js"></script>
 
     <script src="data/anime.js"></script>
     <script src="data/anime-extra.js"></script>
@@ -535,26 +515,6 @@
     <script src="script.js"></script>
     <script src="library.js"></script>
     <script src="gamification.js"></script>
-    <script>
-        // Bind bottom nav buttons to existing modals
-        document.addEventListener('DOMContentLoaded', () => {
-            const bottomSearch = document.getElementById('bottomNavSearch');
-            const bottomVip = document.getElementById('bottomNavVIP');
-            
-            if(bottomSearch) {
-                bottomSearch.addEventListener('click', () => {
-                    const mainSearchBtn = document.getElementById('searchBtnIcon');
-                    if(mainSearchBtn) mainSearchBtn.click();
-                });
-            }
-            if(bottomVip) {
-                bottomVip.addEventListener('click', () => {
-                    const mainVipBtn = document.getElementById('vipOpenBtn');
-                    if(mainVipBtn) mainVipBtn.click();
-                });
-            }
-        });
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const DATA = window.NEON_ANIME;
