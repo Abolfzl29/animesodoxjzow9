@@ -296,6 +296,94 @@ test('no external CDN scripts remain (self-hosted vendor)', () => {
     assert(fs.existsSync(path.join(ROOT, 'assets/vendor/typed.umd.js')), 'typed vendored');
 });
 
+/* ---- mobile bottom navigation: one shared bar on every page ------------ */
+const NAV_LABELS = ['خانه', 'آرشیو', 'جستجو', 'ویژه', 'پروفایل'];
+const navPages = pages.filter(p => /mobile-bottom-nav/.test(fs.readFileSync(path.join(ROOT, p), 'utf8')));
+
+function navOf(page, opts) {
+    const booted = boot(page, opts);
+    const nav = booted.doc.querySelector('.mobile-bottom-nav');
+    const items = nav ? Array.from(nav.querySelectorAll('.bottom-nav-item')) : [];
+    return Object.assign({}, booted, {
+        nav,
+        items,
+        labels: items.map(labelOf),
+        actives: items.filter(i => i.classList.contains('active'))
+    });
+}
+
+test('mobile bottom nav shows the SAME 5 tabs on every page (shared bar)', () => {
+    assert(navPages.length >= 15, 'nav audited on ' + navPages.length + ' pages');
+    for (const p of navPages) {
+        const { items, labels, errors } = navOf(p);
+        assert(items.length === 5, p + ': expected 5 tabs, got ' + items.length + ' (' + labels.join('|') + ')');
+        assert(labels.join('|') === NAV_LABELS.join('|'), p + ': tabs are ' + labels.join('|'));
+        assert(items.every(i => i.querySelector('svg')), p + ': a tab uses a text glyph instead of an icon');
+        assert(items.filter(i => i.classList.contains('vip-item')).length === 1, p + ': «ویژه» tab missing/duplicated');
+        const dests = items.map(i => i.getAttribute('href')).filter(Boolean);
+        assert(!dests.some(h => /^javascript:/i.test(h)), p + ': javascript: href in the nav');
+        assert(new Set(dests).size === dests.length, p + ': two tabs point to the same page (' + dests.join(', ') + ')');
+        assert(!errors.length, p + ': ' + errors.join(' | '));
+    }
+});
+
+function labelOf(item) {
+    const span = Array.from(item.querySelectorAll('span')).find(s => s.getAttribute('aria-hidden') !== 'true');
+    return (span ? span.textContent : item.textContent).trim();
+}
+
+test('mobile bottom nav highlights exactly ONE tab — the page you are on', () => {
+    const expected = {
+        'index.html': 'خانه',
+        'catalog.html': 'آرشیو',
+        'profile.html': 'پروفایل',
+        'anime.html': 'آرشیو',   // archive sub-pages keep the archive tab lit
+        'download.html': 'آرشیو'
+    };
+    for (const p of navPages) {
+        const { actives } = navOf(p);
+        assert(actives.length <= 1, p + ': ' + actives.length + ' tabs are highlighted at the same time');
+        if (expected[p] === undefined) {
+            assert(actives.length === 0, p + ': highlights "' + (actives[0] ? labelOf(actives[0]) : '') + '" but is not a nav destination');
+        } else {
+            assert(actives.length === 1, p + ': no tab is highlighted');
+            assert(labelOf(actives[0]) === expected[p], p + ': highlights "' + labelOf(actives[0]) + '", expected "' + expected[p] + '"');
+            assert(actives[0].getAttribute('aria-current') === 'page', p + ': active tab is not exposed to AT');
+        }
+    }
+});
+
+test('bottom nav جستجو/ویژه tabs work on every page (modal or fallback page)', () => {
+    // pages WITH their own modals: the tabs must open them
+    for (const p of ['index.html', 'profile.html', 'recommend.html', 'watch.html']) {
+        const { w, doc } = navOf(p);
+        assert(w.NeonBottomNav.searchTarget(doc) === 'modal', p + ': search tab has no target');
+        assert(w.NeonBottomNav.vipTarget(doc) === 'modal', p + ': vip tab has no target');
+    }
+    const home = navOf('index.html');
+    home.doc.getElementById('bottomNavSearch').click();
+    assert(home.doc.getElementById('searchModal').classList.contains('active'), 'home: search tab opens the search modal');
+    home.doc.getElementById('bottomNavVIP').click();
+    assert(home.doc.getElementById('vipModal').classList.contains('active'), 'home: ویژه tab opens the VIP modal');
+
+    // archive page has no VIP modal of its own -> the tab must fall back to a real page
+    const cat = navOf('catalog.html');
+    assert(cat.w.NeonBottomNav.vipTarget(cat.doc) === 'page', 'catalog: ویژه should fall back to subscribe.html');
+    assert(cat.w.NeonBottomNav.searchTarget(cat.doc) === 'catalog', 'catalog: search tab should use the archive field');
+    cat.doc.getElementById('bottomNavSearch').click();
+    return sleep(500).then(() => {
+        assert(cat.doc.activeElement === cat.doc.getElementById('catalogSearchInput'), 'catalog: search tab focuses the archive search field');
+    });
+});
+
+test('no page ships a hand-written copy of the bottom nav anymore', () => {
+    for (const p of navPages) {
+        const raw = fs.readFileSync(path.join(ROOT, p), 'utf8');
+        assert(!/class="bottom-nav-item/.test(raw), p + ': still hard-codes the nav markup (it will drift again)');
+        assert(/<script src="bottom-nav\.js"><\/script>/.test(raw), p + ': does not load bottom-nav.js');
+    }
+});
+
 /* ---------------------------------------------------------------------- */
 /* runner                                                                  */
 /* ---------------------------------------------------------------------- */

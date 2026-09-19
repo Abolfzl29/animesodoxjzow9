@@ -14,7 +14,9 @@
 // cleaned on `activate`, and the precache below is refreshed.
 // v3: navbar dice button removed — returning visitors must not see a stale
 // cached gamification.js that still injects it.
-var CACHE_NAME = 'neon-anime-v3';
+// v4: the mobile bottom bar moved into bottom-nav.js — every page now needs it,
+// so it must be precached or returning visitors get an empty tab bar offline.
+var CACHE_NAME = 'neon-anime-v4';
 var PRECACHE = [
     './',
     './index.html',
@@ -27,6 +29,7 @@ var PRECACHE = [
     './article.html',
     './download.html',
     './profile.html',
+    './subscribe.html',
     './404.html',
     './style.css',
     './catalog.css',
@@ -38,6 +41,7 @@ var PRECACHE = [
     './gamification.css',
     './library.css',
     './script.js',
+    './bottom-nav.js',
     './auth.js',
     './library.js',
     './gamification.js',

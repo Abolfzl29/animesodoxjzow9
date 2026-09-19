@@ -660,12 +660,8 @@
 .catalog-empty p { margin: 8px 0 22px; color: var(--text-muted); }
 .catalog-empty .btn { text-decoration: none; }
 
-.catalog-page .catalog-bottom-search {
-    border: 0;
-    background: transparent;
-    font-family: inherit;
-    cursor: pointer;
-}
+/* The mobile bottom bar is shared and lives in bottom-nav.js / style.css —
+   this page no longer carries its own copy of it. */
 
 :root[data-theme="light"] .catalog-genre-nav {
     background: rgba(255, 255, 255, 0.9);

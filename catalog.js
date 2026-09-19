@@ -332,11 +332,19 @@
             }
 
             function focusSearch() {
-                document.querySelector('.catalog-hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const hero = document.querySelector('.catalog-hero');
+                // scrollIntoView is not available in every environment (jsdom),
+                // and focusing the field is the part that actually matters.
+                if (hero && typeof hero.scrollIntoView === 'function') {
+                    hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 window.setTimeout(() => input.focus(), 350);
             }
-            document.getElementById('catalogSearchTrigger').addEventListener('click', focusSearch);
-            document.getElementById('bottomCatalogSearch').addEventListener('click', focusSearch);
+            const searchTrigger = document.getElementById('catalogSearchTrigger');
+            if (searchTrigger) searchTrigger.addEventListener('click', focusSearch);
+            // The shared mobile bottom nav sends pages without their own search
+            // field here with catalog.html#search — honour that deep link.
+            if (window.location.hash === '#search') focusSearch();
         }
 
         function setupShell() {
