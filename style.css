@@ -1142,7 +1142,7 @@ a.logo, a.logo:visited { text-decoration: none; }
 }
 
 /* ========================================================================= */
-/* MOBILE BOTTOM NAVIGATION (APP-LIKE) */
+/* MOBILE BOTTOM NAVIGATION — «NEON BAR» v2 (APP-LIKE)                        */
 /* ========================================================================= */
 .mobile-bottom-nav {
     display: none;
@@ -1155,13 +1155,14 @@ a.logo, a.logo:visited { text-decoration: none; }
 }
 
 @media (max-width: 900px) {
-    /* Main body padding so the footer content isn't hidden behind the fixed nav */
+    /* Main body padding so the footer content isn't hidden behind the fixed nav
+       (safe-area added: on notched phones env() alone was eating the last row) */
     body {
-        padding-bottom: 70px;
+        padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px));
     }
     /* keep the back-to-top button and toasts above the fixed bottom nav */
-    .back-to-top { bottom: 90px; right: 16px; }
-    #toastContainer { bottom: 90px; left: 12px; right: 12px; }
+    .back-to-top { bottom: 96px; right: 16px; }
+    #toastContainer { bottom: 96px; left: 12px; right: 12px; }
     .toast { font-size: 0.9rem; }
 
     .mobile-bottom-nav {
@@ -1170,16 +1171,57 @@ a.logo, a.logo:visited { text-decoration: none; }
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 70px;
-        background: rgba(10, 10, 12, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        height: calc(70px + env(safe-area-inset-bottom, 0px));
+        background: linear-gradient(to top, rgba(10, 10, 12, 0.96), rgba(14, 14, 18, 0.88));
+        backdrop-filter: blur(24px) saturate(160%);
+        -webkit-backdrop-filter: blur(24px) saturate(160%);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
         justify-content: space-around;
         align-items: center;
         z-index: 1000;
         padding-bottom: env(safe-area-inset-bottom, 0px);
         box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+        /* the neon top edge + scroll-aware hide/show */
+        transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+    }
+
+    .mobile-bottom-nav::before {
+        /* 1px neon hairline across the top of the bar */
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: 8%;
+        right: 8%;
+        height: 1px;
+        background: linear-gradient(to left, transparent, var(--accent-glow), var(--neon-blue), var(--accent-glow), transparent);
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    /* hidden by scrolling DOWN — bottom-nav.js toggles .nav-hidden */
+    .mobile-bottom-nav.nav-hidden {
+        transform: translateY(calc(100% + env(safe-area-inset-bottom, 0px) + 8px));
+    }
+
+    /* ---- the sliding «pill» behind the active tab ---- */
+    .bottom-nav-pill {
+        position: absolute;
+        top: 9px;
+        left: 0;
+        width: 60px;
+        height: 52px;
+        border-radius: 16px;
+        background:
+            radial-gradient(60% 90% at 50% 15%, rgba(255, 0, 60, 0.16), transparent 70%),
+            linear-gradient(to top, rgba(255, 0, 60, 0.10), rgba(255, 255, 255, 0.045));
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        box-shadow:
+            0 0 22px rgba(255, 0, 60, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        opacity: 0;
+        transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, width 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
     }
 
     .bottom-nav-item {
@@ -1190,14 +1232,18 @@ a.logo, a.logo:visited { text-decoration: none; }
         gap: 5px;
         color: var(--text-muted);
         text-decoration: none;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 600;
-        transition: 0.3s ease;
+        transition: color 0.3s ease, transform 0.3s ease;
         width: 60px;
+        position: relative;
+        overflow: hidden; /* ripple stays inside its tab */
+        border-radius: 14px;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .bottom-nav-item svg {
-        transition: 0.3s ease;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
     }
 
     /* جستجو and ویژه are <button>s — they open a dialog or another page instead
@@ -1207,7 +1253,7 @@ a.logo, a.logo:visited { text-decoration: none; }
         background: transparent;
         padding: 0;
         font-family: inherit;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 600;
         cursor: pointer;
     }
@@ -1217,18 +1263,41 @@ a.logo, a.logo:visited { text-decoration: none; }
         color: white;
     }
 
+    /* ---- tap ripple (span injected by bottom-nav.js) ---- */
+    .bottom-nav-ripple {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 70%);
+        transform: translate(-50%, -50%) scale(1);
+        animation: navRipple 0.6s ease-out forwards;
+        pointer-events: none;
+    }
+
+    @keyframes navRipple {
+        from { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+        to   { transform: translate(-50%, -50%) scale(9); opacity: 0; }
+    }
+
     .bottom-nav-item.active {
         color: var(--accent);
     }
-    
+
     .bottom-nav-item.active svg {
         filter: drop-shadow(0 0 8px rgba(255, 0, 60, 0.6));
+        transform: translateY(-2px) scale(1.12); /* springy pop */
+    }
+
+    .bottom-nav-item.active span:not(.bottom-nav-ripple) {
+        text-shadow: 0 0 12px var(--accent-glow);
     }
 
     /* VIP Special Button */
     .bottom-nav-item.vip-item {
         position: relative;
         color: #ffd700;
+        overflow: visible; /* the ::after halo must not clip */
     }
     
     .bottom-nav-item.vip-item svg {
@@ -1245,7 +1314,72 @@ a.logo, a.logo:visited { text-decoration: none; }
         border-radius: 50%;
         z-index: -1;
     }
+
+    /* rotating shine sweep on the VIP tab */
+    .bottom-nav-item.vip-item::before {
+        content: '';
+        position: absolute;
+        inset: -20%;
+        background: linear-gradient(115deg, transparent 42%, rgba(255, 215, 0, 0.14) 50%, transparent 58%);
+        background-size: 240% 240%;
+        animation: vipShine 3.4s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    @keyframes vipShine {
+        0%   { background-position: 220% 0; }
+        55%  { background-position: -120% 0; }
+        100% { background-position: -120% 0; }
+    }
 }
+
+/* ---- cross-page cinematic transitions (progressive enhancement) ----------
+   Chromium/Safari apply this automatically on cross-document navigation;
+   everything else just keeps the instant switch. */
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+        navigation: auto;
+    }
+
+    ::view-transition-old(root) {
+        animation: 0.22s cubic-bezier(0.22, 1, 0.36, 1) both vt-fade-out;
+    }
+
+    ::view-transition-new(root) {
+        animation: 0.28s cubic-bezier(0.22, 1, 0.36, 1) both vt-fade-in;
+    }
+
+    @keyframes vt-fade-out {
+        to { opacity: 0; transform: translateY(-8px); }
+    }
+
+    @keyframes vt-fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+    }
+}
+
+/* ---- accessibility: all bar motion is decorative ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .mobile-bottom-nav,
+    .bottom-nav-pill,
+    .bottom-nav-item,
+    .bottom-nav-item svg,
+    .bottom-nav-ripple {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .bottom-nav-item.vip-item::before {
+        animation: none !important;
+        display: none;
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none !important;
+    }
+}
+
 
 .ep-thumb-wrapper {
     position: relative;
@@ -2095,6 +2229,27 @@ a.logo, a.logo:visited { text-decoration: none; }
 :root[data-theme="light"] .newsletter-banner .glass-panel { border-radius: 28px; border-color: #dcbfe9; }
 :root[data-theme="light"] .review-stars { color: #a76800; }
 :root[data-theme="light"] .mobile-bottom-nav { background: rgba(251,247,255,0.95); border-top-color: #d9c6e9; }
+
+/* «Neon Bar» v2 — day-mode counterparts for the new decorative layers */
+:root[data-theme="light"] .mobile-bottom-nav::before {
+    background: linear-gradient(to left, transparent, rgba(230, 0, 51, 0.35), rgba(109, 40, 217, 0.35), rgba(230, 0, 51, 0.35), transparent);
+}
+:root[data-theme="light"] .bottom-nav-pill {
+    background:
+        radial-gradient(60% 90% at 50% 15%, rgba(230, 0, 51, 0.10), transparent 70%),
+        linear-gradient(to top, rgba(109, 40, 217, 0.08), rgba(255, 255, 255, 0.85));
+    border-color: rgba(109, 40, 217, 0.14);
+    box-shadow:
+        0 6px 20px rgba(109, 40, 217, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+:root[data-theme="light"] .bottom-nav-item.vip-item::before {
+    background: linear-gradient(115deg, transparent 42%, rgba(138, 89, 0, 0.12) 50%, transparent 58%);
+    background-size: 240% 240%;
+}
+:root[data-theme="light"] .bottom-nav-ripple {
+    background: radial-gradient(circle, rgba(109, 40, 217, 0.28) 0%, rgba(109, 40, 217, 0) 70%);
+}
 
 @media (max-width: 900px) {
     :root[data-theme="light"] .slide-content .glass-panel {

@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Neon Anime — shared mobile bottom navigation
+ * Neon Anime — shared mobile bottom navigation (v2 «Neon Bar»)
  *
  * ONE definition of the mobile tab bar. Every page keeps an empty
  * <nav class="mobile-bottom-nav"> placeholder and this file renders the same
@@ -11,7 +11,8 @@
  * copies drifted (home had 5 tabs, the archive only 4 — the «ویژه» tab was
  * missing there, some pages used SVG icons and others text glyphs, and the
  * highlighted tab was hard-coded per file). Now the markup lives here once and
- * the highlighted tab is derived from the page you are on.
+ * the highlighted tab is derived from the page you are on. This file is the
+ * ONLY source — never hand-write `.bottom-nav-item` markup in a page.
  *
  * Active tab:
  *   - a page can pin one with <nav class="mobile-bottom-nav" data-active="catalog">
@@ -23,6 +24,14 @@
  * or the archive search field) and otherwise sends you to catalog.html#search.
  * ویژه opens the VIP modal when the page has one, and otherwise sends you to
  * the subscription page.
+ *
+ * v2 upgrades (rendered by the same render() — the contract is unchanged):
+ *   - a sliding «pill» indicator that glides behind the active tab (RTL-safe),
+ *   - ripple + haptic tick on tap, springy icon pop for the active tab,
+ *   - scroll-aware auto-hide (scroll down hides, scroll up reveals),
+ *   - bfcache (`pageshow`) re-render so a restored page always shows the
+ *     correct bar — this is what used to let a stale bar «lose a tab».
+ *   All motion is disabled under prefers-reduced-motion (see style.css).
  * ========================================================================== */
 (function (global) {
     'use strict';
@@ -101,6 +110,91 @@
         return target;
     }
 
+    /* ---- v2: the sliding pill -------------------------------------------- */
+
+    /* rAF may be missing in very plain embedders — degrade to a timeout. */
+    function nextFrame(fn) {
+        if (typeof global.requestAnimationFrame === 'function') {
+            global.requestAnimationFrame(fn);
+        } else {
+            global.setTimeout(fn, 32);
+        }
+    }
+
+    function reducedMotion() {
+        try {
+            return global.matchMedia &&
+                global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        } catch (e) { return false; }
+    }
+
+    /* Position the pill behind the active tab. Measured geometry (offsetLeft)
+       is direction-agnostic, so this is safe under RTL. */
+    function placePill(nav) {
+        var pill = nav.querySelector('.bottom-nav-pill');
+        if (!pill) return;
+        var active = nav.querySelector('.bottom-nav-item.active');
+        if (!active) { pill.style.opacity = '0'; return; }
+        var w = active.offsetWidth, left = active.offsetLeft;
+        if (!w) { pill.style.opacity = '0'; return; } // hidden/layout not ready
+        pill.style.opacity = '1';
+        pill.style.width = w + 'px';
+        pill.style.transform = 'translateX(' + left + 'px)';
+    }
+
+    function makePill(doc) {
+        var pill = doc.createElement('span');
+        pill.className = 'bottom-nav-pill';
+        pill.setAttribute('aria-hidden', 'true');
+        return pill;
+    }
+
+    /* Ripple + haptic tick on tap. Kept inert in tests/jsdom (no rAF/measure). */
+    function attachFeedback(nav) {
+        nav.addEventListener('pointerdown', function (ev) {
+            var item = ev.target && ev.target.closest
+                ? ev.target.closest('.bottom-nav-item') : null;
+            if (!item || reducedMotion()) return;
+            try { if (typeof navigator.vibrate === 'function') navigator.vibrate(8); } catch (e) {}
+            var rect = item.getBoundingClientRect();
+            var r = doc_ripple(nav, ev.clientX - rect.left, ev.clientY - rect.top);
+            item.appendChild(r);
+        }, { passive: true });
+
+        function doc_ripple(nav, x, y) {
+            var doc = nav.ownerDocument || global.document;
+            var span = doc.createElement('span');
+            span.className = 'bottom-nav-ripple';
+            span.setAttribute('aria-hidden', 'true');
+            span.style.left = x + 'px';
+            span.style.top = y + 'px';
+            global.setTimeout(function () { span.remove(); }, 650);
+            return span;
+        }
+    }
+
+    /* Scroll-aware auto-hide: down hides, up reveals. Only on real pages. */
+    function attachScrollBehavior(nav) {
+        var lastY = 0, ticking = false;
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            nextFrame(function () {
+                ticking = false;
+                var y = global.pageYOffset || 0;
+                var doc = nav.ownerDocument || global.document;
+                if (doc.body && doc.body.scrollHeight <= global.innerHeight + 40) {
+                    nav.classList.remove('nav-hidden'); // short page: always show
+                    return;
+                }
+                if (y > lastY + 6 && y > 120) nav.classList.add('nav-hidden');
+                else if (y < lastY - 4) nav.classList.remove('nav-hidden');
+                lastY = y;
+            });
+        }
+        global.addEventListener('scroll', onScroll, { passive: true });
+    }
+
     function render(doc) {
         doc = doc || global.document;
         var nav = doc.querySelector('.mobile-bottom-nav');
@@ -108,6 +202,7 @@
 
         var active = activeKey(nav);
         nav.innerHTML = '';
+        nav.appendChild(makePill(doc));
 
         TABS.forEach(function (tab) {
             var el;
@@ -139,6 +234,32 @@
             }
             nav.appendChild(el);
         });
+
+        if (!nav.dataset.neonV2) {
+            nav.dataset.neonV2 = '1';
+            attachFeedback(nav);
+            attachScrollBehavior(nav);
+            /* Keep the pill glued to the active tab through resize + webfont
+               swap (font metrics change tab widths). */
+            global.addEventListener('resize', function () {
+                nextFrame(function () { placePill(nav); });
+            }, { passive: true });
+            if (global.document && global.document.fonts && global.document.fonts.ready) {
+                global.document.fonts.ready.then(function () { placePill(nav); }).catch(function () {});
+            }
+            /* bfcache restore (back button): re-render so the bar can never
+               come back stale — the original «one tab missing» report. */
+            global.addEventListener('pageshow', function (ev) {
+                if (ev && ev.persisted) {
+                    render(doc);
+                } else {
+                    placePill(nav);
+                }
+            });
+        }
+        /* Initial pill placement — after layout. jsdom has no layout, so the
+           width-0 guard in placePill keeps this a safe no-op there. */
+        nextFrame(function () { placePill(nav); });
 
         return nav;
     }

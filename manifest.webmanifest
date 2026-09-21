@@ -11,6 +11,26 @@
   "display_override": ["standalone", "minimal-ui"],
   "background_color": "#0a0a0c",
   "theme_color": "#0a0a0c",
+  "shortcuts": [
+    {
+      "name": "آرشیو انیمه‌ها",
+      "short_name": "آرشیو",
+      "url": "./catalog.html",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "تقویم پخش",
+      "short_name": "تقویم",
+      "url": "./schedule.html",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "پروفایل من",
+      "short_name": "پروفایل",
+      "url": "./profile.html",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
   "icons": [
     { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }

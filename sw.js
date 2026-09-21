@@ -16,7 +16,14 @@
 // cached gamification.js that still injects it.
 // v4: the mobile bottom bar moved into bottom-nav.js — every page now needs it,
 // so it must be precached or returning visitors get an empty tab bar offline.
-var CACHE_NAME = 'neon-anime-v4';
+// v5: «Neon Bar» bottom-nav v2 + FULL precache — the library pages
+// (favorites/history/completed/continue-watching), login, legal, their JS,
+// pages.css, sw-register.js and the webfonts were missing, so those pages
+// (and the correct font) broke offline. sw-register.js now also forces
+// update checks with updateViaCache:'none' and reloads once a new SW takes
+// over — returning visitors can no longer stay stuck on a stale cached page
+// (the «آرشیو shows the old 4-tab bar» report).
+var CACHE_NAME = 'neon-anime-v5';
 var PRECACHE = [
     './',
     './index.html',
@@ -31,6 +38,12 @@ var PRECACHE = [
     './profile.html',
     './subscribe.html',
     './404.html',
+    './favorites.html',
+    './history.html',
+    './completed.html',
+    './continue-watching.html',
+    './login.html',
+    './legal.html',
     './style.css',
     './catalog.css',
     './recommend.css',
@@ -40,10 +53,17 @@ var PRECACHE = [
     './download.css',
     './gamification.css',
     './library.css',
+    './pages.css',
     './script.js',
     './bottom-nav.js',
     './auth.js',
     './library.js',
+    './favorites.js',
+    './history.js',
+    './completed.js',
+    './continue-watching.js',
+    './legal.js',
+    './sw-register.js',
     './gamification.js',
     './recommend.js',
     './anime.js',
@@ -62,7 +82,9 @@ var PRECACHE = [
     './assets/favicon.svg',
     './assets/icon-192.png',
     './assets/icon-512.png',
-    './assets/fonts/fonts.css'
+    './assets/fonts/fonts.css',
+    './assets/fonts/Vazirmatn-Variable.woff2',
+    './assets/fonts/Orbitron-Variable.ttf'
 ];
 
 self.addEventListener('install', function (event) {
@@ -87,6 +109,11 @@ self.addEventListener('activate', function (event) {
             }));
         }).then(function () { return self.clients.claim(); })
     );
+});
+
+/* Allow the page (sw-register.js) to force-activate a waiting worker. */
+self.addEventListener('message', function (event) {
+    if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', function (event) {

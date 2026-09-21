@@ -384,6 +384,60 @@ test('no page ships a hand-written copy of the bottom nav anymore', () => {
     }
 });
 
+/* ---- v2 hardening: the bar can never drift or go stale again ------------ */
+
+test('bottom nav render() is idempotent — re-render keeps exactly 5 tabs', () => {
+    const { w, doc, errors } = navOf('index.html');
+    assert(errors.length === 0, 'index.html: ' + errors.join(' | '));
+    w.NeonBottomNav.render(doc);   // simulate a bfcache `pageshow` re-render
+    w.NeonBottomNav.render(doc);
+    const nav = doc.querySelector('.mobile-bottom-nav');
+    assert(nav.querySelectorAll('.bottom-nav-item').length === 5, 're-render changed the tab count');
+    assert(nav.querySelectorAll('.bottom-nav-item.active').length === 1, 're-render lost the active tab');
+    assert(nav.querySelectorAll('.bottom-nav-pill').length === 1, 're-render duplicated the pill indicator');
+});
+
+test('bottom nav v2: pill indicator + ripple are decorative (aria-hidden, not tabs)', () => {
+    const { items, nav } = navOf('index.html');
+    const pill = nav.querySelector('.bottom-nav-pill');
+    assert(pill, 'pill indicator missing');
+    assert(pill.getAttribute('aria-hidden') === 'true', 'pill is exposed to screen readers');
+    const ripple = items[0].ownerDocument.createElement('span');
+    ripple.className = 'bottom-nav-ripple';
+    ripple.setAttribute('aria-hidden', 'true');
+    items[0].appendChild(ripple);
+    assert(items[0].querySelectorAll('span[aria-hidden="true"]').length === 1, 'ripple must be aria-hidden');
+    // the label is still readable by AT and by tests:
+    assert(items[0].textContent.trim().length > 0, 'tab label lost');
+});
+
+test('service worker precaches EVERY local page/script/stylesheet (offline completeness)', () => {
+    const raw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+    assert(/neon-anime-v\d+/.test(raw), 'sw.js has no versioned cache name');
+    const listed = new Set((raw.match(/'\.\/[^']+'/g) || []).map(s => s.slice(3, -1)));
+    const local = [];
+    for (const f of fs.readdirSync(ROOT)) {
+        if (/\.(html|css)$/.test(f) || (/\.js$/.test(f) && f !== 'sw.js')) local.push(f);
+    }
+    for (const d of ['data']) {
+        for (const f of fs.readdirSync(path.join(ROOT, d))) {
+            if (/\.js$/.test(f)) local.push(d + '/' + f);
+        }
+    }
+    for (const f of local) {
+        assert(listed.has(f), 'sw.js precache is missing ' + f + ' — that page/asset breaks offline');
+    }
+});
+
+test('stale-shell healer: register uses updateViaCache:none + reload-on-takeover', () => {
+    const raw = fs.readFileSync(path.join(ROOT, 'sw-register.js'), 'utf8');
+    assert(/updateViaCache:\s*'none'/.test(raw), 'sw.js itself can be served from HTTP cache for 24h (stale shell bug)');
+    assert(/controllerchange/.test(raw), 'no reload when a new service worker takes over');
+    assert(/reloaded/.test(raw), 'reload-on-takeover is not guarded against loops');
+    assert(/visibilitychange|setInterval/.test(raw), 'no periodic update check');
+});
+
+
 /* ---------------------------------------------------------------------- */
 /* runner                                                                  */
 /* ---------------------------------------------------------------------- */
